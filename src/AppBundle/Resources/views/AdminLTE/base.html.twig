@@ -12,21 +12,25 @@
         {% block stylesheets %}
             <link rel="stylesheet" href="/css/bootstrap.min.css">
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
             <link rel="stylesheet" href="/css/theme.min.css">
             <link rel="stylesheet" href="/css/theme-purple.min.css">
         {% endblock %}
 
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
     </head>
-    <body>
-        {% include 'AppBundle:AdminLTE:_header.html.twig' %}
-        {% include 'AppBundle:AdminLTE:_sidebar.html.twig' %}
-        {% include 'AppBundle:AdminLTE:_content.html.twig' %}
-        {% block body %}{% endblock %}
+    <body class="hold-transition skin-purple sidebar-mini">
+        <div class="wrapper">
+            {% include 'AppBundle:AdminLTE:_header.html.twig' %}
+            {% include 'AppBundle:AdminLTE:_sidebar.html.twig' %}
+            {% include 'AppBundle:AdminLTE:_content.html.twig' %}
+            {% block body %}{% endblock %}
+        </div>
         {% block javascripts %}
             <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
-            <script src="/js/app.min.css"></script>
+            <script src="/js/fastclick.js"></script>
+            <script src="/js/app.min.js"></script>
         {% endblock %}
     </body>
 </html>
