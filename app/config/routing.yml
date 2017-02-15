@@ -4,4 +4,4 @@ app:
 
 # FOSUserbundle Configuration
 fos_user:
-    resources: "@FOSUserBundle/Resources/config/routing/all.xml"
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
