@@ -13,6 +13,7 @@
                             <tr>
                                 <th>Company</th>
                                 <th>Status</th>
+                                <th>Options</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -20,6 +21,14 @@
                                 <tr>
                                     <td>{{company.name}}</td>
                                     <td>{{company.status.label}}</td>
+                                    <td>
+                                        <a class="btn btn-default btn-flat">
+                                            <i class="fa fa-fw fa-pencil"></i>
+                                        </a>
+                                        <a class="btn btn-danger btn-flat">
+                                            <i class="fa fa-fw fa-trash"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -27,6 +36,7 @@
                             <tr>
                                 <th>Company</th>
                                 <th>Status</th>
+                                <th>Options</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -43,6 +53,7 @@
     <script type="text/javascript">
         $('#companies').DataTable({
             "paging": true,
+            "pageLength" : 25,
             "lengthChange": false,
             "searching": true,
             "ordering": true,
