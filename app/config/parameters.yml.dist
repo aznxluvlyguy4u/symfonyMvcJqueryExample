@@ -4,4 +4,4 @@ parameters:
     env(DATABASE_NAME):         postgres
     env(DATABASE_USER):         postgres
     env(DATABASE_PASSWORD):     ~
-    secret:                     ~
+    env(SECRET):                ~
