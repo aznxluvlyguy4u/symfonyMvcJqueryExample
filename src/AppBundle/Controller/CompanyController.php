@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Entity\Company;
 use AppBundle\Form\CreateCompanyType;
+use AppBundle\Form\EditCompanyType;
 
 /**
  * @Route("/company")
@@ -47,14 +48,57 @@ class CompanyController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid() && $form->isSubmitted()) {
+            $company->setCreatedBy($this->getUser());
             $em->persist($company);
             $em->flush();
 
-            return $this->redirectToRoute('app_company_create');
+            return $this->redirectToRoute('app_company_edit', ['company' => $company->getId()]);
         }
 
         return [
             'form' => $form->createView(),
         ];
+    }
+
+    /**
+     * @Route("/edit/{company}")
+     * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     */
+    public function editAction(Request $request, Company $company)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(EditCompanyType::class, $company);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid() && $form->isSubmitted()) {
+            $em->persist($company);
+            $em->flush();
+
+            return $this->redirectToRoute('app_company_edit', ['company' => $company->getId()]);
+        }
+
+        return [
+            'form' => $form->createView(),
+            'company' => $company,
+        ];
+    }
+
+    /**
+     * @Route("/delete/{company}")
+     * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     */
+    public function deleteAction(Request $request, Company $company)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $company->setIsDeleted(true);
+
+        $em->flush();
+
+        return $this->redirectToRoute('app_company_index');
     }
 }
