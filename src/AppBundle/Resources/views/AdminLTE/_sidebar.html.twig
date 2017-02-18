@@ -5,27 +5,29 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
-            <li class="active treeview">
-                <a href="#">
-                    <i class="fa fa-dashboard"></i>
-                    <span>Dashboard</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li>
-                        <a href="index.html">
-                            <i class="fa fa-circle-o"></i>
-                            Dashboard v1</a>
-                    </li>
-                    <li class="active">
-                        <a href="index2.html">
-                            <i class="fa fa-circle-o"></i>
-                            Dashboard v2</a>
-                    </li>
-                </ul>
-            </li>
+
+            {# Companies #}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_company' %} active{% endif %}">
+                    <a href="#">
+                        <i class="fa fa-building-o"></i>
+                        <span>Companies</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="{% if app.request.attributes.get('_route') == 'app_company_index' %}active{% endif %}">
+                            <a href="{{ path('app_company_index') }}">
+                                <i class="fa fa-list"></i>
+                                List companies</a>
+                        </li>
+                        <li class="{% if app.request.attributes.get('_route') == 'app_company_create' %}active{% endif %}">
+                            <a href="{{ path('app_company_create') }}">
+                                <i class="fa fa-plus"></i>
+                                Create company</a>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
+
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-files-o"></i>
