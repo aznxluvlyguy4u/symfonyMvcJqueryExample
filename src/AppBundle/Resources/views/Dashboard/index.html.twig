@@ -12,8 +12,8 @@
                         </span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">CPU Traffic</span>
-                            <span class="info-box-number">90<small>%</small>
+                            <span class="info-box-text">Companies</span>
+                            <span class="info-box-number">{{companies|length}}
                             </span>
                         </div>
                         <!-- /.info-box-content -->
@@ -24,12 +24,12 @@
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box">
                         <span class="info-box-icon bg-red">
-                            <i class="fa fa-google-plus"></i>
+                            <i class="ion ion-ios-people-outline"></i>
                         </span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">Likes</span>
-                            <span class="info-box-number">41,410</span>
+                            <span class="info-box-text">People</span>
+                            <span class="info-box-number">{{users|length}}</span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -40,15 +40,15 @@
                 <!-- fix for small devices only -->
                 <div class="clearfix visible-sm-block"></div>
 
-                <div class="col-md-3 col-sm-6 col-xs-12">
+                {#<div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box">
                         <span class="info-box-icon bg-green">
                             <i class="ion ion-ios-cart-outline"></i>
                         </span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">Sales</span>
-                            <span class="info-box-number">760</span>
+                            <span class="info-box-text">Revenue</span>
+                            <span class="info-box-number">&euro;??</span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -62,14 +62,14 @@
                         </span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">New Members</span>
-                            <span class="info-box-number">2,000</span>
+                            <span class="info-box-text">Events</span>
+                            <span class="info-box-number">??</span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
                     <!-- /.info-box -->
                 </div>
-                <!-- /.col -->
+                <!-- /.col -->#}
             </div>
             <!-- /.row -->
         {% endblock %}

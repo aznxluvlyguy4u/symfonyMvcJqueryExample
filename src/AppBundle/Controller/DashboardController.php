@@ -19,6 +19,16 @@ class DashboardController extends Controller
      */
     public function indexAction()
     {
-        return [];
+        $em = $this->getDoctrine()->getManager();
+
+        $status = $em->getRepository('AppBundle:CompanyStatus')->findOneByLabel('member');
+        $companies = $em->getRepository('AppBundle:Company')->findBy(['isDeleted' => false, 'status' => $status]);
+
+        $users = $em->getRepository('AppBundle:User')->findAll();
+
+        return [
+            'companies' => $companies,
+            'users' => $users,
+        ];
     }
 }
