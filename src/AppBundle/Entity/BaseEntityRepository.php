@@ -8,6 +8,18 @@ class BaseEntityRepository extends EntityRepository
 {
     public function findAll()
     {
-        return $this->findBy(['isDeleted' => 0]);
+        return $this->queryAll()->getQuery()->getResult();
+    }
+
+    public function queryAll()
+    {
+        $qb = $this->createQueryBuilder('e');
+
+        $qb
+            ->where($qb->expr()->eq('e.isDeleted', ':isDeleted'))
+            ->setParameter('isDeleted', false)
+        ;
+
+        return $qb;
     }
 }

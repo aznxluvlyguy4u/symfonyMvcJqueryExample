@@ -41,6 +41,11 @@ class Company extends BaseEntity
     protected $phone;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Person")
+     */
+    protected $people;
+
+    /**
      * Get id
      *
      * @return integer
@@ -240,5 +245,39 @@ class Company extends BaseEntity
     public function getPhone()
     {
         return $this->phone;
+    }
+
+    /**
+     * Add person
+     *
+     * @param \AppBundle\Entity\Person $person
+     *
+     * @return Company
+     */
+    public function addPerson(\AppBundle\Entity\Person $person)
+    {
+        $this->people[] = $person;
+
+        return $this;
+    }
+
+    /**
+     * Remove person
+     *
+     * @param \AppBundle\Entity\Person $person
+     */
+    public function removePerson(\AppBundle\Entity\Person $person)
+    {
+        $this->people->removeElement($person);
+    }
+
+    /**
+     * Get people
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPeople()
+    {
+        return $this->people;
     }
 }

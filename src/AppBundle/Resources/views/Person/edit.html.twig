@@ -1,0 +1,26 @@
+{% extends 'AppBundle:AdminLTE:base.html.twig' %}
+
+{% block body %}
+    {% embed 'AppBundle:AdminLTE:_content.html.twig' %}
+        {% block content %}
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Editting "{{person.firstName}}"</h3>
+                        </div>
+                        {{form_start(form)}}
+                        <div class="box-body">
+                            {{form_widget(form)}}
+                        </div>
+                        {{form_end(form)}}
+                    </div>
+
+                </div>
+                <div class="col-md-6"></div>
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

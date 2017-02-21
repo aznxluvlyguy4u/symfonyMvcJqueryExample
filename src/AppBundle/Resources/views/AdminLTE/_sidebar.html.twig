@@ -22,7 +22,29 @@
                         <li class="{% if app.request.attributes.get('_route') == 'app_company_create' %}active{% endif %}">
                             <a href="{{ path('app_company_create') }}">
                                 <i class="fa fa-plus"></i>
-                                Create company</a>
+                                Add company</a>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
+
+            {# People #}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_person' %} active{% endif %}">
+                    <a href="#">
+                        <i class="fa fa-users"></i>
+                        <span>People</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="{% if app.request.attributes.get('_route') == 'app_person_index' %}active{% endif %}">
+                            <a href="{{ path('app_person_index') }}">
+                                <i class="fa fa-list"></i>
+                                List people</a>
+                        </li>
+                        <li class="{% if app.request.attributes.get('_route') == 'app_person_create' %}active{% endif %}">
+                            <a href="{{ path('app_person_create') }}">
+                                <i class="fa fa-plus"></i>
+                                Add person</a>
                         </li>
                     </ul>
                 </li>
