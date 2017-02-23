@@ -8,6 +8,7 @@ image: maxlipsky/bitbucket-pipeline-php-postgres-redis
 pipelines:
   default:
     - step:
-        script: 
+        script:
           - composer install
+          - bin/console doctrine:schema:validate
           - phpunit
