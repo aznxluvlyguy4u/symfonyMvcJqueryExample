@@ -47,7 +47,7 @@ class PersonController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid() && $form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $person->setCreatedBy($this->getUser());
             $em->persist($person);
             $em->flush();
@@ -73,7 +73,7 @@ class PersonController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid() && $form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($person);
             $em->flush();
 

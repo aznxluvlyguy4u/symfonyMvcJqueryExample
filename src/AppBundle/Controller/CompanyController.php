@@ -47,7 +47,7 @@ class CompanyController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid() && $form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $company->setCreatedBy($this->getUser());
             $em->persist($company);
             $em->flush();
@@ -73,7 +73,7 @@ class CompanyController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid() && $form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($company);
             $em->flush();
 
