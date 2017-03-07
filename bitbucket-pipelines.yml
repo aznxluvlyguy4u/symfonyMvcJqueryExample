@@ -3,13 +3,12 @@
 # Only use spaces to indent your .yml configuration.
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: phpunit/phpunit:5.0.3
+image: maxlipsky/bitbucket-pipeline-php-postgres-redis
 
 pipelines:
   default:
     - step:
         script:
-          - apt install php7.0-pgsql
           - composer install
           - bin/console doctrine:schema:validate
           - phpunit
