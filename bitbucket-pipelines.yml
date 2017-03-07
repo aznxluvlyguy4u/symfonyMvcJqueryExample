@@ -10,5 +10,6 @@ pipelines:
     - step:
         script:
           - composer install
+          - composer require --dev symfony/phpunit-bridge
           - bin/console doctrine:schema:validate
           - phpunit
