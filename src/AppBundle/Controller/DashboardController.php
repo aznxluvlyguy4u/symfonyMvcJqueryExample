@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
- * @Route("/dashboard")
+ * @Route("/")
  * @Security("is_granted('ROLE_USER')")
  */
 class DashboardController extends Controller
