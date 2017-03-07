@@ -12,4 +12,4 @@ pipelines:
           - composer install
           - composer require --dev symfony/phpunit-bridge
           - bin/console doctrine:schema:validate
-          - phpunit
+          - ./vendor/bin/simple-phpunit
