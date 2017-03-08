@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="BaseEntityRepository")
  */
-class Person extends BaseEntity
+class Profile extends BaseEntity
 {
     /**
      * @ORM\Id
@@ -36,6 +36,16 @@ class Person extends BaseEntity
     protected $passNumber;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $phone;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $email;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Company")
      */
     protected $companies;
@@ -55,7 +65,7 @@ class Person extends BaseEntity
      *
      * @param string $firstName
      *
-     * @return Person
+     * @return Profile
      */
     public function setFirstName($firstName)
     {
@@ -79,7 +89,7 @@ class Person extends BaseEntity
      *
      * @param string $lastName
      *
-     * @return Person
+     * @return Profile
      */
     public function setLastName($lastName)
     {
@@ -103,7 +113,7 @@ class Person extends BaseEntity
      *
      * @param integer $passNumber
      *
-     * @return Person
+     * @return Profile
      */
     public function setPassNumber($passNumber)
     {
@@ -127,7 +137,7 @@ class Person extends BaseEntity
      *
      * @param \DateTime $createdAt
      *
-     * @return Person
+     * @return Profile
      */
     public function setCreatedAt($createdAt)
     {
@@ -151,7 +161,7 @@ class Person extends BaseEntity
      *
      * @param \DateTime $modifiedAt
      *
-     * @return Person
+     * @return Profile
      */
     public function setModifiedAt($modifiedAt)
     {
@@ -175,7 +185,7 @@ class Person extends BaseEntity
      *
      * @param boolean $isDeleted
      *
-     * @return Person
+     * @return Profile
      */
     public function setIsDeleted($isDeleted)
     {
@@ -199,7 +209,7 @@ class Person extends BaseEntity
      *
      * @param \AppBundle\Entity\Company $company
      *
-     * @return Person
+     * @return Profile
      */
     public function addCompany(\AppBundle\Entity\Company $company)
     {
@@ -233,7 +243,7 @@ class Person extends BaseEntity
      *
      * @param \AppBundle\Entity\User $createdBy
      *
-     * @return Person
+     * @return Profile
      */
     public function setCreatedBy(\AppBundle\Entity\User $createdBy)
     {

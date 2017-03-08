@@ -2,14 +2,12 @@
 
 namespace AppBundle\Entity;
 
-use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
- * @ORM\Table("fos_user")
+ * @ORM\Entity(repositoryClass="BaseEntityRepository")
  */
-class User extends BaseUser
+class Contract extends BaseEntity
 {
     /**
      * @ORM\Id
@@ -20,11 +18,10 @@ class User extends BaseUser
 
     public function __construct()
     {
-        parent::__construct();
     }
 
     /**
-     * @ORM\OneToOne(targetEntity="Profile")
+     * @ORM\ManyToOne(targetEntity="Company")
      */
-    protected $profile;
+    protected $company;
 }

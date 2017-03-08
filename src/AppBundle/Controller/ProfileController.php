@@ -7,14 +7,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use AppBundle\Entity\Person;
-use AppBundle\Form\CreatePersonType;
-use AppBundle\Form\EditPersonType;
+use AppBundle\Entity\Profile;
+use AppBundle\Form\CreateProfileType;
+use AppBundle\Form\EditProfileType;
 
 /**
- * @Route("/person")
+ * @Route("/profile")
  */
-class PersonController extends Controller
+class ProfileController extends Controller
 {
     /**
      * @Route("/")
@@ -25,10 +25,10 @@ class PersonController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $people = $em->getRepository('AppBundle:Person')->findAll();
+        $profiles = $em->getRepository('AppBundle:Profile')->findAll();
 
         return [
-            'people' => $people,
+            'profiles' => $profiles,
         ];
     }
 
@@ -42,17 +42,17 @@ class PersonController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $person = new Person();
-        $form = $this->createForm(CreatePersonType::class, $person);
+        $profile = new Profile();
+        $form = $this->createForm(CreateProfileType::class, $profile);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $person->setCreatedBy($this->getUser());
-            $em->persist($person);
+            $profile->setCreatedBy($this->getUser());
+            $em->persist($profile);
             $em->flush();
 
-            return $this->redirectToRoute('app_person_edit', ['person' => $person->getId()]);
+            return $this->redirectToRoute('app_profile_edit', ['profile' => $profile->getId()]);
         }
 
         return [
@@ -61,44 +61,48 @@ class PersonController extends Controller
     }
 
     /**
-     * @Route("/edit/{person}")
+     * @Route("/edit/{profile}")
      * @Template
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
-    public function editAction(Request $request, Person $person)
+    public function editAction(Request $request, Profile $profile)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm(EditPersonType::class, $person);
+        $form = $this->createForm(EditProfileType::class, $profile);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($person);
+            $em->persist($profile);
             $em->flush();
 
-            return $this->redirectToRoute('app_person_edit', ['person' => $person->getId()]);
+            if ($form->get('save')->isClicked()) {
+                return $this->redirectToRoute('app_profile_edit', ['profile' => $profile->getId()]);
+            } else {
+                return $this->redirectToRoute('app_profile_index');
+            }
         }
 
         return [
             'form' => $form->createView(),
-            'person' => $person,
+            'profile' => $profile,
         ];
     }
 
     /**
-     * @Route("/delete/{person}")
+     * @Route("/delete/{profile}")
      * @Template
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
-    public function deleteAction(Request $request, Person $person)
+    public function deleteAction(Request $request, Profile $profile)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $person->setIsDeleted(true);
+        $profile->setIsDeleted(true);
 
         $em->flush();
 
-        return $this->redirectToRoute('app_person_index');
+        return $this->redirectToRoute('app_profile_index');
     }
 }

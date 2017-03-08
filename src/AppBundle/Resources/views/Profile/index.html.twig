@@ -18,20 +18,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for person in people %}
+                            {% for profile in profiles %}
                                 <tr>
-                                    <td>{{person.firstname}} {{person.lastname}}</td>
-                                    <td>{{person.passnumber}}</td>
+                                    <td>{{profile.firstname}} {{profile.lastname}}</td>
+                                    <td>{{profile.passnumber}}</td>
                                     <td>
-                                        {% for company in person.companies %}
+                                        {% for company in profile.companies %}
                                             <a href="{{ path('app_company_edit', {'company': company.id}) }}" class="btn btn-primary btn-flat btn-sm">{{company.name}}</a>
                                         {% endfor %}
                                     </td>
                                     <td>
-                                        <a class="btn btn-default btn-flat" href="{{ path('app_person_edit', {'person' : person.id}) }}">
+                                        <a class="btn btn-default btn-flat" href="{{ path('app_profile_edit', {'profile' : profile.id}) }}">
                                             <i class="fa fa-fw fa-pencil"></i>
                                         </a>
-                                        <a class="btn btn-danger btn-flat" href="{{ path('app_person_delete', {'person' : person.id}) }}">
+                                        <a class="btn btn-danger btn-flat" href="{{ path('app_profile_delete', {'profile' : profile.id}) }}">
                                             <i class="fa fa-fw fa-trash"></i>
                                         </a>
                                     </td>
