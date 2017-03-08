@@ -28,18 +28,18 @@
                 </li>
             {% endif %}
 
-            {# People #}
+            {# Profiles #}
             {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_profile' %} active{% endif %}">
                     <a href="#">
                         <i class="fa fa-users"></i>
-                        <span>People</span>
+                        <span>Profiles</span>
                     </a>
                     <ul class="treeview-menu">
                         <li class="{% if app.request.attributes.get('_route') == 'app_profile_index' %}active{% endif %}">
                             <a href="{{ path('app_profile_index') }}">
                                 <i class="fa fa-list"></i>
-                                List people</a>
+                                List profiles</a>
                         </li>
                         <li class="{% if app.request.attributes.get('_route') == 'app_profile_create' %}active{% endif %}">
                             <a href="{{ path('app_profile_create') }}">

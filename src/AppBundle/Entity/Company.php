@@ -241,38 +241,4 @@ class Company extends BaseEntity
     {
         return $this->phone;
     }
-
-    /**
-     * Add Profile
-     *
-     * @param \AppBundle\Entity\Profile $Profile
-     *
-     * @return Company
-     */
-    public function addProfile(\AppBundle\Entity\Profile $Profile)
-    {
-        $this->people[] = $Profile;
-
-        return $this;
-    }
-
-    /**
-     * Remove Profile
-     *
-     * @param \AppBundle\Entity\Profile $Profile
-     */
-    public function removeProfile(\AppBundle\Entity\Profile $Profile)
-    {
-        $this->people->removeElement($Profile);
-    }
-
-    /**
-     * Get people
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getPeople()
-    {
-        return $this->people;
-    }
 }
