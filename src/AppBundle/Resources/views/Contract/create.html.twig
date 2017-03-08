@@ -1,0 +1,77 @@
+{% extends 'AppBundle:AdminLTE:base.html.twig' %}
+
+{% block body %}
+    {% embed 'AppBundle:AdminLTE:_content.html.twig' %}
+        {% block content %}
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Create new Contract</h3>
+                        </div>
+
+                        {{form_start(form)}}
+                        <div class="box-body">
+                            <div class="form-group">
+                                {{form_row(form.company, {'attr': {'class': 'select2'}})}}
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <div class="form-group">
+                                        {{form_row(form.startDate, {'attr': {'class': 'datepicker'}})}}
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <div class="form-group">
+                                        {{form_row(form.endDate, {'attr': {'class': 'datepicker'}})}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group pull-right">
+                                {{form_widget(form.save)}}
+                                {{form_widget(form.saveAndQuit, {'attr': {'class': 'btn-primary'}})}}
+                            </div>
+                        </div>
+                        {{form_end(form)}}
+                    </div>
+
+                </div>
+                <div class="col-md-6"></div>
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="/js/select2/select2.full.min.js"></script>
+    <script src="/js/datepicker/bootstrap-datepicker.js"></script>
+    <script>
+        $(".select2").select2({
+            sorter: function(data) {
+                return data.sort(function(a, b) {
+                    if (a.text > b.text) {
+                        return 1;
+                    }
+                    if (a.text < b.text) {
+                        return -1;
+                    }
+                    return 0;
+                });
+            }
+        });
+
+        $('.datepicker').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd'
+        });
+    </script>
+{% endblock javascripts %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/css/select2/select2.min.css">
+    <link rel="stylesheet" href="/css/datepicker/datepicker3.css">
+    {{ parent() }}
+{% endblock %}

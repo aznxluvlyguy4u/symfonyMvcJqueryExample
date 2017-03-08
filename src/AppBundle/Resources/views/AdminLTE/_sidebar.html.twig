@@ -50,6 +50,28 @@
                 </li>
             {% endif %}
 
+            {# Contracts #}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_contract' %} active{% endif %}">
+                    <a href="#">
+                        <i class="fa fa-file-text-o"></i>
+                        <span>Contracts</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="{% if app.request.attributes.get('_route') == 'app_contract_index' %}active{% endif %}">
+                            <a href="{{ path('app_contract_index') }}">
+                                <i class="fa fa-list"></i>
+                                List contracts</a>
+                        </li>
+                        <li class="{% if app.request.attributes.get('_route') == 'app_contract_create' %}active{% endif %}">
+                            <a href="{{ path('app_contract_create') }}">
+                                <i class="fa fa-plus"></i>
+                                Add contract</a>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
+
         </ul>
     </section>
     <!-- /.sidebar -->
