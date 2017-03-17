@@ -13,7 +13,13 @@
                         </div>
                         {{form_start(form)}}
                         <div class="box-body">
-                            {{form_widget(form)}}
+                            {{form_row(form.firstName)}}
+                            {{form_row(form.lastName)}}
+
+                            <div class="form-group pull-right">
+                                {{form_widget(form.save)}}
+                                {{form_widget(form.saveAndQuit, {'attr': {'class': 'btn-primary'}})}}
+                            </div>
                         </div>
                         {{form_end(form)}}
                     </div>

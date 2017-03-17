@@ -22,7 +22,11 @@
                                 <tr>
                                     <td>{{contract.company.name}}</td>
                                     <td>{{contract.startDate|date('Y-m-d')}}</td>
-                                    <td>{{contract.endDate|date('Y-m-d')}}</td>
+                                    <td>
+                                        {% if contract.endDate is not null%}
+                                            {{contract.endDate|date('Y-m-d')}}
+                                        {% endif %}
+                                    </td>
                                     <td>
                                         <a class="btn btn-default btn-flat" href="{{ path('app_contract_edit', {'contract' : contract.id}) }}">
                                             <i class="fa fa-fw fa-pencil"></i>
@@ -48,7 +52,7 @@
     <script type="text/javascript">
         $('#people').DataTable({
             "paging": true,
-            "pageLength" : 25,
+            "pageLength": 25,
             "lengthChange": false,
             "searching": true,
             "ordering": true,

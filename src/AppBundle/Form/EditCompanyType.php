@@ -17,6 +17,7 @@ class EditCompanyType extends AbstractType
             ->add('phone')
             ->add('status', EntityType::class, ['class' => 'AppBundle:CompanyStatus', 'choice_label' => 'label'])
             ->add('save', SubmitType::class)
+            ->add('saveAndQuit', SubmitType::class)
         ;
     }
 }

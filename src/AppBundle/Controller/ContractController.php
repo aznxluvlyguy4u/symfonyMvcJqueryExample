@@ -73,7 +73,6 @@ class ContractController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $contract = new Contract();
         $form = $this->createForm(FormContractType::class, $contract);
 
         $form->handleRequest($request);
@@ -92,6 +91,7 @@ class ContractController extends Controller
 
         return [
             'form' => $form->createView(),
+            'contract' => $contract,
         ];
     }
 

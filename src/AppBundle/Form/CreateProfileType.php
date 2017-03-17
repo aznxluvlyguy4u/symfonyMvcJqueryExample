@@ -15,6 +15,7 @@ class CreateProfileType extends AbstractType
             ->add('firstName')
             ->add('lastName')
             ->add('save', SubmitType::class)
+            ->add('saveAndQuit', SubmitType::class)
         ;
     }
 }

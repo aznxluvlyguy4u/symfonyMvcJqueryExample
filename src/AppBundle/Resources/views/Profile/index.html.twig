@@ -8,7 +8,7 @@
                     <h3 class="box-title">List of People</h3>
                 </div>
                 <div class="box-body">
-                    <table id="people" class="table table-bordered table-striped">
+                    <table id="profiles" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -18,34 +18,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for person in people %}
+                            {% for profile in profiles %}
                                 <tr>
-                                    <td>{{person.firstname}} {{person.lastname}}</td>
-                                    <td>{{person.passnumber}}</td>
+                                    <td>{{profile.firstname}} {{profile.lastname}}</td>
+                                    <td>{{profile.passnumber}}</td>
                                     <td>
-                                        {% for company in person.companies %}
+                                        {% for company in profile.companies %}
                                             <a href="{{ path('app_company_edit', {'company': company.id}) }}" class="btn btn-primary btn-flat btn-sm">{{company.name}}</a>
                                         {% endfor %}
                                     </td>
                                     <td>
-                                        <a class="btn btn-default btn-flat" href="{{ path('app_person_edit', {'person' : person.id}) }}">
+                                        <a class="btn btn-default btn-flat" href="{{ path('app_profile_edit', {'profile' : profile.id}) }}">
                                             <i class="fa fa-fw fa-pencil"></i>
                                         </a>
-                                        <a class="btn btn-danger btn-flat" href="{{ path('app_person_delete', {'person' : person.id}) }}">
+                                        <a class="btn btn-danger btn-flat" href="{{ path('app_profile_delete', {'profile' : profile.id}) }}">
                                             <i class="fa fa-fw fa-trash"></i>
                                         </a>
                                     </td>
                                 </tr>
                             {% endfor %}
                         </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>Name</th>
-                                <th>Pass Number</th>
-                                <th>Company</th>
-                                <th>Options</th>
-                            </tr>
-                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -58,7 +50,7 @@
     <script type="text/javascript" src="/js/datatables/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="/js/datatables/dataTables.bootstrap.min.js"></script>
     <script type="text/javascript">
-        $('#people').DataTable({
+        $('#profiles').DataTable({
             "paging": true,
             "pageLength" : 25,
             "lengthChange": false,

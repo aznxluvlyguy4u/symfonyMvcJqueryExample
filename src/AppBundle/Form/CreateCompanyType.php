@@ -15,6 +15,7 @@ class CreateCompanyType extends AbstractType
             ->add('name')
             ->add('status', EntityType::class, ['class' => 'AppBundle:CompanyStatus', 'choice_label' => 'label'])
             ->add('save', SubmitType::class)
+            ->add('saveAndQuit', SubmitType::class)
         ;
     }
 }

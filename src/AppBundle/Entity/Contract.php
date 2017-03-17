@@ -76,7 +76,7 @@ class Contract extends BaseEntity
      *
      * @return Contract
      */
-    public function setEndDate($endDate)
+    public function setEndDate($endDate = null)
     {
         $this->endDate = $endDate;
 
