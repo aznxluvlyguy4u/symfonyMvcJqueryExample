@@ -6,6 +6,14 @@
         <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
 
+            {# DASHBOARD #}
+            <li class="{% if app.request.attributes.get('_route') starts with 'app_dashboard' %} active{% endif %}">
+                <a href="{{path('app_dashboard_index')}}">
+                    <i class="fa fa-dashboard"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
             {# Companies #}
             {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_company' %} active{% endif %}">
