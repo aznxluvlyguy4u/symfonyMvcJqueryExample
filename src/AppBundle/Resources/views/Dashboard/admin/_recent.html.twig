@@ -5,21 +5,17 @@
                 <h3 class="box-title">Recently Added Comments</h3>
             </div>
             <div class="box-body">
-                <ul class="products-list product-list-in-box">
-                    {% for comment in comments %}
-                        <li class="item">
-                            <blockquote>
-                                <a class="product-title" href="{{path('app_company_edit', {'company' : comment.company.id})}}">{{comment.company.name}}</a>
-                                {{comment.text|raw}}
-                                <small>
-                                    {{comment.createdBy.username}}
-                                    @
-                                    {{comment.createdAt|date('Y-m-d H:i')}}
-                                </small>
-                            </blockquote>
-                        </li>
-                    {% endfor %}
-                </ul>
+                {% for comment in comments %}
+                    <blockquote>
+                        <a class="product-title" href="{{path('app_company_edit', {'company' : comment.company.id})}}">{{comment.company.name}}</a>
+                        {{comment.text|raw}}
+                        <small>
+                            {{comment.createdBy.username}}
+                            @
+                            {{comment.createdAt|date('Y-m-d H:i')}}
+                        </small>
+                    </blockquote>
+                {% endfor %}
             </div>
             <div class="box-footer text-center">
                 <a class="uppercase" href="{{path('app_company_index')}}">View all companies</a>
