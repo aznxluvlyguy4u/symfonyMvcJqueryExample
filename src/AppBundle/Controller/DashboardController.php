@@ -26,9 +26,12 @@ class DashboardController extends Controller
 
         $profiles = $em->getRepository('AppBundle:Profile')->findAll();
 
+        $comments = $em->getRepository('AppBundle:Comment')->findBy([], ['createdAt' => 'DESC']);
+
         return [
             'companies' => $companies,
             'profiles' => $profiles,
+            'comments' => $comments,
         ];
     }
 }
