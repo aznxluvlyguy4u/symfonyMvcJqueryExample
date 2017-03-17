@@ -52,7 +52,11 @@ class ProfileController extends Controller
             $em->persist($profile);
             $em->flush();
 
-            return $this->redirectToRoute('app_profile_edit', ['profile' => $profile->getId()]);
+            if ($form->get('save')->isClicked()) {
+                return $this->redirectToRoute('app_profile_edit', ['profile' => $profile->getId()]);
+            } else {
+                return $this->redirectToRoute('app_profile_index');
+            }
         }
 
         return [

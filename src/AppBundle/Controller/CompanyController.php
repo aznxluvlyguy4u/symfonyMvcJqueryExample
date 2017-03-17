@@ -54,7 +54,11 @@ class CompanyController extends Controller
             $em->persist($company);
             $em->flush();
 
-            return $this->redirectToRoute('app_company_edit', ['company' => $company->getId()]);
+            if ($form->get('save')->isClicked()) {
+                return $this->redirectToRoute('app_company_edit', ['company' => $company->getId()]);
+            } else {
+                return $this->redirectToRoute('app_company_index');
+            }
         }
 
         return [
@@ -79,7 +83,11 @@ class CompanyController extends Controller
             $em->persist($company);
             $em->flush();
 
-            return $this->redirectToRoute('app_company_edit', ['company' => $company->getId()]);
+            if ($form->get('save')->isClicked()) {
+                return $this->redirectToRoute('app_company_edit', ['company' => $company->getId()]);
+            } else {
+                return $this->redirectToRoute('app_company_index');
+            }
         }
 
         $companyComment = new CompanyComment();
@@ -87,14 +95,17 @@ class CompanyController extends Controller
 
         $companyCommentForm->handleRequest($request);
 
-        if($companyCommentForm->isSubmitted() && $companyCommentForm->isValid())
-        {
+        if ($companyCommentForm->isSubmitted() && $companyCommentForm->isValid()) {
             $companyComment->setCompany($company);
             $companyComment->setCreatedBy($this->getUser());
             $em->persist($companyComment);
             $em->flush();
 
-            return $this->redirectToRoute('app_company_edit', ['company' => $company->getId()]);
+            if ($form->get('save')->isClicked()) {
+                return $this->redirectToRoute('app_company_edit', ['company' => $company->getId()]);
+            } else {
+                return $this->redirectToRoute('app_company_index');
+            }
         }
 
         return [
