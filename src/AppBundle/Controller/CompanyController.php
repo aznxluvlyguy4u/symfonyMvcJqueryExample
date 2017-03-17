@@ -8,8 +8,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Entity\Company;
+use AppBundle\Entity\CompanyComment;
 use AppBundle\Form\CreateCompanyType;
 use AppBundle\Form\EditCompanyType;
+use AppBundle\Form\CreateCompanyCommentType;
 
 /**
  * @Route("/company")
@@ -80,9 +82,25 @@ class CompanyController extends Controller
             return $this->redirectToRoute('app_company_edit', ['company' => $company->getId()]);
         }
 
+        $companyComment = new CompanyComment();
+        $companyCommentForm = $this->createForm(CreateCompanyCommentType::class, $companyComment);
+
+        $companyCommentForm->handleRequest($request);
+
+        if($companyCommentForm->isSubmitted() && $companyCommentForm->isValid())
+        {
+            $companyComment->setCompany($company);
+            $companyComment->setCreatedBy($this->getUser());
+            $em->persist($companyComment);
+            $em->flush();
+
+            return $this->redirectToRoute('app_company_edit', ['company' => $company->getId()]);
+        }
+
         return [
             'form' => $form->createView(),
             'company' => $company,
+            'companyCommentForm' => $companyCommentForm->createView(),
         ];
     }
 
