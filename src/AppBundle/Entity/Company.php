@@ -41,6 +41,11 @@ class Company extends BaseEntity
     protected $phone;
 
     /**
+     * @ORM\OneToMany(targetEntity="CompanyComment", mappedBy="company")
+     */
+    protected $comments;
+
+    /**
      * Get id
      *
      * @return integer
@@ -240,5 +245,39 @@ class Company extends BaseEntity
     public function getPhone()
     {
         return $this->phone;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\CompanyComment $comment
+     *
+     * @return Company
+     */
+    public function addComment(\AppBundle\Entity\CompanyComment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\CompanyComment $comment
+     */
+    public function removeComment(\AppBundle\Entity\CompanyComment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }
