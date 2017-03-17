@@ -42,6 +42,7 @@ class Company extends BaseEntity
 
     /**
      * @ORM\OneToMany(targetEntity="CompanyComment", mappedBy="company")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     protected $comments;
 
