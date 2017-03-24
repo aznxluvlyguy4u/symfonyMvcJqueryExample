@@ -101,7 +101,7 @@ class CompanyController extends Controller
             $em->persist($companyComment);
             $em->flush();
 
-            if ($form->get('save')->isClicked()) {
+            if ($companyCommentForm->get('save')->isClicked()) {
                 return $this->redirectToRoute('app_company_edit', ['company' => $company->getId()]);
             } else {
                 return $this->redirectToRoute('app_company_index');
