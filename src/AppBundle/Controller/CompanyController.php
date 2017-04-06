@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Entity\Company;
 use AppBundle\Entity\CompanyComment;
+use AppBundle\Entity\CompanyStatusHistory;
 use AppBundle\Form\CreateCompanyType;
 use AppBundle\Form\EditCompanyType;
 use AppBundle\Form\CreateCompanyCommentType;
@@ -80,6 +81,31 @@ class CompanyController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+            // Calculate changeset on entity
+            $uow = $em->getUnitOfWork();
+            $uow->computeChangeSets();
+            $changeset = $uow->getEntityChangeSet($company);
+
+            if(array_key_exists('status', $changeset)) {
+                list($previousStatus, $currentStatus) = $changeset['status'];
+
+                $companyStatusHistory = new CompanyStatusHistory();
+                $companyStatusHistory->setCompany($company);
+                $companyStatusHistory->setPreviousStatus($previousStatus);
+                $companyStatusHistory->setCurrentStatus($currentStatus);
+                $companyStatusHistory->setCreatedBy($this->getUser());
+
+                $companyComment = new CompanyComment();
+                $companyComment->setCompany($company);
+                $companyComment->setText('Changed status from <b>' . $previousStatus->getLabel() .  '</b> to <b>' . $currentStatus->getLabel() . '</b>.');
+                $companyComment->setCreatedBy($this->getUser());
+
+                $em->persist($companyStatusHistory);
+                $em->persist($companyComment);
+            }
+
             $em->persist($company);
             $em->flush();
 
