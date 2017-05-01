@@ -67,6 +67,16 @@ class Company extends BaseEntity
     }
 
     /**
+     * Get CompanyStatus change date difference in days
+     *
+     * @return integer
+     */
+    public function getDiffStatusChangeInDays()
+    {
+        return $this->getStatusChangeDate()->diff(new \DateTime())->format('%a');
+    }
+
+    /**
      * Get id
      *
      * @return integer

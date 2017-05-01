@@ -7,27 +7,75 @@
             {% for companyStatus in companyStatuses %}
                 <div class="row">
                     <div class="col-xs-12">
+                        <h3 class="box-title">{{companyStatus.label}}</h3>
+                        <div class="row">
+                            {% for company in companies[companyStatus.label] %}
+                                <div class="col-xs-12 col-md-3">
+                                    <div class="box box-solid">
+                                        <div class="box-header with-border">
+                                            <h4>
+                                                {{company.name}}
 
-                        <div class="box box-solid">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">{{companyStatus.label}}</h3>
-                            </div>
-                            <div class="box-body">
-                                <div class="row">
-                                    {% for company in companies[companyStatus.label] %}
-                                        <div class="col-xs-12 col-md-2">
-                                            <h5>{{company.name}}</h5>
-                                            <p>
-                                                {{company.statuschangedate|time_diff}}
-                                            </p>
+                                                {% if company.diffstatuschangeindays < 7 %}
+                                                    {% set labelColour = 'label-success' %}
+                                                {% elseif company.diffstatuschangeindays < 14 %}
+                                                    {% set labelColour = 'label-info' %}
+                                                {% elseif company.diffstatuschangeindays < 21 %}
+                                                    {% set labelColour = 'label-warning' %}
+                                                {% else %}
+                                                    {% set labelColour = 'label-danger' %}
+                                                {% endif %}
+
+                                                <span class="label {{labelColour}} pull-right">
+                                                    {{company.statuschangedate|time_diff}}
+                                                </span>
+                                            </h4>
                                         </div>
-                                    {% endfor %}
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-xs-1">
+                                                    <b>
+                                                        <i class="fa fa-fw fa-mail-forward"></i>
+                                                    </b>
+                                                </div>
+                                                <div class="col-xs-11">
+                                                    {{company.email}}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-1">
+                                                    <b>
+                                                        <i class="fa fa-fw fa-phone"></i>
+                                                    </b>
+                                                </div>
+                                                <div class="col-xs-11">
+                                                    {{company.phone}}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-1">
+                                                    <b>
+                                                        <i class="fa fa-fw fa-refresh"></i>
+                                                    </b>
+                                                </div>
+                                                <div class="col-xs-11">
+                                                    {{company.statuschangedate|date('d-m-Y')}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="box-footer">
+                                            <a class="btn btn-sm btn-flat pull-right" href="{{ path('app_company_edit', {'company' : company.id}) }}">
+                                                <i class="fa fa-fw fa-pencil"></i>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-
+                            {% endfor %}
                         </div>
+
                     </div>
                 </div>
+                <div class="clearfix"></div>
 
             {% endfor %}
 
