@@ -1,0 +1,40 @@
+{% extends 'AppBundle:AdminLTE:base.html.twig' %}
+
+{% block body %}
+    {% embed 'AppBundle:AdminLTE:_content.html.twig' %}
+        {% block content %}
+
+            {% for companyStatus in companyStatuses %}
+                <div class="row">
+                    <div class="col-xs-12">
+
+                        <div class="box box-solid">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">{{companyStatus.label}}</h3>
+                            </div>
+                            <div class="box-body">
+                                <div class="row">
+                                    {% for company in companies %}
+                                        <div class="col-xs-12 col-md-2">
+                                            <h5>{{company.name}}</h5>
+                                            <p>Status updated since:
+                                                {% if company.companystatushistory | length > 0 %}
+                                                    {{company.companystatushistory|last.modifiedAt|date('d-m-Y')}}
+                                                {% else %}
+                                                    {{company.createdAt|time_diff}}
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

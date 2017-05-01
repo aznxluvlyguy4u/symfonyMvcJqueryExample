@@ -47,6 +47,12 @@ class Company extends BaseEntity
     protected $comments;
 
     /**
+     * @ORM\OneToMany(targetEntity="CompanyStatusHistory", mappedBy="company")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
+     */
+    protected $companyStatusHistory;
+
+    /**
      * Get id
      *
      * @return integer
@@ -280,5 +286,39 @@ class Company extends BaseEntity
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Add companyStatusHistory
+     *
+     * @param \AppBundle\Entity\CompanyStatusHistory $companyStatusHistory
+     *
+     * @return Company
+     */
+    public function addCompanyStatusHistory(\AppBundle\Entity\CompanyStatusHistory $companyStatusHistory)
+    {
+        $this->companyStatusHistory[] = $companyStatusHistory;
+
+        return $this;
+    }
+
+    /**
+     * Remove companyStatusHistory
+     *
+     * @param \AppBundle\Entity\CompanyStatusHistory $companyStatusHistory
+     */
+    public function removeCompanyStatusHistory(\AppBundle\Entity\CompanyStatusHistory $companyStatusHistory)
+    {
+        $this->companyStatusHistory->removeElement($companyStatusHistory);
+    }
+
+    /**
+     * Get companyStatusHistory
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCompanyStatusHistory()
+    {
+        return $this->companyStatusHistory;
     }
 }

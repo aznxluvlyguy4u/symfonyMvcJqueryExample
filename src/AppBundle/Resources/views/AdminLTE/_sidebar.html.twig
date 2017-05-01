@@ -6,13 +6,22 @@
         <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
 
-            {# DASHBOARD #}
-            <li class="{% if app.request.attributes.get('_route') starts with 'app_dashboard' %} active{% endif %}">
+            {# Dashboard #}
+            <li class="{% if app.request.attributes.get('_route') starts with 'app_dashboard_index' %} active{% endif %}">
                 <a href="{{path('app_dashboard_index')}}">
                     <i class="fa fa-dashboard"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
+
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <li class="{% if app.request.attributes.get('_route') starts with 'app_dashboard_funnel' %} active{% endif %}">
+                <a href="{{path('app_dashboard_funnel')}}">
+                    <i class="fa fa-tasks"></i>
+                    <span>Sales Funnel</span>
+                </a>
+            </li>
+            {% endif %}
 
             {# Companies #}
             {% if is_granted('ROLE_SUPER_ADMIN') %}

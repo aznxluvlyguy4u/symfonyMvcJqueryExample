@@ -34,4 +34,21 @@ class DashboardController extends Controller
             'comments' => $comments,
         ];
     }
+
+    /**
+     * @Route("/funnel")
+     * @Template
+     */
+    public function funnelAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $companyStatuses = $em->getRepository('AppBundle:CompanyStatus')->findAll();
+        $companies = $em->getRepository('AppBundle:Company')->findAll();
+
+        return [
+            'companyStatuses' => $companyStatuses,
+            'companies' => $companies,
+        ];
+    }
 }
