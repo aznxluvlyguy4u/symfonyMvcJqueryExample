@@ -14,15 +14,11 @@
                             </div>
                             <div class="box-body">
                                 <div class="row">
-                                    {% for company in companies %}
+                                    {% for company in companies[companyStatus.label] %}
                                         <div class="col-xs-12 col-md-2">
                                             <h5>{{company.name}}</h5>
-                                            <p>Status updated since:
-                                                {% if company.companystatushistory | length > 0 %}
-                                                    {{company.companystatushistory|last.modifiedAt|date('d-m-Y')}}
-                                                {% else %}
-                                                    {{company.createdAt|time_diff}}
-                                                {% endif %}
+                                            <p>
+                                                {{company.statuschangedate|time_diff}}
                                             </p>
                                         </div>
                                     {% endfor %}

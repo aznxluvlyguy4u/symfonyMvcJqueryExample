@@ -42,9 +42,33 @@ class DashboardController extends Controller
     public function funnelAction()
     {
         $em = $this->getDoctrine()->getManager();
-        
+
         $companyStatuses = $em->getRepository('AppBundle:CompanyStatus')->findAll();
-        $companies = $em->getRepository('AppBundle:Company')->findAll();
+
+        $qb = $em->createQueryBuilder();
+
+        $qb
+            ->select('c', 'COALESCE( MAX(csh.createdAt), c.createdAt) AS createdAt')
+            ->from('AppBundle:Company', 'c')
+            ->leftJoin('c.statusHistory', 'csh')
+            ->where('c.isDeleted = :isDeleted')
+            ->orderBy('createdAt', 'ASC')
+            ->groupBy('c.id')
+            ->setParameter('isDeleted', false)
+        ;
+
+        $results = $qb->getQuery()->getResult();
+
+        $companies = [];
+        foreach ($companyStatuses as $companyStatus) {
+            $companies[$companyStatus->getLabel()] = [];
+        }
+
+        foreach ($results as $result) {
+            $companies[$result[0]->getStatus()->getLabel()][] = $result[0];
+        }
+
+        // $companies = $em->getRepository('AppBundle:Company')->findAll();
 
         return [
             'companyStatuses' => $companyStatuses,

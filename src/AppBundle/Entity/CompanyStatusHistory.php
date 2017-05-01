@@ -17,7 +17,7 @@ class CompanyStatusHistory extends BaseEntity
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Company", inversedBy="companyStatusHistory")
+     * @ORM\ManyToOne(targetEntity="Company", inversedBy="statusHistory")
      */
     protected $company;
 

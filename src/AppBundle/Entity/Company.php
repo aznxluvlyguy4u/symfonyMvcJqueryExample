@@ -50,7 +50,21 @@ class Company extends BaseEntity
      * @ORM\OneToMany(targetEntity="CompanyStatusHistory", mappedBy="company")
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
-    protected $companyStatusHistory;
+    protected $statusHistory;
+
+    /**
+     * Get CompanyStatus change date
+     *
+     * @return \DateTime
+     */
+    public function getStatusChangeDate()
+    {
+        if ($this->getStatusHistory()->isEmpty()) {
+            return $this->getCreatedAt();
+        } else {
+            return $this->getStatusHistory()->first()->getCreatedAt();
+        }
+    }
 
     /**
      * Get id
@@ -320,5 +334,39 @@ class Company extends BaseEntity
     public function getCompanyStatusHistory()
     {
         return $this->companyStatusHistory;
+    }
+
+    /**
+     * Add statusHistory
+     *
+     * @param \AppBundle\Entity\CompanyStatusHistory $statusHistory
+     *
+     * @return Company
+     */
+    public function addStatusHistory(\AppBundle\Entity\CompanyStatusHistory $statusHistory)
+    {
+        $this->statusHistory[] = $statusHistory;
+
+        return $this;
+    }
+
+    /**
+     * Remove statusHistory
+     *
+     * @param \AppBundle\Entity\CompanyStatusHistory $statusHistory
+     */
+    public function removeStatusHistory(\AppBundle\Entity\CompanyStatusHistory $statusHistory)
+    {
+        $this->statusHistory->removeElement($statusHistory);
+    }
+
+    /**
+     * Get statusHistory
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStatusHistory()
+    {
+        return $this->statusHistory;
     }
 }
