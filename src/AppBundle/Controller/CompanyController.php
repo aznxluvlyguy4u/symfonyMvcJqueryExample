@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -13,6 +14,7 @@ use AppBundle\Entity\CompanyStatusHistory;
 use AppBundle\Form\CreateCompanyType;
 use AppBundle\Form\EditCompanyType;
 use AppBundle\Form\CreateCompanyCommentType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
  * @Route("/company")
@@ -76,7 +78,8 @@ class CompanyController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm(EditCompanyType::class, $company);
+        $redirect = $request->query->get('redirect') ? $request->query->get('redirect') : 'app_company_index';
+        $form = $this->createForm(EditCompanyType::class, $company, ['redirect' => $redirect]);
 
         $form->handleRequest($request);
 
@@ -110,9 +113,9 @@ class CompanyController extends Controller
             $em->flush();
 
             if ($form->get('save')->isClicked()) {
-                return $this->redirectToRoute('app_company_edit', ['company' => $company->getId()]);
+                return $this->redirectToRoute('app_company_edit', ['company' => $company->getId(), 'redirect' => $redirect]);
             } else {
-                return $this->redirectToRoute('app_company_index');
+                return $this->redirectToRoute($form->get('redirect')->getData());
             }
         }
 
