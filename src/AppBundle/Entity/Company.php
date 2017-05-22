@@ -26,7 +26,14 @@ class Company extends BaseEntity
     protected $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CompanyStatus")
+     * @ORM\ManyToOne(targetEntity="CompanySector", inversedBy="companies")
+     * @ORM\JoinColumn(name="sector_id", referencedColumnName="id")
+     */
+    protected $sector;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="CompanyStatus", inversedBy="companies")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
      */
     protected $status;
 

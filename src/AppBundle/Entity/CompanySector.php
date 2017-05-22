@@ -6,24 +6,31 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
+ * CompanySector
+ *
+ * @ORM\Table(name="company_sector")
  * @ORM\Entity
  */
-class CompanyStatus
+class CompanySector
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    private $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @var string
+     *
+     * @ORM\Column(name="label", type="string", length=255)
      */
-    protected $label;
+    private $label;
 
     /**
-     * @ORM\OneToMany(targetEntity="Company", mappedBy="status")
+     * @ORM\OneToMany(targetEntity="Company", mappedBy="sector")
      */
     protected $companies;
 
@@ -35,7 +42,7 @@ class CompanyStatus
     /**
      * Get id
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -47,7 +54,7 @@ class CompanyStatus
      *
      * @param string $label
      *
-     * @return CompanyStatus
+     * @return CompanySector
      */
     public function setLabel($label)
     {
@@ -66,3 +73,4 @@ class CompanyStatus
         return $this->label;
     }
 }
+

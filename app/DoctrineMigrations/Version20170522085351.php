@@ -15,7 +15,6 @@ class Version20170522085351 extends AbstractMigration
      */
     public function up(Schema $schema)
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql("ALTER SEQUENCE company_status_id_seq RESTART WITH 1");
         $this->addSql("INSERT INTO company_status (id, label) VALUES
         (nextval('company_status_id_seq'), 'Suspect'), 
@@ -33,7 +32,6 @@ class Version20170522085351 extends AbstractMigration
      */
     public function down(Schema $schema)
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql("DELETE FROM company_status");
     }
 }
