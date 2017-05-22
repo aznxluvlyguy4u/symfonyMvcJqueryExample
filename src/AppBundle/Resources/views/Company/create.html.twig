@@ -13,9 +13,22 @@
                         </div>
                         {{form_start(form)}}
                         <div class="box-body">
-                            {{form_row(form.name)}}
+                            {{form_row(form.contactFirstname)}}
+                            {{form_row(form.contactLastname)}}
+                            {{form_row(form.companyName)}}
+                            {{form_row(form.sector)}}
+                            {{form_row(form.numberOfEmployees)}}
+                            {{form_row(form.squareMetersWanted)}}
+                            {{form_row(form.email)}}
+                            {{form_row(form.phone)}}
+                            {{form_row(form.address)}}
+                            {{form_row(form.zipcode)}}
+                            {{form_row(form.city)}}
+                            {{form_row(form.websiteUrl)}}
                             {{form_row(form.status)}}
-
+                            {{form_row(form.reference)}}
+                            {{form_row(form.offer)}}
+                            {{form_row(form.demand)}}
                             <div class="form-group pull-right">
                                 {{form_widget(form.save)}}
                                 {{form_widget(form.saveAndQuit, {'attr': {'class': 'btn-primary'}})}}
