@@ -1,0 +1,11 @@
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.flex-items {
+    width: 11%;
+    flex: 0 0 12%;
+}
+

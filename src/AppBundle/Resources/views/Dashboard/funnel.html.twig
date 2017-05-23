@@ -1,37 +1,42 @@
 {% extends 'AppBundle:AdminLTE:base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/css/custom.css">
+{% endblock %}
+
 {% block body %}
     {% embed 'AppBundle:AdminLTE:_content.html.twig' %}
         {% block content %}
-            <div class="">
+            <div class="flex-container">
                 {% for companyStatus in companyStatuses %}
-                    <div class="col-xs-2">
-                        <div class="box box-default">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">{{companyStatus.label}}</h3>
-                                <div class="box-tools pull-right">{{ companies[companyStatus.label]|length }}</div>
+                    <div class="flex-items">
+                        <div class="box box-solid bg-red">
+                            <div class="box-header" style="min-height:50px">
+                                <div class="box-title" style="width:80%; font-size:0.8vw">{{companyStatus.label}}</div>
+                                <div class="box-tools label bg-navy" style="font-size:0.6vw">{{ companies[companyStatus.label]|length }}</div>
                             </div>
                         </div>
                         {% for company in companies[companyStatus.label] %}
                             <div class="box box-solid">
                                 <div class="box-header with-border">
-                                    <h4>
-                                        <a href="{{ path('app_company_edit', {'company' : company.id, 'redirect' : app.request.attributes.get('_route')}) }}">
-                                            {{company.name}}
-                                        </a>
-                                        {% if company.diffstatuschangeindays < 7 %}
-                                            {% set labelColour = 'label-success' %}
-                                        {% elseif company.diffstatuschangeindays < 14 %}
-                                            {% set labelColour = 'label-info' %}
-                                        {% elseif company.diffstatuschangeindays < 21 %}
-                                            {% set labelColour = 'label-warning' %}
-                                        {% else %}
-                                            {% set labelColour = 'label-danger' %}
-                                        {% endif %}
-                                        <span class="label {{labelColour}} pull-right">
-                                            {{company.statuschangedate|time_diff}}
-                                        </span>
-                                    </h4>
+                                    <a href="{{ path('app_company_edit', {'company' : company.id, 'redirect' : app.request.attributes.get('_route')}) }}">
+                                        {{company.companyName}}
+                                    </a>
+                                </div>
+                                <div class="box-body">
+                                    {% if company.diffstatuschangeindays < 7 %}
+                                        {% set labelColour = 'label-success' %}
+                                    {% elseif company.diffstatuschangeindays < 14 %}
+                                        {% set labelColour = 'label-info' %}
+                                    {% elseif company.diffstatuschangeindays < 21 %}
+                                        {% set labelColour = 'label-warning' %}
+                                    {% else %}
+                                        {% set labelColour = 'label-danger' %}
+                                    {% endif %}
+                                    <span class="label {{labelColour}} pull-right">
+                                        {{company.statuschangedate|time_diff}}
+                                    </span>
                                 </div>
                             </div>
                         {% endfor %}
