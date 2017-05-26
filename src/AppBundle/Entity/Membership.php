@@ -44,6 +44,12 @@ class Membership extends BaseEntity
      * @ORM\ManyToOne(targetEntity="Card")
      */
     protected $card;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="MembershipStatus", inversedBy="memberships")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     */
+    protected $status;
 
     /**
      * Get id

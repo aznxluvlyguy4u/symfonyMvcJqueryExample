@@ -159,4 +159,9 @@ class CompanyController extends Controller
 
         return $this->redirectToRoute('app_company_index');
     }
+    
+    public function changeStatusAction(Request $request, Company $company, $status)
+    {
+        
+    }
 }

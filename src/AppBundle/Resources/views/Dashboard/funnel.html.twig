@@ -1,13 +1,9 @@
 {% extends 'AppBundle:AdminLTE:base.html.twig' %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="/css/custom.css">
-{% endblock %}
-
 {% block body %}
     {% embed 'AppBundle:AdminLTE:_content.html.twig' %}
         {% block content %}
+            {# Sales Funnel #}
             <div class="flex-container">
                 {% for companyStatus in companyStatuses %}
                     <div class="flex-items">
@@ -18,7 +14,7 @@
                             </div>
                         </div>
                         {% for company in companies[companyStatus.label] %}
-                            <div class="box box-solid">
+                            <div class="box box-solid row-condense">
                                 <div class="box-header with-border">
                                     <a href="{{ path('app_company_edit', {'company' : company.id, 'redirect' : app.request.attributes.get('_route')}) }}">
                                         {{company.companyName}}
@@ -42,6 +38,10 @@
                         {% endfor %}
                     </div>
                 {% endfor %}
+            </div>
+            
+            {# Members #}
+            <div>
             </div>
         {% endblock %}
     {% endembed %}
