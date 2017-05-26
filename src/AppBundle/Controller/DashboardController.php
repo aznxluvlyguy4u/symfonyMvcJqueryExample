@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use AppBundle\Entity\CompanyStatus;
+use AppBundle\Entity\MembershipStatus;
 
 /**
  * @Route("/")
@@ -43,7 +45,8 @@ class DashboardController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $companyStatuses = $em->getRepository('AppBundle:CompanyStatus')->findAll();
+        $companyStatuses = $em->getRepository(CompanyStatus::class)->findAll();
+        $membershipStatuses = $em->getRepository(MembershipStatus::class)->findAll();
 
         $qb = $em->createQueryBuilder();
 
@@ -70,9 +73,33 @@ class DashboardController extends Controller
 
         // $companies = $em->getRepository('AppBundle:Company')->findAll();
 
+        // get memberships
+        $qb
+            ->select('m', 'COALESCE( MAX(msh.createdAt), m.createdAt) AS createdAt')
+            ->from('AppBundle:Membership', 'm')
+            ->leftJoin('m.statusHistory', 'msh')
+            ->where('m.isDeleted = :isDeleted')
+            ->orderBy('createdAt', 'ASC')
+            ->groupBy('m.id')
+            ->setParameter('isDeleted', false)
+        ;
+
+        $membershipResults = $qb->getQuery()->getResult();
+        $memberships = [];
+        foreach ($membershipStatuses as $membershipStatus) {
+            $memberships[$membershipStatus->getLabel()] = [];
+        }
+
+        foreach ($membershipResults as $membershipResult) {
+            $memberships[$membershipResult[0]->getStatus()->getLabel()][] = $membershipResult[0];
+        }
+
+
         return [
             'companyStatuses' => $companyStatuses,
             'companies' => $companies,
+            'membershipStatuses' => $membershipStatuses,
+            'memberships' => $memberships
         ];
     }
 }

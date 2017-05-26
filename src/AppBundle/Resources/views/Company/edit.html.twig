@@ -1,5 +1,15 @@
 {% extends 'AppBundle:AdminLTE:base.html.twig' %}
 
+{# override default form_row() with custom class #}
+{% form_theme form _self %}
+{% block form_row -%}
+    <div class="form-group row-condense{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+        {{- form_label(form) -}}
+        {{- form_widget(form) -}}
+        {{- form_errors(form) -}}
+    </div>
+{%- endblock form_row %}
+
 {% block body %}
     {% embed 'AppBundle:AdminLTE:_content.html.twig' %}
         {% block content %}
@@ -13,22 +23,62 @@
                         </div>
                         {{form_start(form)}}
                         <div class="box-body">
+                            <div class="form-group row row-condense">
+                                <div class="col-md-6">
+                                    {{ form_label(form.contactFirstname) }}
+                                    {{ form_errors(form.contactFirstname) }}
+                                    {{ form_widget(form.contactFirstname) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_label(form.contactLastname) }}
+                                    {{ form_errors(form.contactLastname) }}
+                                    {{ form_widget(form.contactLastname) }}
+                                </div>
+                            </div>
                             {{form_row(form.companyName)}}
-                            {{form_row(form.contactFirstname)}}
-                            {{form_row(form.contactLastname)}}
                             {{form_row(form.sector)}}
-                            {{form_row(form.numberOfEmployees)}}
-                            {{form_row(form.squareMetersWanted)}}
-                            {{form_row(form.email)}}
-                            {{form_row(form.phone)}}
+                            <div class="form-group row row-condense">
+                                <div class="col-md-6">
+                                    {{ form_label(form.numberOfEmployees) }}
+                                    {{ form_errors(form.numberOfEmployees) }}
+                                    {{ form_widget(form.numberOfEmployees) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_label(form.squareMetersWanted) }}
+                                    {{ form_errors(form.squareMetersWanted) }}
+                                    {{ form_widget(form.squareMetersWanted) }}
+                                </div>
+                            </div>
+                            <div class="form-group row row-condense">
+                                <div class="col-md-6">
+                                    {{ form_label(form.email) }}
+                                    {{ form_errors(form.email) }}
+                                    {{ form_widget(form.email) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_label(form.phone) }}
+                                    {{ form_errors(form.phone) }}
+                                    {{ form_widget(form.phone) }}
+                                </div>
+                            </div>
                             {{form_row(form.address)}}
-                            {{form_row(form.zipcode)}}
-                            {{form_row(form.city)}}
+                            <div class="form-group row row-condense">
+                                <div class="col-md-6">
+                                    {{ form_label(form.zipcode) }}
+                                    {{ form_errors(form.zipcode) }}
+                                    {{ form_widget(form.zipcode) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_label(form.city) }}
+                                    {{ form_errors(form.city) }}
+                                    {{ form_widget(form.city) }}
+                                </div>
+                            </div>
                             {{form_row(form.websiteUrl)}}
-                            {{form_row(form.status)}}
                             {{form_row(form.reference)}}
                             {{form_row(form.offer)}}
                             {{form_row(form.demand)}}
+                            {{form_row(form.status)}}
                             <div class="form-group pull-right">
                                 {{form_widget(form.save)}}
                                 {{form_widget(form.saveAndQuit, {'attr': {'class': 'btn-primary'}})}}

@@ -3,7 +3,7 @@
 {# override default form_row() with custom class #}
 {% form_theme form _self %}
 {% block form_row -%}
-    <div class="form-group form-row-condense{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+    <div class="form-group row-condense{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
         {{- form_label(form) -}}
         {{- form_widget(form) -}}
         {{- form_errors(form) -}}

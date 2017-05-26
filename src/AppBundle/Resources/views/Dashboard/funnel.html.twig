@@ -3,7 +3,7 @@
 {% block body %}
     {% embed 'AppBundle:AdminLTE:_content.html.twig' %}
         {% block content %}
-            {# Sales Funnel #}
+            {# Sales Funnel block #}
             <div class="flex-container">
                 {% for companyStatus in companyStatuses %}
                     <div class="flex-items">
@@ -40,9 +40,46 @@
                 {% endfor %}
             </div>
             
-            {# Members #}
-            <div>
+            {# Memberships block #}
+
+            <div class="flex-container">
+                {% for membershipStatus in membershipStatuses %}
+                    <div class="flex-items">
+                        <div class="box box-solid bg-fuchsia">
+                            <div class="box-header" style="min-height:50px">
+                                <div class="box-title" style="width:80%; font-size:0.8vw">{{membershipStatus.label}}</div>
+                                <div class="box-tools label bg-navy" style="font-size:0.6vw">{{ memberships[membershipStatus.label]|length }}</div>
+                            </div>
+                        </div>
+                        {% for membership in memberships[membershipStatus.label] %}
+                            <div class="box box-solid row-condense">
+                                <div class="box-header with-border">
+                                    <a href="{{ path('app_membership_edit', {'membership' : membership.id, 'redirect' : app.request.attributes.get('_route')}) }}">
+                                        {{membership.company.companyName}}
+                                    </a>
+                                </div>
+                                <div class="box-body">
+                                    {% if company.diffstatuschangeindays < 7 %}
+                                        {% set labelColour = 'label-success' %}
+                                    {% elseif company.diffstatuschangeindays < 14 %}
+                                        {% set labelColour = 'label-info' %}
+                                    {% elseif company.diffstatuschangeindays < 21 %}
+                                        {% set labelColour = 'label-warning' %}
+                                    {% else %}
+                                        {% set labelColour = 'label-danger' %}
+                                    {% endif %}
+                                    <span class="label {{labelColour}} pull-right">
+                                        {{company.statuschangedate|time_diff}}
+                                    </span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
             </div>
+
+
+
         {% endblock %}
     {% endembed %}
 {% endblock %}
