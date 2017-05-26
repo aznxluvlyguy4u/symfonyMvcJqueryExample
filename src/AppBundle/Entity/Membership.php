@@ -52,6 +52,12 @@ class Membership extends BaseEntity
     protected $status;
 
     /**
+     * @ORM\OneToMany(targetEntity="MembershipStatusHistory", mappedBy="membership")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
+     */
+    protected $statusHistory;
+
+    /**
      * Get id
      *
      * @return integer
