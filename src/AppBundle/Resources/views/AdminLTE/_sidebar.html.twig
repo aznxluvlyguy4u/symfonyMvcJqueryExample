@@ -45,6 +45,28 @@
                 </li>
             {% endif %}
 
+            {# Memberships #}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_membership' %} active{% endif %}">
+                    <a href="#">
+                        <i class="fa fa-user-circle-o"></i>
+                        <span>Memberships</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="{% if app.request.attributes.get('_route') == 'app_membership_index' %}active{% endif %}">
+                            <a href="{{ path('app_membership_index') }}">
+                                <i class="fa fa-list"></i>
+                                List memberships</a>
+                        </li>
+                        <li class="{% if app.request.attributes.get('_route') == 'app_membership_create' %}active{% endif %}">
+                            <a href="{{ path('app_membership_create') }}">
+                                <i class="fa fa-plus"></i>
+                                Add membership</a>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
+
             {# Profiles #}
             {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_profile' %} active{% endif %}">
