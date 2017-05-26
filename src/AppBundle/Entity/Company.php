@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="BaseEntityRepository")
@@ -15,10 +16,6 @@ class Company extends BaseEntity
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
-    public function __construct()
-    {
-    }
 
     /**
      * @ORM\Column(type="string", nullable=false)
@@ -113,6 +110,16 @@ class Company extends BaseEntity
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     protected $statusHistory;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Membership", mappedBy="company")
+     */
+    protected $memberships;
+
+    public function __construct()
+    {
+        $this->memberships = new ArrayCollection();
+    }
 
     /**
      * Get CompanyStatus change date

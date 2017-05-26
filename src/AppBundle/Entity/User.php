@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -18,9 +19,15 @@ class User extends BaseUser
      */
     protected $id;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Membership", mappedBy="user")
+     */
+    protected $memberships;
+
     public function __construct()
     {
         parent::__construct();
+        $this->memberships = new ArrayCollection();
     }
 
     /**

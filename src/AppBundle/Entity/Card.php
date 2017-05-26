@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="BaseEntityRepository")
@@ -16,8 +17,14 @@ class Card extends BaseEntity
      */
     protected $id;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Membership", mappedBy="card")
+     */
+    protected $memberships;
+
     public function __construct()
     {
+        $this->memberships = new ArrayCollection();
     }
 
     /**
