@@ -7,7 +7,7 @@
             <div class="box-body">
                 {% for comment in comments %}
                     <blockquote>
-                        <a class="product-title" href="{{path('app_company_edit', {'company' : comment.company.id})}}">{{comment.company.name}}</a>
+                        <a class="product-title" href="{{path('app_company_edit', {'company' : comment.company.id})}}">{{comment.company.companyName}}</a>
                         {{comment.text|raw}}
                         <small>
                             {{comment.createdBy.username}}

@@ -14,6 +14,8 @@ use AppBundle\Entity\Card;
 use AppBundle\Entity\MembershipStatus;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use DateTime;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class MembershipType extends AbstractType
 {
@@ -21,6 +23,7 @@ class MembershipType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => Membership::class,
+            'redirect' => 'app_membership_index'
         ));
     }
 
@@ -28,13 +31,22 @@ class MembershipType extends AbstractType
     {
         $builder
             ->add('startDate', DateType::class, ['data' => new DateTime()])
-            ->add('endDate')
-            ->add('company', EntityType::class, ['class' => Company::class, 'choice_label' => 'companyName'])
+            ->add('endDate', DateType::class, ['data' => new DateTime()])
+            ->add('company', EntityType::class, [
+                'class' => Company::class, 
+                'choice_label' => 'companyName', 
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->where('c.isDeleted = false')
+                        ->orderBy('c.companyName', 'ASC');
+                }
+            ])
             ->add('user', EntityType::class, ['class' => User::class, 'choice_label' => 'usernameCanonical'])
             ->add('card', EntityType::class, ['class' => Card::class, 'choice_label' => 'id'])
             ->add('status', EntityType::class, ['class' => MembershipStatus::class, 'choice_label' => 'label'])
             ->add('save', SubmitType::class)
             ->add('saveAndQuit', SubmitType::class)
+            ->add('redirect', HiddenType::class, array('data' => $options['redirect'], 'mapped' => false))
         ;
     }
 

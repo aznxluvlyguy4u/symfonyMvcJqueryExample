@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\CompanyStatus;
+use AppBundle\Form\MembershipType;
 
 /**
  * Membership controller.
@@ -54,8 +56,13 @@ class MembershipController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $membership->setCreatedBy($this->getUser());
+            $company = $membership->getCompany()->setStatus(
+                $em->getRepository(CompanyStatus::class)
+                    ->findOneBy(['label' => 'Contract signed'])
+            );
             $em->persist($membership);
-            $em->flush($membership);
+            $em->persist($company);
+            $em->flush();
 
             if ($form->get('save')->isClicked()) {
                 return $this->redirectToRoute('app_membership_edit', ['membership' => $membership->getId()]);
@@ -80,13 +87,18 @@ class MembershipController extends Controller
      */
     public function editAction(Request $request, Membership $membership)
     {
-        $editForm = $this->createForm('AppBundle\Form\MembershipType', $membership);
+        $redirect = $request->query->get('redirect') ? $request->query->get('redirect') : 'app_membership_index';
+        $editForm = $this->createForm(MembershipType::class, $membership, ['redirect' => $redirect]);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('membership_edit', array('id' => $membership->getId()));
+            if ($editForm->get('save')->isClicked()) {
+                return $this->redirectToRoute('app_membership_edit', ['membership' => $membership->getId(), 'redirect' => $redirect]);
+            } else {
+                return $this->redirectToRoute($editForm->get('redirect')->getData());
+            }
         }
 
         return [
@@ -99,7 +111,7 @@ class MembershipController extends Controller
      * Deletes a membership entity.
      *
      * @Route("/delete/{membership}")
-     * @Method("DELETE")
+     * @Method("GET")
      * @Template
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */

@@ -11,10 +11,13 @@
                         </div>
                         {{ form_start(form) }}
                         <div class="box-body">
-                            {{ form_widget(form) }}
-
+                            {{ form_row(form.startDate) }}
+                            {{ form_row(form.endDate) }}
+                            {{ form_row(form.company) }}
+                            {{ form_row(form.user) }}
+                            {{ form_row(form.card) }}
+                            {{ form_row(form.status) }}
                             <div class="form-group pull-right">
-                                <input type="submit" value="Create" />
                                 {{form_widget(form.save)}}
                                 {{form_widget(form.saveAndQuit, {'attr': {'class': 'btn-primary'}})}}
                             </div>
