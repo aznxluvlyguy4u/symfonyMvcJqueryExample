@@ -101,7 +101,7 @@ class Company extends BaseEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="CompanyStatus", inversedBy="companies")
-     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id", nullable=false)
      */
     protected $status;
 
