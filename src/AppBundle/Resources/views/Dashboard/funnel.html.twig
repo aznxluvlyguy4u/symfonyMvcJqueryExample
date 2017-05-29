@@ -5,7 +5,7 @@
         {% block content %}
             {# Sales Funnel block #}
             <div class="box box-warning">
-                <div class="box-header with-border">
+                <div class="box-header with-border box-header-leads">
                     <h3 class="box-title">Leads</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
@@ -16,8 +16,8 @@
                 <div class="flex-container box-body">
                     {% for companyStatus in companyStatuses %}
                         {#Status columns#}
-                        <div class="flex-items callout status-column leads-status" id="company-status-{{ companyStatus.id }}" ondragover="allowDrop(event)" ondrop="drop(event)">
-                            <div class="box box-solid bg-red">
+                        <div class="flex-items callout status-column leads-status" id="company-status-{{ companyStatus.id }}" ondragover="allowDrop(event)" ondrop="updateCompanyStatus(event)">
+                            <div class="box box-solid bg-red status-label">
                                 <div class="box-header" style="min-height:50px">
                                     <div class="box-title" style="width:80%; font-size:0.8vw">{{companyStatus.label}}</div>
                                     <div class="box-tools label bg-navy" style="font-size:0.6vw">{{ companies[companyStatus.label]|length }}</div>
@@ -26,7 +26,7 @@
 
                             {% for company in companies[companyStatus.label] %}
                                 {#Company box#}
-                                <div class="box box-solid bg-orange row-condense" id="company-{{ company.id }}" draggable="true" ondragstart="drag(event)">
+                                <div class="box box-solid bg-orange row-condense draggable" id="company-{{ company.id }}" draggable="true" ondragstart="drag(event)">
                                     <div class="box-header with-border">
                                         <a href="{{ path('app_company_edit', {'company' : company.id, 'redirect' : app.request.attributes.get('_route')}) }}">
                                             {{company.companyName}}
@@ -52,9 +52,10 @@
                     {% endfor %}
                 </div>
             </div>
+
             {# Memberships block #}
-            <div class="box box-success">
-                <div class="box-header with-border">
+            <div class="box box-primary">
+                <div class="box-header with-border box-header-members">
                     <h3 class="box-title">Members</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
@@ -69,11 +70,12 @@
                             <div class="box box-solid bg-navy-active">
                                 <div class="box-header" style="min-height:50px">
                                     <div class="box-title" style="width:80%; font-size:0.8vw">{{membershipStatus.label}}</div>
-                                    <div class="box-tools label bg-navy" style="font-size:0.6vw">{{ memberships[membershipStatus.label]|length }}</div>
+                                    <div class="box-tools label bg-red" style="font-size:0.6vw">{{ memberships[membershipStatus.label]|length }}</div>
                                 </div>
                             </div>
                             {% for membership in memberships[membershipStatus.label] %}
-                                <div class="box box-solid bg-aqua row-condense">
+                                {#membership box#}
+                                <div class="box box-solid bg-aqua row-condense draggable">
                                     <div class="box-header with-border">
                                         <a href="{{ path('app_membership_edit', {'membership' : membership.id, 'redirect' : app.request.attributes.get('_route')}) }}">
                                             {{membership.company.companyName}}
