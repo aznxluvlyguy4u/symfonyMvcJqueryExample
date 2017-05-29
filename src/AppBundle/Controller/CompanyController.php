@@ -3,18 +3,23 @@
 namespace AppBundle\Controller;
 
 use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Entity\Company;
+use AppBundle\Entity\CompanyStatus;
 use AppBundle\Entity\CompanyComment;
 use AppBundle\Entity\CompanyStatusHistory;
 use AppBundle\Form\CreateCompanyType;
 use AppBundle\Form\EditCompanyType;
 use AppBundle\Form\CreateCompanyCommentType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * @Route("/company")
@@ -142,6 +147,50 @@ class CompanyController extends Controller
             'company' => $company,
             'companyCommentForm' => $companyCommentForm->createView(),
         ];
+    }
+
+    /**
+     * @Route("/update/{company}/status/{status}", requirements={"company": "\d+", "status": "\d+"})
+     * @Method("PUT")
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     */
+    public function updateStatusAction(Request $request, Company $company, CompanyStatus $status)
+    {
+        if($request->isXmlHttpRequest()) {
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $previousStatus = $company->getStatus();
+                $currentStatus = $status;
+
+                $companyStatusHistory = new CompanyStatusHistory();
+                $companyStatusHistory->setCompany($company);
+                $companyStatusHistory->setPreviousStatus($previousStatus);
+                $companyStatusHistory->setCurrentStatus($currentStatus);
+                $companyStatusHistory->setCreatedBy($this->getUser());
+
+                $companyComment = new CompanyComment();
+                $companyComment->setCompany($company);
+                $companyComment->setText('Changed status from <b>' . $previousStatus->getLabel() .  '</b> to <b>' . $currentStatus->getLabel() . '</b>.');
+                $companyComment->setCreatedBy($this->getUser());
+
+                $company->setStatus($currentStatus);
+
+                $em->persist($companyStatusHistory);
+                $em->persist($companyComment);
+                $em->persist($company);
+                $em->flush();
+
+                return new JsonResponse(array(
+                    'company' => $company
+                ), Response::HTTP_OK);
+            } catch (Exception $e) {
+                return new JsonResponse(array(
+                    'error' => $e
+                ), Response::CONFLICT);
+            }
+        }
+
+        throw new BadRequestHttpException();
     }
 
     /**
