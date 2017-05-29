@@ -15,7 +15,7 @@
                 </div>
                 <div class="flex-container box-body">
                     {% for companyStatus in companyStatuses %}
-                        <div class="flex-items">
+                        <div class="flex-items callout status-column">
                             <div class="box box-solid bg-red">
                                 <div class="box-header" style="min-height:50px">
                                     <div class="box-title" style="width:80%; font-size:0.8vw">{{companyStatus.label}}</div>
@@ -23,7 +23,7 @@
                                 </div>
                             </div>
                             {% for company in companies[companyStatus.label] %}
-                                <div class="box box-solid bg-gray row-condense">
+                                <div class="box box-solid bg-orange row-condense">
                                     <div class="box-header with-border">
                                         <a href="{{ path('app_company_edit', {'company' : company.id, 'redirect' : app.request.attributes.get('_route')}) }}">
                                             {{company.companyName}}
@@ -62,7 +62,7 @@
 
                 <div class="flex-container box-body">
                     {% for membershipStatus in membershipStatuses %}
-                        <div class="flex-items">
+                        <div class="flex-items callout  status-column">
                             <div class="box box-solid bg-navy-active">
                                 <div class="box-header" style="min-height:50px">
                                     <div class="box-title" style="width:80%; font-size:0.8vw">{{membershipStatus.label}}</div>

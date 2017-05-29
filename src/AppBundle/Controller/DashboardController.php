@@ -23,7 +23,7 @@ class DashboardController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $status = $em->getRepository('AppBundle:CompanyStatus')->findOneByLabel('member');
+        $status = $em->getRepository('AppBundle:CompanyStatus')->findOneByLabel('Contract signed');
         $companies = $em->getRepository('AppBundle:Company')->findBy(['isDeleted' => false, 'status' => $status]);
 
         $profiles = $em->getRepository('AppBundle:Profile')->findAll();

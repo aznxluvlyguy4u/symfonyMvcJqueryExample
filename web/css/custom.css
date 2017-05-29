@@ -1,6 +1,6 @@
 .flex-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: stretch;
 }
 
@@ -11,4 +11,8 @@
 
 .row-condense {
     margin-bottom: 5px
+}
+
+.status-column {
+    padding: 0px 5px 0px 5px;
 }
