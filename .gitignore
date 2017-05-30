@@ -16,3 +16,6 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+
+# no backup files from doctrine:generate:entities
+/src/AppBundle/Entity/*.php~
