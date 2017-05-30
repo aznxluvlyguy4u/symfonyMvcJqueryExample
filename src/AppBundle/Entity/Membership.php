@@ -47,6 +47,12 @@ class Membership extends BaseEntity
      * @ORM\JoinColumn(name="card_id", referencedColumnName="id")
      */
     protected $card;
+
+    /**
+     * @ORM\OneToMany(targetEntity="MembershipComment", mappedBy="membership")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
+     */
+    protected $comments;
     
     /**
      * @ORM\ManyToOne(targetEntity="MembershipStatus", inversedBy="memberships")
@@ -366,5 +372,39 @@ class Membership extends BaseEntity
     public function getStatusHistory()
     {
         return $this->statusHistory;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\MembershipComment $comment
+     *
+     * @return Membership
+     */
+    public function addComment(\AppBundle\Entity\MembershipComment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\MembershipComment $comment
+     */
+    public function removeComment(\AppBundle\Entity\MembershipComment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }
