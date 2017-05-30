@@ -5,14 +5,20 @@ function drag(event) {
 
 function allowDrop(event) {
     event.preventDefault();
+    $(event.target).closest('.status-column').addClass('bg-gray');
+}
+
+function preventDrop(event) {
+    $(event.target).closest('.status-column').removeClass('bg-gray');
 }
 
 function updateCompanyStatus(event) {
     var element = event.dataTransfer.getData("elementId");
     var oldStatusColumnId = event.dataTransfer.getData("oldStatusColumnId");
-    var targetStatusColumnId = $(event.target).closest('.leads-status').attr("id");
+    var targetStatusColumn = $(event.target).closest('.leads-status');
+    var targetStatusColumnId = targetStatusColumn.attr("id");
     var companyId = element.split('-').slice(-1)[0];
-    var newStatusId = $(event.target).closest('.leads-status').attr('id').split('-').slice(-1)[0];
+    var newStatusId = targetStatusColumnId.split('-').slice(-1)[0];
     var loadingIcon = $('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
     // ajax call when not dropping on itself AND only when element dropped is of the class company-box
     if (oldStatusColumnId !== targetStatusColumnId && $('#'+element).hasClass("company-box")) {
@@ -25,12 +31,12 @@ function updateCompanyStatus(event) {
             success: function(response) {
                 event.preventDefault();
                 //move element, increase new count, decrease old count, reset time diff label
-                var targetCountLabel = $(event.target).closest('.leads-status').find('.status-label .label');
+                var targetCountLabel = targetStatusColumn.find('.status-label .label');
                 var oldCountLabel = $('#'+oldStatusColumnId).find('.status-label .label');
                 targetCountLabel.html(parseInt(targetCountLabel.html()) + 1);
                 oldCountLabel.html(parseInt(oldCountLabel.html()) - 1);
                 $('#'+element).find('.label').html('1 second ago');
-                $(event.target).closest('.leads-status').append($('#'+element));
+                targetStatusColumn.append($('#'+element));
             },
             error: function(response, status, error) {
                 console.log(error);
@@ -40,14 +46,16 @@ function updateCompanyStatus(event) {
             }
         });
     }
+    targetStatusColumn.removeClass('bg-gray');
 }
 
 function updateMembershipStatus(event) {
     var element = event.dataTransfer.getData("elementId");
     var oldStatusColumnId = event.dataTransfer.getData("oldStatusColumnId");
-    var targetStatusColumnId = $(event.target).closest('.memberships-status').attr("id");
+    var targetStatusColumn = $(event.target).closest('.memberships-status');
+    var targetStatusColumnId = targetStatusColumn.attr("id");
     var membershipId = element.split('-').slice(-1)[0];
-    var newStatusId = $(event.target).closest('.memberships-status').attr('id').split('-').slice(-1)[0];
+    var newStatusId = targetStatusColumnId.split('-').slice(-1)[0];
     var loadingIcon = $('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
     // ajax call when not dropping on itself AND only when element dropped is of the class membership-box
     if (oldStatusColumnId !== targetStatusColumnId && $('#'+element).hasClass("membership-box")) {
@@ -60,12 +68,12 @@ function updateMembershipStatus(event) {
             success: function(response) {
                 event.preventDefault();
                 //move element, increase new count, decrease old count, reset time diff label
-                var targetCountLabel = $(event.target).closest('.memberships-status').find('.status-label .label');
+                var targetCountLabel = targetStatusColumn.find('.status-label .label');
                 var oldCountLabel = $('#'+oldStatusColumnId).find('.status-label .label');
                 targetCountLabel.html(parseInt(targetCountLabel.html()) + 1);
                 oldCountLabel.html(parseInt(oldCountLabel.html()) - 1);
                 $('#'+element).find('.label').html('1 second ago');
-                $(event.target).closest('.memberships-status').append($('#'+element));
+                targetStatusColumn.append($('#'+element));
             },
             error: function(response, status, error) {
                 console.log(error);
@@ -75,6 +83,7 @@ function updateMembershipStatus(event) {
             }
         });
     }
+    targetStatusColumn.removeClass('bg-gray');
 }
 
 // on document ready jquery
