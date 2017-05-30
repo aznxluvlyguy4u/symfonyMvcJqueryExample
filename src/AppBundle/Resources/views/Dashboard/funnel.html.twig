@@ -55,7 +55,7 @@
 
             {# Memberships block #}
             <div class="box box-primary">
-                <div class="box-header with-border box-header-members">
+                <div class="box-header with-border box-header-memberships">
                     <h3 class="box-title">Members</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
@@ -66,8 +66,8 @@
 
                 <div class="flex-container box-body">
                     {% for membershipStatus in membershipStatuses %}
-                        <div class="flex-items callout  status-column">
-                            <div class="box box-solid bg-navy-active">
+                        <div class="flex-items callout status-column memberships-status" id="membership-status-{{ membershipStatus.id }}" ondragover="allowDrop(event)" ondrop="updateMembershipStatus(event)">
+                            <div class="box box-solid bg-navy-active status-label">
                                 <div class="box-header" style="min-height:50px">
                                     <div class="box-title" style="width:80%; font-size:0.8vw">{{membershipStatus.label}}</div>
                                     <div class="box-tools label bg-red" style="font-size:0.6vw">{{ memberships[membershipStatus.label]|length }}</div>
@@ -75,7 +75,7 @@
                             </div>
                             {% for membership in memberships[membershipStatus.label] %}
                                 {#membership box#}
-                                <div class="box box-solid bg-aqua row-condense draggable">
+                                <div class="box box-solid bg-aqua row-condense draggable" id="membership-{{ membership.id }}" draggable="true" ondragstart="drag(event)">
                                     <div class="box-header with-border">
                                         <a href="{{ path('app_membership_edit', {'membership' : membership.id, 'redirect' : app.request.attributes.get('_route')}) }}">
                                             {{membership.company.companyName}}

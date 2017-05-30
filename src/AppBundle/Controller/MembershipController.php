@@ -10,10 +10,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\CompanyStatus;
+use AppBundle\Entity\MembershipStatus;
 use AppBundle\Entity\MembershipStatusHistory;
 use AppBundle\Entity\MembershipComment;
 use AppBundle\Form\CreateCommentType;
 use AppBundle\Form\MembershipType;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Membership controller.
