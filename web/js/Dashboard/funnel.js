@@ -14,8 +14,8 @@ function updateCompanyStatus(event) {
     var companyId = element.split('-').slice(-1)[0];
     var newStatusId = $(event.target).closest('.leads-status').attr('id').split('-').slice(-1)[0];
     var loadingIcon = $('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
-    // ajax call when not dropping on itself
-    if (oldStatusColumnId !== targetStatusColumnId) {
+    // ajax call when not dropping on itself AND only when element dropped is of the class company-box
+    if (oldStatusColumnId !== targetStatusColumnId && $('#'+element).hasClass("company-box")) {
         $.ajax({
             url: '/company/update/'+companyId+'/status/'+newStatusId,
             method: 'PUT',
@@ -49,8 +49,8 @@ function updateMembershipStatus(event) {
     var membershipId = element.split('-').slice(-1)[0];
     var newStatusId = $(event.target).closest('.memberships-status').attr('id').split('-').slice(-1)[0];
     var loadingIcon = $('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
-    // ajax call when not dropping on itself
-    if (oldStatusColumnId !== targetStatusColumnId) {
+    // ajax call when not dropping on itself AND only when element dropped is of the class membership-box
+    if (oldStatusColumnId !== targetStatusColumnId && $('#'+element).hasClass("membership-box")) {
         $.ajax({
             url: '/membership/update/'+membershipId+'/status/'+newStatusId,
             method: 'PUT',
