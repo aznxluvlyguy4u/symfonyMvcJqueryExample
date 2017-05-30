@@ -17,7 +17,7 @@ use AppBundle\Entity\CompanyComment;
 use AppBundle\Entity\CompanyStatusHistory;
 use AppBundle\Form\CreateCompanyType;
 use AppBundle\Form\EditCompanyType;
-use AppBundle\Form\CreateCompanyCommentType;
+use AppBundle\Form\CreateCommentType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -125,7 +125,7 @@ class CompanyController extends Controller
         }
 
         $companyComment = new CompanyComment();
-        $companyCommentForm = $this->createForm(CreateCompanyCommentType::class, $companyComment);
+        $companyCommentForm = $this->createForm(CreateCommentType::class, $companyComment);
 
         $companyCommentForm->handleRequest($request);
 
