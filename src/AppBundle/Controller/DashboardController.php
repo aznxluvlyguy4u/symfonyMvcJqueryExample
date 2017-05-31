@@ -8,6 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\CompanyStatus;
 use AppBundle\Entity\MembershipStatus;
+use AppBundle\Entity\Company;
+use AppBundle\Entity\Membership;
+use Swift_Mailer;
 
 /**
  * @Route("/")
@@ -47,52 +50,22 @@ class DashboardController extends Controller
 
         $companyStatuses = $em->getRepository(CompanyStatus::class)->findAll();
         $membershipStatuses = $em->getRepository(MembershipStatus::class)->findAll();
+        $companies = $em->getRepository(Company::class)->findCompaniesForFunnel();
+        $memberships = $em->getRepository(Membership::class)->findMembershipsForFunnel();
 
-        $qb = $em->createQueryBuilder();
+        /* @var Swift_Mailer $mailer */
+        $mailer = $this->container->get('mailer');
+        $message = new \Swift_Message();
+        $message
+            ->setSubject('test')
+            ->setFrom($this->getParameter('mailer_source_address'))
+            ->setTo('yubinchen18@gmail.com')
+            ->setBody(
+//                $this->renderView('AppBundle:Company:create.html.twig')
+            );
 
-        $qb
-            ->select('c', 'COALESCE( MAX(csh.createdAt), c.createdAt) AS createdAt')
-            ->from('AppBundle:Company', 'c')
-            ->leftJoin('c.statusHistory', 'csh')
-            ->where('c.isDeleted = :isDeleted')
-            ->orderBy('createdAt', 'ASC')
-            ->groupBy('c.id')
-            ->setParameter('isDeleted', false)
-        ;
+        $mailer->send($message);
 
-        $results = $qb->getQuery()->getResult();
-
-        $companies = [];
-        foreach ($companyStatuses as $companyStatus) {
-            $companies[$companyStatus->getLabel()] = [];
-        }
-
-        foreach ($results as $result) {
-            $companies[$result[0]->getStatus()->getLabel()][] = $result[0];
-        }
-
-        // $companies = $em->getRepository('AppBundle:Company')->findAll();
-
-        // get memberships
-        $qb
-            ->select('m', 'COALESCE( MAX(msh.createdAt), m.createdAt) AS createdAt')
-            ->from('AppBundle:Membership', 'm')
-            ->leftJoin('m.statusHistory', 'msh')
-            ->where('m.isDeleted = :isDeleted')
-            ->orderBy('createdAt', 'ASC')
-            ->groupBy('m.id')
-            ->setParameter('isDeleted', false)
-        ;
-
-        $membershipResults = $qb->getQuery()->getResult();
-        $memberships = [];
-        foreach ($membershipStatuses as $membershipStatus) {
-            $memberships[$membershipStatus->getLabel()] = [];
-        }
-
-        foreach ($membershipResults as $membershipResult) {
-            $memberships[$membershipResult[0]->getStatus()->getLabel()][] = $membershipResult[0];
-        }
 
 
         return [

@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="BaseEntityRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\MembershipRepository")
  */
 class Membership extends BaseEntity
 {
