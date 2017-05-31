@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ReflectionClass;
 
 /**
  * @ORM\Entity(repositoryClass="BaseEntityRepository")
@@ -154,5 +155,14 @@ class Comment extends BaseEntity
     public function getCreatedBy()
     {
         return $this->createdBy;
+    }
+
+    /**
+     * Get the comment object type
+     * @return string
+     */
+    public function getClassName()
+    {
+        return (new ReflectionClass($this))->getShortName();
     }
 }
