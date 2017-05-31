@@ -26,7 +26,7 @@
 
                             {% for company in companies[companyStatus.label] %}
                                 {#Company box#}
-                                <div class="box box-solid bg-orange row-condense draggable company-box" id="company-{{ company.id }}" draggable="true" ondragstart="drag(event)">
+                                <div class="box box-solid bg-orange row-condense draggable company-box" id="company-{{ company.id }}" draggable="true" ondragstart="drag(event)" ondragend="dragend(event)">
                                     <div class="box-header with-border">
                                         <a href="{{ path('app_company_edit', {'company' : company.id, 'redirect' : app.request.attributes.get('_route')}) }}">
                                             {{company.companyName}}
@@ -79,7 +79,7 @@
                             </div>
                             {% for membership in memberships[membershipStatus.label] %}
                                 {#membership box#}
-                                <div class="box box-solid bg-aqua row-condense draggable membership-box" id="membership-{{ membership.id }}" draggable="true" ondragstart="drag(event)">
+                                <div class="box box-solid bg-aqua row-condense draggable membership-box" id="membership-{{ membership.id }}" draggable="true" ondragstart="drag(event)" ondragend="dragend(event)">
                                     <div class="box-header with-border">
                                         <a href="{{ path('app_membership_edit', {'membership' : membership.id, 'redirect' : app.request.attributes.get('_route')}) }}">
                                             {{membership.company.companyName}}

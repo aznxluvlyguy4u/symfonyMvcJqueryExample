@@ -1,15 +1,24 @@
+var dragging;
+var highlightClass = 'bg-teal';
+
 function drag(event) {
     event.dataTransfer.setData("elementId", event.target.id);
     event.dataTransfer.setData("oldStatusColumnId", event.target.parentElement.id);
+    dragging = $(event.target);
 }
 
 function allowDrop(event) {
     event.preventDefault();
-    $(event.target).closest('.status-column').addClass('bg-gray');
+    $(event.target).closest('.status-column').addClass(highlightClass);
+    dragging.css('opacity', '0');
 }
 
 function preventDrop(event) {
-    $(event.target).closest('.status-column').removeClass('bg-gray');
+    $(event.target).closest('.status-column').removeClass(highlightClass);
+}
+
+function dragend(event) {
+    dragging.css('opacity', '1');
 }
 
 function updateCompanyStatus(event) {
@@ -46,7 +55,7 @@ function updateCompanyStatus(event) {
             }
         });
     }
-    targetStatusColumn.removeClass('bg-gray');
+    targetStatusColumn.removeClass(highlightClass);
 }
 
 function updateMembershipStatus(event) {
@@ -83,7 +92,7 @@ function updateMembershipStatus(event) {
             }
         });
     }
-    targetStatusColumn.removeClass('bg-gray');
+    targetStatusColumn.removeClass(highlightClass);
 }
 
 // on document ready jquery
