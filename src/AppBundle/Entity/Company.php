@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CompanyRepository")
@@ -153,30 +154,6 @@ class Company extends BaseEntity
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Company
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**
@@ -382,40 +359,6 @@ class Company extends BaseEntity
     }
 
     /**
-     * Add companyStatusHistory
-     *
-     * @param \AppBundle\Entity\CompanyStatusHistory $companyStatusHistory
-     *
-     * @return Company
-     */
-    public function addCompanyStatusHistory(\AppBundle\Entity\CompanyStatusHistory $companyStatusHistory)
-    {
-        $this->companyStatusHistory[] = $companyStatusHistory;
-
-        return $this;
-    }
-
-    /**
-     * Remove companyStatusHistory
-     *
-     * @param \AppBundle\Entity\CompanyStatusHistory $companyStatusHistory
-     */
-    public function removeCompanyStatusHistory(\AppBundle\Entity\CompanyStatusHistory $companyStatusHistory)
-    {
-        $this->companyStatusHistory->removeElement($companyStatusHistory);
-    }
-
-    /**
-     * Get companyStatusHistory
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCompanyStatusHistory()
-    {
-        return $this->companyStatusHistory;
-    }
-
-    /**
      * Add statusHistory
      *
      * @param \AppBundle\Entity\CompanyStatusHistory $statusHistory
@@ -495,6 +438,17 @@ class Company extends BaseEntity
     public function getContactLastname()
     {
         return $this->contactLastname;
+    }
+
+    /**
+     * Virtual field
+     * Get contact full name
+     *
+     * @return string
+     */
+    public function getContactFullName()
+    {
+        return $this->contactFirstname.' '.$this->contactLastname;
     }
 
     /**

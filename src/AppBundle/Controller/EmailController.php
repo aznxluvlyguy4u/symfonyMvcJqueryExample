@@ -18,13 +18,28 @@ use Symfony\Component\HttpFoundation\Response;
 class EmailController extends Controller
 {
     /**
-     * @Route("/company/{company}")
-     * @Method({"GET", "POST"})
+     * @Route("/send")
+     * @Method({"POST"})
      *
      */
-    public function sendToCompanyWithTemplateAction(Request $request, Company $company) {
-        if($request->isXmlHttpRequest()) {
+    public function sendToCompanyWithTemplateAction(Request $request) {
+//        dump($template);die();
 
-        }
+        /* @var Swift_Mailer $mailer */
+//        $mailer = $this->container->get('mailer');
+//        $message = new \Swift_Message();
+//        $message
+//            ->setSubject('test')
+//            ->setFrom($this->getParameter('mailer_source_address'))
+//            ->setTo('yubinchen18@gmail.com')
+//            ->setBody(
+//                'asdf'
+////                $this->renderView("AppBundle:Profile:index.html.twig")
+//            );
+//
+//        $mailer->send($message);
+
+        dump($request->request->all());
+        die('yolo');
     }
 }

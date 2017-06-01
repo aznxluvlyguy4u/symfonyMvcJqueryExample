@@ -25,7 +25,7 @@
                             </div>
 
                             {% for company in companies[companyStatus.label] %}
-                                {#Company box#}
+                                {# Company box #}
                                 <div class="box box-solid bg-orange row-condense draggable company-box" id="company-{{ company.id }}" draggable="true" ondragstart="drag(event)" ondragend="dragend(event)">
                                     <div class="box-header with-border">
                                         <a href="{{ path('app_company_edit', {'company' : company.id, 'redirect' : app.request.attributes.get('_route')}) }}">
@@ -33,7 +33,8 @@
                                         </a>
                                     </div>
                                     <div class="box-body">
-                                        <a href="#" data-toggle="modal" data-target="#exampleModal">
+                                        {# Email icon #}
+                                        <a href="#" class="email-icon" data-toggle="modal" data-target="#emailModal" data-companyname="{{ company.companyName }}" data-email="{{ company.email }}" data-template="{{ include(template_from_string(companyStatus.templateHtml)) }}">
                                             <i class="fa fa-envelope"></i>
                                         </a>
 
@@ -106,29 +107,23 @@
                 </div>
             </div>
 
-            {# modal #}
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-                <div class="modal-dialog" role="document">
+            {# Hidden Email modal #}
+            <div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="emailModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+                            <h4 class="modal-title" id="emailModalLabel">New Message</h4>
                         </div>
                         <div class="modal-body">
-                            <form>
-                                <div class="form-group">
-                                    <label for="recipient-name" class="control-label">Recipient:</label>
-                                    <input type="text" class="form-control" id="recipient-name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="message-text" class="control-label">Message:</label>
-                                    <textarea class="form-control" id="message-text"></textarea>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Send message</button>
+                            {{form_start(emailForm, {'action': path('app_email_sendtocompanywithtemplate')})}}
+                            {{form_row(emailForm.recipient)}}
+                            {{form_row(emailForm.message)}}
+                            <div class="modal-footer">
+                                {{form_widget(emailForm.close)}}
+                                {{form_widget(emailForm.sendMessage)}}
+                            </div>
+                            {{form_end(emailForm)}}
                         </div>
                     </div>
                 </div>

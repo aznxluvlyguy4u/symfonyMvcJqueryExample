@@ -10,6 +10,7 @@ use AppBundle\Entity\CompanyStatus;
 use AppBundle\Entity\MembershipStatus;
 use AppBundle\Entity\Company;
 use AppBundle\Entity\Membership;
+use AppBundle\Form\SendEmailType;
 use Swift_Mailer;
 
 /**
@@ -52,27 +53,14 @@ class DashboardController extends Controller
         $membershipStatuses = $em->getRepository(MembershipStatus::class)->findAll();
         $companies = $em->getRepository(Company::class)->findCompaniesForFunnel();
         $memberships = $em->getRepository(Membership::class)->findMembershipsForFunnel();
-
-        /* @var Swift_Mailer $mailer */
-        $mailer = $this->container->get('mailer');
-        $message = new \Swift_Message();
-        $message
-            ->setSubject('test')
-            ->setFrom($this->getParameter('mailer_source_address'))
-            ->setTo('yubinchen18@gmail.com')
-            ->setBody(
-//                $this->renderView('AppBundle:Company:create.html.twig')
-            );
-
-        $mailer->send($message);
-
-
+        $emailForm = $this->createForm(SendEmailType::class);
 
         return [
             'companyStatuses' => $companyStatuses,
             'companies' => $companies,
             'membershipStatuses' => $membershipStatuses,
-            'memberships' => $memberships
+            'memberships' => $memberships,
+            'emailForm' => $emailForm->createView(),
         ];
     }
 }

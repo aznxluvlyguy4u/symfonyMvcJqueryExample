@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bundle\TwigBundle\TwigEngine;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
  * @ORM\Entity
@@ -21,6 +23,11 @@ class CompanyStatus
      * @ORM\Column(type="string")
      */
     protected $label;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $templateHtml;
 
     /**
      * @ORM\OneToMany(targetEntity="Company", mappedBy="status")
@@ -98,5 +105,29 @@ class CompanyStatus
     public function getCompanies()
     {
         return $this->companies;
+    }
+
+    /**
+     * Set templateHtml
+     *
+     * @param string $templateHtml
+     *
+     * @return CompanyStatus
+     */
+    public function setTemplateHtml($templateHtml)
+    {
+        $this->templateHtml = $templateHtml;
+
+        return $this;
+    }
+
+    /**
+     * Get templateHtml
+     *
+     * @return string
+     */
+    public function getTemplateHtml()
+    {
+        return $this->templateHtml;
     }
 }
