@@ -1,0 +1,20 @@
+{% extends 'AppBundle:AdminLTE:base.html.twig' %}
+
+{% block body %}
+    {% embed 'AppBundle:AdminLTE:_content.html.twig' %}
+        {% block content %}
+            <h1>Emailtemplate creation</h1>
+
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <input type="submit" value="Create" />
+            {{ form_end(form) }}
+
+            <ul>
+                <li>
+                    <a href="{{ path('emailtemplate_index') }}">Back to the list</a>
+                </li>
+            </ul>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'AppBundle:AdminLTE:base.html.twig' %}
+
+{% block body %}
+    {% embed 'AppBundle:AdminLTE:_content.html.twig' %}
+        {% block content %}
+            <h1>Emailtemplate</h1>
+
+            <table>
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ emailTemplate.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Subject</th>
+                        <td>{{ emailTemplate.subject }}</td>
+                    </tr>
+                    <tr>
+                        <th>Body</th>
+                        <td>{{ emailTemplate.body }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <ul>
+                <li>
+                    <a href="{{ path('emailtemplate_index') }}">Back to the list</a>
+                </li>
+                <li>
+                    <a href="{{ path('emailtemplate_edit', { 'id': emailTemplate.id }) }}">Edit</a>
+                </li>
+                <li>
+                    {{ form_start(delete_form) }}
+                        <input type="submit" value="Delete">
+                    {{ form_end(delete_form) }}
+                </li>
+            </ul>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
