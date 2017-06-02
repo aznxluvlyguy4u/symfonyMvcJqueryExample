@@ -25,9 +25,10 @@ class CompanyStatus
     protected $label;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\ManyToOne(targetEntity="EmailTemplate", inversedBy="CompanyStatuses")
+     * @ORM\JoinColumn(name="email_template_id", referencedColumnName="id", nullable=true)
      */
-    protected $templateHtml;
+    protected $emailTemplate;
 
     /**
      * @ORM\OneToMany(targetEntity="Company", mappedBy="status")
@@ -108,26 +109,26 @@ class CompanyStatus
     }
 
     /**
-     * Set templateHtml
+     * Set emailTemplate
      *
-     * @param string $templateHtml
+     * @param \AppBundle\Entity\EmailTemplate $emailTemplate
      *
      * @return CompanyStatus
      */
-    public function setTemplateHtml($templateHtml)
+    public function setEmailTemplate(\AppBundle\Entity\EmailTemplate $emailTemplate = null)
     {
-        $this->templateHtml = $templateHtml;
+        $this->emailTemplate = $emailTemplate;
 
         return $this;
     }
 
     /**
-     * Get templateHtml
+     * Get emailTemplate
      *
-     * @return string
+     * @return \AppBundle\Entity\EmailTemplate
      */
-    public function getTemplateHtml()
+    public function getEmailTemplate()
     {
-        return $this->templateHtml;
+        return $this->emailTemplate;
     }
 }
