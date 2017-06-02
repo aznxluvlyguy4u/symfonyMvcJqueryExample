@@ -101,17 +101,27 @@ function updateMembershipStatus(event) {
 
 // on document ready jquery
 $(function() {
-    // send data to email modal
+    // get ajax template data to email modal
     $('#emailModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // Button that triggered the modal
+        var companyId = button.data('companyid'); // Extract info from data-* attributes
         var companyName = button.data('companyname'); // Extract info from data-* attributes
         var email = button.data('email');
-        var subject = button.data('subject');
-        var body = button.data('body');
         var modal = $(this);
         modal.find('.modal-title').text('New message to ' + companyName);
         modal.find('#send_email_to').val(email);
-        modal.find('#send_email_subject').val(subject);
-        modal.find('#send_email_body').val(body);
+
+        $.ajax({
+            url: '/email/template/company/'+companyId,
+            method: 'GET',
+            success: function(response) {
+                console.log(response);
+                modal.find('#send_email_subject').val(response.subject);
+                modal.find('#send_email_body').val(response.body);
+            },
+            error: function(response, status, error) {
+                console.log(error);
+            }
+        });
     })
 });

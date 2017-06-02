@@ -25,7 +25,7 @@ class CompanyStatus
     protected $label;
 
     /**
-     * @ORM\ManyToOne(targetEntity="EmailTemplate", inversedBy="CompanyStatuses")
+     * @ORM\ManyToOne(targetEntity="EmailTemplate", inversedBy="companyStatuses")
      * @ORM\JoinColumn(name="email_template_id", referencedColumnName="id", nullable=true)
      */
     protected $emailTemplate;

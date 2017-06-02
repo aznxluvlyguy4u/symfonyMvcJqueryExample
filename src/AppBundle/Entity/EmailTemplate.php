@@ -37,7 +37,7 @@ class EmailTemplate extends BaseEntity
     private $body;
 
     /**
-     * @ORM\OneToMany(targetEntity="CompanyStatus", mappedBy="status")
+     * @ORM\OneToMany(targetEntity="CompanyStatus", mappedBy="emailTemplate")
      */
     protected $companyStatuses;
 

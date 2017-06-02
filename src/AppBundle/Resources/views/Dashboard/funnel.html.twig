@@ -34,15 +34,7 @@
                                     </div>
                                     <div class="box-body">
                                         {# Email icon #}
-                                        {% if companyStatus.emailTemplate %}
-                                            {% set subject = companyStatus.emailTemplate.subject %}
-                                            {% set body = companyStatus.emailTemplate.body %}
-                                        {% else %}
-                                            {% set subject = null %}
-                                            {% set body = null %}
-                                        {% endif %}
-
-                                        <a href="#" class="email-icon" data-toggle="modal" data-target="#emailModal" data-companyname="{{ company.companyName }}" data-email="{{ company.email }}" data-subject="{{ subject }}" data-body="{{ include(template_from_string(body)) }}">
+                                        <a href="#" class="email-icon" data-toggle="modal" data-target="#emailModal" data-companyid="{{ company.id }}" data-companyname="{{ company.companyName }}" data-email="{{ company.email }}">
                                             <i class="fa fa-envelope"></i>
                                         </a>
 
