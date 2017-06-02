@@ -39,13 +39,14 @@ function updateCompanyStatus(event) {
             },
             success: function(response) {
                 event.preventDefault();
-                //move element, increase new count, decrease old count, reset time diff label, set new template
+                //move element, increase new count, decrease old count, reset time diff label, set new status template
                 var targetCountLabel = targetStatusColumn.find('.status-label .label');
                 var oldCountLabel = $('#'+oldStatusColumnId).find('.status-label .label');
                 targetCountLabel.html(parseInt(targetCountLabel.html()) + 1);
                 oldCountLabel.html(parseInt(oldCountLabel.html()) - 1);
                 $('#'+element).find('.label').html('1 second ago');
-                $('#'+element).find('.email-icon').data('template', response.template);
+                $('#'+element).find('.email-icon').data('subject', response.subject);
+                $('#'+element).find('.email-icon').data('body', response.body);
                 targetStatusColumn.append($('#'+element));
             },
             error: function(response, status, error) {
@@ -83,7 +84,8 @@ function updateMembershipStatus(event) {
                 targetCountLabel.html(parseInt(targetCountLabel.html()) + 1);
                 oldCountLabel.html(parseInt(oldCountLabel.html()) - 1);
                 $('#'+element).find('.label').html('1 second ago');
-                $('#'+element).find('.email-icon').data('template', response.template);
+                $('#'+element).find('.email-icon').data('subject', response.subject);
+                $('#'+element).find('.email-icon').data('body', response.body);
                 targetStatusColumn.append($('#'+element));
             },
             error: function(response, status, error) {
@@ -102,12 +104,14 @@ $(function() {
     // send data to email modal
     $('#emailModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // Button that triggered the modal
-        var template = button.data('template');
-        var companyName = button.data('companyname');
-        var email = button.data('email'); // Extract info from data-* attributes
+        var companyName = button.data('companyname'); // Extract info from data-* attributes
+        var email = button.data('email');
+        var subject = button.data('subject');
+        var body = button.data('body');
         var modal = $(this);
         modal.find('.modal-title').text('New message to ' + companyName);
-        modal.find('.modal-body input').val(email);
-        modal.find('.modal-body textarea').val(template);
+        modal.find('#send_email_to').val(email);
+        modal.find('#send_email_subject').val(subject);
+        modal.find('#send_email_body').val(body);
     })
 });

@@ -49,8 +49,9 @@ class DashboardController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $companyStatuses = $em->getRepository(CompanyStatus::class)->findAll();
-        $membershipStatuses = $em->getRepository(MembershipStatus::class)->findAll();
+        // TODO if in the future needed to add customizable status orders, install stofDoctrineExtensionBundle and use sortable position for sorting order
+        $companyStatuses = $em->getRepository(CompanyStatus::class)->findBy(array(), array('id' => 'ASC'));
+        $membershipStatuses = $em->getRepository(MembershipStatus::class)->findBy(array(), array('id' => 'ASC'));
         $companies = $em->getRepository(Company::class)->findCompaniesForFunnel();
         $memberships = $em->getRepository(Membership::class)->findMembershipsForFunnel();
         $emailForm = $this->createForm(SendEmailType::class);

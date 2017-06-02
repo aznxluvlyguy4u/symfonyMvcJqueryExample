@@ -180,11 +180,18 @@ class CompanyController extends Controller
                 $em->persist($company);
                 $em->flush();
 
-                // render the new email template
-                $template = $this->get('twig')->createTemplate($currentStatus->getTemplateHtml())->render(array('company' => $company));
+                // render the new email template and pass it for update
+                $template = $currentStatus->getEmailTemplate();
+                $subject = null;
+                $body = null;
+                if ($template) {
+                    $subject = $template->getSubject();
+                    $body = $this->get('twig')->createTemplate($template->getBody())->render(array('company' => $company));
+                }
 
                 return new JsonResponse(array(
-                    'template' => $template
+                    'subject' => $subject,
+                    'body' => $body
                 ), Response::HTTP_OK);
             } catch (Exception $e) {
                 return new JsonResponse(array(

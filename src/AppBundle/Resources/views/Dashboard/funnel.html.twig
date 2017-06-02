@@ -34,7 +34,15 @@
                                     </div>
                                     <div class="box-body">
                                         {# Email icon #}
-                                        <a href="#" class="email-icon" data-toggle="modal" data-target="#emailModal" data-companyname="{{ company.companyName }}" data-email="{{ company.email }}" data-template="{{ include(template_from_string(companyStatus.templateHtml)) }}">
+                                        {% if companyStatus.emailTemplate %}
+                                            {% set subject = companyStatus.emailTemplate.subject %}
+                                            {% set body = companyStatus.emailTemplate.body %}
+                                        {% else %}
+                                            {% set subject = null %}
+                                            {% set body = null %}
+                                        {% endif %}
+
+                                        <a href="#" class="email-icon" data-toggle="modal" data-target="#emailModal" data-companyname="{{ company.companyName }}" data-email="{{ company.email }}" data-subject="{{ subject }}" data-body="{{ include(template_from_string(body)) }}">
                                             <i class="fa fa-envelope"></i>
                                         </a>
 
@@ -117,8 +125,9 @@
                         </div>
                         <div class="modal-body">
                             {{form_start(emailForm, {'action': path('app_email_sendtocompanywithtemplate')})}}
-                            {{form_row(emailForm.recipient)}}
-                            {{form_row(emailForm.message)}}
+                            {{form_row(emailForm.to)}}
+                            {{form_row(emailForm.subject)}}
+                            {{form_row(emailForm.body)}}
                             <div class="modal-footer">
                                 {{form_widget(emailForm.close)}}
                                 {{form_widget(emailForm.sendMessage)}}
