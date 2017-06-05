@@ -26,8 +26,9 @@ class EmailController extends Controller
     /**
      * @Route("/template/company/{company}")
      * @Method({"GET"})
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
-    public function getTemplateAction(Request $request, Company $company) {
+    public function getTemplateForCompanyAction(Request $request, Company $company) {
         if($request->isXmlHttpRequest()) {
             if ($company) {
                 $template = $company->getStatus()->getEmailTemplate();
@@ -45,11 +46,35 @@ class EmailController extends Controller
             throw new NotFoundHttpException();
         }
     }
+    
+    /**
+     * @Route("/template/membership/{membership}")
+     * @Method({"GET"})
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     */
+    public function getTemplateForMemberAction(Request $request, Membership $membership) {
+        if($request->isXmlHttpRequest()) {
+            if ($membership) {
+                $template = $membership->getStatus()->getEmailTemplate();
+                $subject = null;
+                $body = null;
+                if ($template) {
+                    $subject = $template->getSubject();
+                    $body = $this->get('twig')->createTemplate($template->getBody())->render(array('company' => $membership->getCompany()));
+                }
+                return new JsonResponse(array(
+                    'subject' => $subject,
+                    'body' => $body
+                ), Response::HTTP_OK);
+            }
+            throw new NotFoundHttpException();
+        }
+    }
 
     /**
      * @Route("/send")
      * @Method({"POST"})
-     *
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function sendToCompanyWithTemplateAction(Request $request) {
         $form = $this->createForm(SendEmailType::class);

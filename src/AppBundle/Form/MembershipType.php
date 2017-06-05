@@ -37,8 +37,11 @@ class MembershipType extends AbstractType
                 'choice_label' => 'companyName', 
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
+                        ->leftJoin('c.status', 'status')
                         ->where('c.isDeleted = false')
-                        ->orderBy('c.companyName', 'ASC');
+                        ->andWhere('status.label = :label')
+                        ->orderBy('c.companyName', 'ASC')
+                        ->setParameter('label', 'Contract signed');
                 }
             ])
             ->add('user', EntityType::class, ['class' => User::class, 'choice_label' => 'usernameCanonical'])

@@ -104,16 +104,18 @@ $(function() {
     // get ajax template data to email modal
     $('#emailModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // Button that triggered the modal
-        var companyId = button.data('companyid'); // Extract info from data-* attributes
+        var objectId = button.data('id'); // Extract info from data-* attributes
         var companyName = button.data('companyname'); // Extract info from data-* attributes
         var email = button.data('email');
+        var objectClass = button.data('class').toLowerCase();
         var modal = $(this);
         var ckeditor = window.CKEDITOR.instances.send_email_body;
+                
         modal.find('.modal-title').text('New message to ' + companyName);
         modal.find('#send_email_to').val(email);
 
         $.ajax({
-            url: '/email/template/company/'+companyId,
+            url: '/email/template/'+objectClass+'/'+objectId,
             method: 'GET',
             success: function(response) {
                 if (!response.body) {

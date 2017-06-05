@@ -34,7 +34,7 @@
                                     </div>
                                     <div class="box-body">
                                         {# Email icon #}
-                                        <a href="#" class="email-icon" data-toggle="modal" data-target="#emailModal" data-companyid="{{ company.id }}" data-companyname="{{ company.companyName }}" data-email="{{ company.email }}">
+                                        <a href="#" class="email-icon" data-toggle="modal" data-target="#emailModal" data-id="{{ company.id }}" data-companyname="{{ company.companyName }}" data-email="{{ company.email }}" data-class="{{ company.className}}">
                                             <i class="fa fa-envelope"></i>
                                         </a>
 
@@ -87,6 +87,11 @@
                                         </a>
                                     </div>
                                     <div class="box-body">
+                                        {# Email icon #}
+                                        <a href="#" class="email-icon" data-toggle="modal" data-target="#emailModal" data-id="{{ membership.id }}" data-companyname="{{ membership.company.companyName }}" data-email="{{ membership.company.email }}" data-class="{{ membership.className}}">
+                                            <i class="fa fa-envelope"></i>
+                                        </a>
+                                        
                                         {% if membership.diffstatuschangeindays < 7 %}
                                             {% set labelColour = 'label-success' %}
                                         {% elseif membership.diffstatuschangeindays < 14 %}
