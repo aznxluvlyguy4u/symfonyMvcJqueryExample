@@ -5,3 +5,10 @@ parameters:
     env(DATABASE_USER):         postgres
     env(DATABASE_PASSWORD):     ~
     env(SECRET):                ~
+    mailer_transport:           smtp
+    mailer_host:                email-smtp.eu-west-1.amazonaws.com
+    mailer_encryption:          tls
+    mailer_port:                587
+    mailer_user:                ~
+    mailer_password:            ~
+    mailer_source_address       ~
