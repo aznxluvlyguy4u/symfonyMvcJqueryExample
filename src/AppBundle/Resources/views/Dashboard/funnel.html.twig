@@ -108,7 +108,7 @@
             </div>
 
             {# Hidden Email modal #}
-            <div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="emailModalLabel">
+            <div class="modal fade" id="emailModal" role="dialog" aria-labelledby="emailModalLabel">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -136,4 +136,18 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript" src="/js/Dashboard/funnel.js"></script>
+    
+    {# VERY IMPORTANT FIX FOR CKEDITOR INSIDE MODAL FIELD FOCUS ISSUES! #}
+    {#<script>
+        $.fn.modal.Constructor.prototype.enforceFocus = function() {
+            modal_this = this
+            $(document).on('focusin.modal', function (e) {
+                if (modal_this.$element[0] !== e.target && !modal_this.$element.has(e.target).length 
+                && !$(e.target.parentNode).hasClass('cke_dialog_ui_input_select') 
+                && !$(e.target.parentNode).hasClass('cke_dialog_ui_input_text')) {
+                    modal_this.$element.focus()
+                }
+            })
+        };
+    </script>#}
 {% endblock javascripts %}

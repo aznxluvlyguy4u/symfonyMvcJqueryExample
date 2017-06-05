@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Ivory\CKEditorBundle\Form\Type\CKEditorType;
 
 class SendEmailType extends AbstractType
 {
@@ -17,7 +18,7 @@ class SendEmailType extends AbstractType
         $builder
             ->add('to', EmailType::class, array('label' => 'Recipient'))
             ->add('subject', TextType::class)
-            ->add('body', TextareaType::class, array('label' => 'Message', 'attr' => array('rows' => '8')))
+            ->add('body', CKEditorType::class, array('label' => 'Message', 'attr' => array('rows' => '8')))
             ->add('close', ButtonType::class, array('attr' => array('class' => 'btn btn-default', 'data-dismiss' => 'modal')))
             ->add('sendMessage', SubmitType::class, array('attr' => array('class' => 'btn btn-primary')))
         ;

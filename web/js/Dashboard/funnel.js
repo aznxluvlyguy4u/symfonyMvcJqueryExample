@@ -108,6 +108,7 @@ $(function() {
         var companyName = button.data('companyname'); // Extract info from data-* attributes
         var email = button.data('email');
         var modal = $(this);
+        var ckeditor = window.CKEDITOR.instances.send_email_body;
         modal.find('.modal-title').text('New message to ' + companyName);
         modal.find('#send_email_to').val(email);
 
@@ -115,9 +116,11 @@ $(function() {
             url: '/email/template/company/'+companyId,
             method: 'GET',
             success: function(response) {
-                console.log(response);
+                if (!response.body) {
+                    response.body = '';
+                }
                 modal.find('#send_email_subject').val(response.subject);
-                modal.find('#send_email_body').val(response.body);
+                ckeditor.setData(response.body);
             },
             error: function(response, status, error) {
                 console.log(error);
