@@ -11,4 +11,4 @@ parameters:
     mailer_port:                587
     mailer_user:                ~
     mailer_password:            ~
-    mailer_source_address       ~
+    mailer_source_address:      ~
