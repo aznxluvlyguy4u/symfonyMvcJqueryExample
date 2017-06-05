@@ -35,7 +35,7 @@ class CompanyController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $companies = $em->getRepository('AppBundle:Company')->findAll();
+        $companies = $em->getRepository('AppBundle:Company')->findBy(array('isDeleted' => false));
 
         return [
             'companies' => $companies,

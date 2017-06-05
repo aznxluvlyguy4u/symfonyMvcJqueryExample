@@ -37,7 +37,7 @@ class MembershipController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $memberships = $em->getRepository('AppBundle:Membership')->findAll();
+        $memberships = $em->getRepository('AppBundle:Membership')->findBy(array('isDeleted' => false));
 
         return [
             'memberships' => $memberships,

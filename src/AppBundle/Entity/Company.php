@@ -50,7 +50,7 @@ class Company extends BaseEntity
     protected $squareMetersWanted;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", nullable=false)
      */
     protected $email;
 

@@ -32,7 +32,7 @@ class CreateCompanyType extends AbstractType
             ->add('companyName')
             ->add('numberOfEmployees')
             ->add('squareMetersWanted')
-            ->add('email', EmailType::class, array('required' => false))
+            ->add('email', EmailType::class)
             ->add('phone')
             ->add('address')
             ->add('zipcode')
