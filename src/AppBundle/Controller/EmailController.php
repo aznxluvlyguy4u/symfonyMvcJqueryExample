@@ -62,7 +62,8 @@ class EmailController extends Controller
                 ->setTo($form->get('to')->getData())
                 ->setSubject($form->get('subject')->getData())
                 ->setFrom($this->getParameter('mailer_source_address'))
-                ->setBody($form->get('body')->getData());
+                ->setBody($form->get('body')->getData())
+                ->setContentType('text/html');
             try {
                 $mailer->send($message);
             } catch (Exception $e) {

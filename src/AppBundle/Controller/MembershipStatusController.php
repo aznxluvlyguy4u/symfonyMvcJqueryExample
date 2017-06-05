@@ -24,7 +24,7 @@ class MembershipStatusController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $membershipStatuses = $em->getRepository('AppBundle:MembershipStatus')->findAll();
+        $membershipStatuses = $em->getRepository('AppBundle:MembershipStatus')->findBy(array(), array('id' => 'ASC'));
 
         return $this->render('membershipstatus/index.html.twig', array(
             'membershipStatuses' => $membershipStatuses,

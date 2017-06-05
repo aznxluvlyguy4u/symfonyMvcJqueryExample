@@ -21,6 +21,12 @@ class MembershipStatus
      * @ORM\Column(type="string")
      */
     protected $label;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="EmailTemplate", inversedBy="membershipStatuses")
+     * @ORM\JoinColumn(name="email_template_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
+    protected $emailTemplate;
 
     /**
      * @ORM\OneToMany(targetEntity="Membership", mappedBy="status")
@@ -98,5 +104,29 @@ class MembershipStatus
     public function getMemberships()
     {
         return $this->memberships;
+    }
+
+    /**
+     * Set emailTemplate
+     *
+     * @param \AppBundle\Entity\EmailTemplate $emailTemplate
+     *
+     * @return MembershipStatus
+     */
+    public function setEmailTemplate(\AppBundle\Entity\EmailTemplate $emailTemplate = null)
+    {
+        $this->emailTemplate = $emailTemplate;
+
+        return $this;
+    }
+
+    /**
+     * Get emailTemplate
+     *
+     * @return \AppBundle\Entity\EmailTemplate
+     */
+    public function getEmailTemplate()
+    {
+        return $this->emailTemplate;
     }
 }

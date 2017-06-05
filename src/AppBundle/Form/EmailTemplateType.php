@@ -5,7 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Ivory\CKEditorBundle\Form\Type\CKEditorType;
 
 class EmailTemplateType extends AbstractType
 {
@@ -15,8 +15,9 @@ class EmailTemplateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('name')
             ->add('subject')
-            ->add('body', TextareaType::class, array('label' => 'Message', 'attr' => array('rows' => '8')))
+            ->add('body', CKEditorType::class, array('label' => 'Message', 'attr' => array('rows' => '8')))
         ;
     }
     

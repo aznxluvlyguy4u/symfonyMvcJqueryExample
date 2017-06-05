@@ -21,6 +21,13 @@ class EmailTemplate extends BaseEntity
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    private $name;
 
     /**
      * @var string
@@ -32,14 +39,19 @@ class EmailTemplate extends BaseEntity
     /**
      * @var string
      *
-     * @ORM\Column(name="body", type="string", length=255)
+     * @ORM\Column(name="body", type="text")
      */
     private $body;
 
     /**
      * @ORM\OneToMany(targetEntity="CompanyStatus", mappedBy="emailTemplate")
      */
-    protected $companyStatuses;
+    private $companyStatuses;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="MembershipStatus", mappedBy="emailTemplate")
+     */
+    private $membershipStatuses;
 
     public function __construct()
     {
@@ -233,5 +245,63 @@ class EmailTemplate extends BaseEntity
     public function getCreatedBy()
     {
         return $this->createdBy;
+    }
+
+    /**
+     * Add membershipStatus
+     *
+     * @param \AppBundle\Entity\MembershipStatus $membershipStatus
+     *
+     * @return EmailTemplate
+     */
+    public function addMembershipStatus(\AppBundle\Entity\MembershipStatus $membershipStatus)
+    {
+        $this->membershipStatuses[] = $membershipStatus;
+
+        return $this;
+    }
+
+    /**
+     * Remove membershipStatus
+     *
+     * @param \AppBundle\Entity\MembershipStatus $membershipStatus
+     */
+    public function removeMembershipStatus(\AppBundle\Entity\MembershipStatus $membershipStatus)
+    {
+        $this->membershipStatuses->removeElement($membershipStatus);
+    }
+
+    /**
+     * Get membershipStatuses
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMembershipStatuses()
+    {
+        return $this->membershipStatuses;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return EmailTemplate
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }
