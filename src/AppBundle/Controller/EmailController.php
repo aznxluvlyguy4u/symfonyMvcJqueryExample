@@ -11,11 +11,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Swift_Message;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Twig_Error_Syntax;
 
 
 /**
@@ -34,13 +36,20 @@ class EmailController extends Controller
                 $template = $company->getStatus()->getEmailTemplate();
                 $subject = null;
                 $body = null;
+                $error = null;
                 if ($template) {
                     $subject = $template->getSubject();
-                    $body = $this->get('twig')->createTemplate($template->getBody())->render(array('company' => $company));
+                    try {
+                        $body = $this->get('twig')->createTemplate($template->getBody())->render(array('company' => $company));
+                    } catch (Twig_Error_Syntax $e) {
+                        $body = $template->getBody();
+                        $error = 'Failed to render template correctly, edit it and try again';
+                    }
                 }
                 return new JsonResponse(array(
                     'subject' => $subject,
-                    'body' => $body
+                    'body' => $body,
+                    'error' => $error
                 ), Response::HTTP_OK);
             }
             throw new NotFoundHttpException();
@@ -58,13 +67,20 @@ class EmailController extends Controller
                 $template = $membership->getStatus()->getEmailTemplate();
                 $subject = null;
                 $body = null;
+                $error = null;
                 if ($template) {
                     $subject = $template->getSubject();
-                    $body = $this->get('twig')->createTemplate($template->getBody())->render(array('company' => $membership->getCompany()));
+                    try {
+                        $body = $this->get('twig')->createTemplate($template->getBody())->render(array('company' => $membership->getCompany()));
+                    } catch (Twig_Error_Syntax $e) {
+                        $body = $template->getBody();
+                        $error = 'Failed to render template correctly, edit it and try again';
+                    }
                 }
                 return new JsonResponse(array(
                     'subject' => $subject,
-                    'body' => $body
+                    'body' => $body,
+                    'error' => $error
                 ), Response::HTTP_OK);
             }
             throw new NotFoundHttpException();

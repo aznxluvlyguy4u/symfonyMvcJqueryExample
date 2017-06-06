@@ -45,8 +45,6 @@ function updateCompanyStatus(event) {
                 targetCountLabel.html(parseInt(targetCountLabel.html()) + 1);
                 oldCountLabel.html(parseInt(oldCountLabel.html()) - 1);
                 $('#'+element).find('.label').html('1 second ago');
-                $('#'+element).find('.email-icon').data('subject', response.subject);
-                $('#'+element).find('.email-icon').data('body', response.body);
                 targetStatusColumn.append($('#'+element));
             },
             error: function(response, status, error) {
@@ -84,8 +82,6 @@ function updateMembershipStatus(event) {
                 targetCountLabel.html(parseInt(targetCountLabel.html()) + 1);
                 oldCountLabel.html(parseInt(oldCountLabel.html()) - 1);
                 $('#'+element).find('.label').html('1 second ago');
-                $('#'+element).find('.email-icon').data('subject', response.subject);
-                $('#'+element).find('.email-icon').data('body', response.body);
                 targetStatusColumn.append($('#'+element));
             },
             error: function(response, status, error) {
@@ -110,9 +106,12 @@ $(function() {
         var objectClass = button.data('class').toLowerCase();
         var modal = $(this);
         var ckeditor = window.CKEDITOR.instances.send_email_body;
-                
+
+        // Auto fill in company name and company email and clear subject and body
         modal.find('.modal-title').text('New message to ' + companyName);
         modal.find('#send_email_to').val(email);
+        modal.find('#send_email_subject').val('');
+        ckeditor.setData('');
 
         $.ajax({
             url: '/email/template/'+objectClass+'/'+objectId,
