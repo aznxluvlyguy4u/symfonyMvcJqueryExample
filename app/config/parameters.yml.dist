@@ -12,3 +12,8 @@ parameters:
     mailer_user:                ~
     mailer_password:            ~
     mailer_source_address:      ~
+    aws_access_key_id:          ~
+    aws_secret_key:             ~
+    aws_s3_region:              ~
+    aws_s3_version:             ~
+    aws_s3_bucket:              ~

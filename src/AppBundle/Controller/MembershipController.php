@@ -200,6 +200,19 @@ class MembershipController extends Controller
 
         throw new BadRequestHttpException();
     }
+    
+    /**
+     * Upload Files
+     * @Route("/upload")
+     * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     * @Method("POST")
+     */
+    public function uploadDocument()
+    {
+        
+    }
+    
 
     /**
      * Deletes a membership entity.
