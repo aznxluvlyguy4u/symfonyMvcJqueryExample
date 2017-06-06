@@ -121,7 +121,7 @@
                             <h4 class="modal-title" id="emailModalLabel">New Message</h4>
                         </div>
                         <div class="modal-body">
-                            {{form_start(emailForm, {'action': path('app_email_sendtocompanywithtemplate')})}}
+                            {{form_start(emailForm, {'action': path('app_email_sendemailtocompany')})}}
                             {{form_row(emailForm.to)}}
                             {{form_row(emailForm.subject)}}
                             {{form_row(emailForm.body)}}

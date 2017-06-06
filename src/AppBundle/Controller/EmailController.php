@@ -52,7 +52,7 @@ class EmailController extends Controller
      * @Method({"GET"})
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
-    public function getTemplateForMemberAction(Request $request, Membership $membership) {
+    public function getTemplateForMembershipAction(Request $request, Membership $membership) {
         if($request->isXmlHttpRequest()) {
             if ($membership) {
                 $template = $membership->getStatus()->getEmailTemplate();
@@ -76,7 +76,7 @@ class EmailController extends Controller
      * @Method({"POST"})
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
-    public function sendToCompanyWithTemplateAction(Request $request) {
+    public function sendEmailToCompanyAction(Request $request) {
         $form = $this->createForm(SendEmailType::class);
         $form->handleRequest($request);
 
