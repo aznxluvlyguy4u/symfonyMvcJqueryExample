@@ -16,3 +16,13 @@ services:
         class: Twig_Extension_StringLoader
         tags:
             - { name: twig.extension }
+
+    app.aws.storageservice:
+        class: AppBundle\Service\AWSSimpleStorageService
+        arguments:
+            credentials: ['%aws_access_key_id%', '%aws_secret_key%']
+            region: %aws_s3_region%
+            version: %aws_s3_version%
+            bucket: %aws_s3_bucket%
+            prefix: %aws_s3_prefix_key%
+            currentEnv: %kernel.environment%
