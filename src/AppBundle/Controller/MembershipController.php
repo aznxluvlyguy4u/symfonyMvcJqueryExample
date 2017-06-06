@@ -206,19 +206,11 @@ class MembershipController extends Controller
      * @Route("/upload")
      * @Template
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
-     * @Method("GET")
+     * @Method("POST")
      */
-    public function uploadDocument(Request $request)
+    public function uploadDocument()
     {
-        $AWSS3 = $this->get('app.aws.storageservice');
-        $client = $AWSS3->getS3Client();
-        $root = $this->get('kernel')->getRootDir();
-        $file = $root.'/../web/img/rose.png';
-//        $bucket = $client->listObjects(['Bucket' => 'the-hague-tech']);
-//        dump($bucket);die();
-
-        $upload = $AWSS3->uploadFromFilePath($file, 'wtf.png', 'image/png');
-        dump($upload);die();
+        
     }
     
 

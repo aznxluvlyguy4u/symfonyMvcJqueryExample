@@ -67,36 +67,6 @@ class Membership extends BaseEntity
     protected $statusHistory;
 
     /**
-     * @OneToOne(targetEntity="Contract")
-     * @JoinColumn(name="contract_id", referencedColumnName="id")
-     */
-    protected $contract;
-
-    /**
-     * @OneToOne(targetEntity="sepaForm")
-     * @JoinColumn(name="shipment_id", referencedColumnName="id")
-     */
-    protected $SEPAForm;
-
-    /**
-     * @OneToOne(targetEntity="Shipment")
-     * @JoinColumn(name="shipment_id", referencedColumnName="id")
-     */
-    protected $keysForm;
-
-    /**
-     * @OneToOne(targetEntity="Shipment")
-     * @JoinColumn(name="shipment_id", referencedColumnName="id")
-     */
-    protected $KVKExtract;
-
-    /**
-     * @OneToOne(targetEntity="Shipment")
-     * @JoinColumn(name="shipment_id", referencedColumnName="id")
-     */
-    protected $depositReceipt;
-
-    /**
      * Get MembershipStatus change date
      *
      * @return \DateTime

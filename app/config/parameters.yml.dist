@@ -9,12 +9,11 @@ parameters:
     mailer_host:                email-smtp.eu-west-1.amazonaws.com
     mailer_encryption:          tls
     mailer_port:                587
-    mailer_user:                AKIAIL6DCOD43KF3UL2Q
-    mailer_password:            Alk1vanb0+MdWT8cla/9yQOkUnmgCRxyn6rc2u1Y4YnK
-    mailer_source_address:      launch@stormdelta.com
+    mailer_user:                ~
+    mailer_password:            ~
+    mailer_source_address:      ~
     aws_access_key_id:          ~
     aws_secret_key:             ~
-    aws_s3_region:              eu-west-1
-    aws_s3_version:             latest
-    aws_s3_bucket:              the-hague-tech
-    aws_s3_prefix_key:          THT_Portal
+    aws_s3_region:              ~
+    aws_s3_version:             ~
+    aws_s3_bucket:              ~
