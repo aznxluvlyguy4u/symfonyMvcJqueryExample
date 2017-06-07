@@ -14,6 +14,7 @@ use AppBundle\Entity\MembershipStatus;
 use AppBundle\Entity\MembershipStatusHistory;
 use AppBundle\Entity\MembershipComment;
 use AppBundle\Form\CreateCommentType;
+use AppBundle\Form\MembershipDocumentType;
 use AppBundle\Form\MembershipType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -94,8 +95,9 @@ class MembershipController extends Controller
     public function editAction(Request $request, Membership $membership)
     {
         $em = $this->getDoctrine()->getManager();
-
         $redirect = $request->query->get('redirect') ? $request->query->get('redirect') : 'app_membership_index';
+        
+        //Edit form block
         $editForm = $this->createForm(MembershipType::class, $membership, ['redirect' => $redirect]);
         $editForm->handleRequest($request);
 
@@ -133,9 +135,9 @@ class MembershipController extends Controller
             }
         }
 
+        // Comments form block
         $membershipComment = new MembershipComment();
         $membershipCommentForm = $this->createForm(CreateCommentType::class, $membershipComment);
-
         $membershipCommentForm->handleRequest($request);
 
         if ($membershipCommentForm->isSubmitted() && $membershipCommentForm->isValid()) {
@@ -150,11 +152,26 @@ class MembershipController extends Controller
                 return $this->redirectToRoute('app_membership_index');
             }
         }
+        
+        // Documents form block
+        $membershipDocumentForm = $this->createForm(MembershipDocumentType::class, $membership, ['redirect' => $redirect]);
+        $membershipDocumentForm->handleRequest($request);
+        
+        if ($membershipDocumentForm->isSubmitted() && $membershipDocumentForm->isValid()) {
+            dump($membership);die('asdf');
+//            $contractDoc = $membership->getContractDoc();
+//            dump($contractDoc);die('wtf');
+//            ->add('sepaForm', FileType::class, ['label' => 'SEPA Form', 'required' => false])
+//            ->add('keysForm', FileType::class, ['label' => 'Keys Form', 'required' => false])
+//            ->add('kvkExtract', FileType::class, ['label' => 'KVK Extract', 'required' => false])
+//            ->add('depositReceipt', FileType::class, ['label' => 'Deposit Receipt', 'required' => false])
+        }
 
         return [
             'companyCommentForm' => $membershipCommentForm->createView(),
             'membership' => $membership,
             'form' => $editForm->createView(),
+            'membershipDocumentForm' => $membershipDocumentForm->createView()
         ];
     }
 
@@ -206,11 +223,19 @@ class MembershipController extends Controller
      * @Route("/upload")
      * @Template
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
-     * @Method("POST")
+     * @Method("GET")
      */
-    public function uploadDocument()
+    public function uploadDocument(Request $request)
     {
-        
+        $AWSS3 = $this->get('app.aws.storageservice');
+        $client = $AWSS3->getS3Client();
+        $root = $this->get('kernel')->getRootDir();
+        $file = $root.'/../web/img/rose.png';
+//        $bucket = $client->listObjects(['Bucket' => 'the-hague-tech']);
+//        dump($bucket);die();
+
+        $upload = $AWSS3->uploadFromFilePath($file, 'wtf.png', 'image/png');
+        dump($upload);die();
     }
     
 

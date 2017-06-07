@@ -5,9 +5,9 @@
         {% block content %}
             <div class="row">
                 <div class="col-md-6">
-                    <div class="box">
-                        <div class="box-header">
-                            <h3 class="box-title">Create new Membership</h3>
+{#                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Edit Membership</h3>
                         </div>
                         {{ form_start(form) }}
                         <div class="box-body">
@@ -23,6 +23,57 @@
                             </div>
                         </div>
                         {{ form_end(form) }}
+                    </div>#}
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#edit" data-toggle="tab" aria-expanded="true">Edit Membership</a>
+                            </li>
+                            <li>
+                                <a href="#documents" data-toggle="tab" aria-expanded="false">Documents</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            {# Edit pane #}
+                            <div class="tab-pane active" id="edit">
+                                {{ form_start(form) }}
+                                <div class="box-body">
+                                    {{ form_row(form.startDate) }}
+                                    {{ form_row(form.endDate) }}
+                                    {{ form_row(form.company) }}
+                                    {{ form_row(form.user) }}
+                                    {{ form_row(form.card) }}
+                                    {{ form_row(form.status) }}
+                                    <div class="form-group pull-right">
+                                        {{form_widget(form.save)}}
+                                        {{form_widget(form.saveAndQuit, {'attr': {'class': 'btn-primary'}})}}
+                                    </div>
+                                </div>
+                                {{ form_end(form) }}
+                            </div>
+                            
+                            {# Documents pane #}
+                            <div class="tab-pane" id="documents">
+                                {{ form_start(membershipDocumentForm) }}
+                                <div class="box-body">
+                                    {{ form_row(membershipDocumentForm.contractDoc) }}
+ {#                                   <ul class="contractDoc" data-prototype="{{ form_widget(membershipDocumentForm.contractDoc.vars.prototype)|e('html_attr') }}">
+                                        ...
+                                    </ul>#}
+                                    {{ dump(membershipDocumentForm.contractDoc.vars.prototype.fileName) }}
+                                    {{ form_row(membershipDocumentForm.contractDoc.vars.prototype.fileName)|e }}
+                                    {{ form_row(membershipDocumentForm.sepaForm) }}
+                                    {{ form_row(membershipDocumentForm.keysForm) }}
+                                    {{ form_row(membershipDocumentForm.kvkExtract) }}
+                                    {{ form_row(membershipDocumentForm.depositReceipt) }}
+                                    <div class="form-group pull-right">
+                                        {{form_widget(membershipDocumentForm.save)}}
+                                        {{form_widget(membershipDocumentForm.saveAndQuit, {'attr': {'class': 'btn-primary'}})}}
+                                    </div>
+                                </div>
+                                {{ form_end(membershipDocumentForm) }}
+                            </div>
+                        </div>
                     </div>
                 </div>
                     

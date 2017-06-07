@@ -67,6 +67,36 @@ class Membership extends BaseEntity
     protected $statusHistory;
 
     /**
+     * @ORM\OneToOne(targetEntity="Document")
+     * @ORM\JoinColumn(name="contract_document_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
+    protected $contractDoc;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Document")
+     * @ORM\JoinColumn(name="sepaForm_document_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
+    protected $sepaForm;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Document")
+     * @ORM\JoinColumn(name="keysForm_document_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
+    protected $keysForm;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Document")
+     * @ORM\JoinColumn(name="kvkExtract_document_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
+    protected $kvkExtract;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Document")
+     * @ORM\JoinColumn(name="depositReceipt_document_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
+    protected $depositReceipt;
+
+    /**
      * Get MembershipStatus change date
      *
      * @return \DateTime
@@ -406,5 +436,125 @@ class Membership extends BaseEntity
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Set contractDoc
+     *
+     * @param \AppBundle\Entity\Document $contractDoc
+     *
+     * @return Membership
+     */
+    public function setContractDoc(\AppBundle\Entity\Document $contractDoc = null)
+    {
+        $this->contractDoc = $contractDoc;
+
+        return $this;
+    }
+
+    /**
+     * Get contractDoc
+     *
+     * @return \AppBundle\Entity\Document
+     */
+    public function getContractDoc()
+    {
+        return $this->contractDoc;
+    }
+
+    /**
+     * Set sepaForm
+     *
+     * @param \AppBundle\Entity\Document $sepaForm
+     *
+     * @return Membership
+     */
+    public function setSepaForm(\AppBundle\Entity\Document $sepaForm = null)
+    {
+        $this->sepaForm = $sepaForm;
+
+        return $this;
+    }
+
+    /**
+     * Get sepaForm
+     *
+     * @return \AppBundle\Entity\Document
+     */
+    public function getSepaForm()
+    {
+        return $this->sepaForm;
+    }
+
+    /**
+     * Set keysForm
+     *
+     * @param \AppBundle\Entity\Document $keysForm
+     *
+     * @return Membership
+     */
+    public function setKeysForm(\AppBundle\Entity\Document $keysForm = null)
+    {
+        $this->keysForm = $keysForm;
+
+        return $this;
+    }
+
+    /**
+     * Get keysForm
+     *
+     * @return \AppBundle\Entity\Document
+     */
+    public function getKeysForm()
+    {
+        return $this->keysForm;
+    }
+
+    /**
+     * Set kvkExtract
+     *
+     * @param \AppBundle\Entity\Document $kvkExtract
+     *
+     * @return Membership
+     */
+    public function setKvkExtract(\AppBundle\Entity\Document $kvkExtract = null)
+    {
+        $this->kvkExtract = $kvkExtract;
+
+        return $this;
+    }
+
+    /**
+     * Get kvkExtract
+     *
+     * @return \AppBundle\Entity\Document
+     */
+    public function getKvkExtract()
+    {
+        return $this->kvkExtract;
+    }
+
+    /**
+     * Set depositReceipt
+     *
+     * @param \AppBundle\Entity\Document $depositReceipt
+     *
+     * @return Membership
+     */
+    public function setDepositReceipt(\AppBundle\Entity\Document $depositReceipt = null)
+    {
+        $this->depositReceipt = $depositReceipt;
+
+        return $this;
+    }
+
+    /**
+     * Get depositReceipt
+     *
+     * @return \AppBundle\Entity\Document
+     */
+    public function getDepositReceipt()
+    {
+        return $this->depositReceipt;
     }
 }

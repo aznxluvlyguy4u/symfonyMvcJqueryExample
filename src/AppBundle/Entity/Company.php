@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
+use Symfony\Component\Validator\Constraint as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CompanyRepository")
