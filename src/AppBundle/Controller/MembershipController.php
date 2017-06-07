@@ -16,6 +16,7 @@ use AppBundle\Entity\MembershipComment;
 use AppBundle\Form\CreateCommentType;
 use AppBundle\Form\MembershipDocumentType;
 use AppBundle\Form\MembershipType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -158,9 +159,32 @@ class MembershipController extends Controller
         $membershipDocumentForm->handleRequest($request);
         
         if ($membershipDocumentForm->isSubmitted() && $membershipDocumentForm->isValid()) {
-            dump($membership);die('asdf');
-//            $contractDoc = $membership->getContractDoc();
-//            dump($contractDoc);die('wtf');
+//            $uow = $em->getUnitOfWork();
+//            $uow->computeChangeSets();
+//            $changesets = $uow->getEntityChangeSet($membership);
+//            dump($changesets);
+//
+//            foreach ($changesets as $property => $value) {
+//
+//            }
+//dump($membershipDocumentForm);
+            $em->persist($membership);
+            $em->flush($membership);
+            // $file stores the uploaded PDF file
+            /** @var UploadedFile $file */
+
+//            $em->persist($membership);
+//            dump($membership);
+//            $file = $membership->getContractDoc();
+//            dump($file);die();
+
+
+//            $originalFilename = $file->getClientOriginalName();
+//            // generate unique file name before saving it
+//            $filename = md5(uniqid()).'.'.$file->guessExtension();
+//
+//            $AWSS3 = $this->get('app.aws.storageservice');
+//            dump($filename);die('wtf');
 //            ->add('sepaForm', FileType::class, ['label' => 'SEPA Form', 'required' => false])
 //            ->add('keysForm', FileType::class, ['label' => 'Keys Form', 'required' => false])
 //            ->add('kvkExtract', FileType::class, ['label' => 'KVK Extract', 'required' => false])

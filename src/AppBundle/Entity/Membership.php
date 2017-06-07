@@ -67,31 +67,31 @@ class Membership extends BaseEntity
     protected $statusHistory;
 
     /**
-     * @ORM\OneToOne(targetEntity="Document")
+     * @ORM\OneToOne(targetEntity="Document", cascade={"persist"})
      * @ORM\JoinColumn(name="contract_document_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $contractDoc;
 
     /**
-     * @ORM\OneToOne(targetEntity="Document")
+     * @ORM\OneToOne(targetEntity="Document", cascade={"persist"})
      * @ORM\JoinColumn(name="sepaForm_document_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $sepaForm;
 
     /**
-     * @ORM\OneToOne(targetEntity="Document")
+     * @ORM\OneToOne(targetEntity="Document", cascade={"persist"})
      * @ORM\JoinColumn(name="keysForm_document_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $keysForm;
 
     /**
-     * @ORM\OneToOne(targetEntity="Document")
+     * @ORM\OneToOne(targetEntity="Document", cascade={"persist"})
      * @ORM\JoinColumn(name="kvkExtract_document_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $kvkExtract;
 
     /**
-     * @ORM\OneToOne(targetEntity="Document")
+     * @ORM\OneToOne(targetEntity="Document", cascade={"persist"})
      * @ORM\JoinColumn(name="depositReceipt_document_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $depositReceipt;

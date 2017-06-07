@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -11,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="document")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\DocumentRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Document extends BaseEntity
 {
@@ -26,13 +28,13 @@ class Document extends BaseEntity
     /**
      * @var string
      *
-     * @ORM\Column(name="fileName", type="string")
+     * @ORM\Column(name="filename", type="string")
      * @Assert\File(
      *      mimeTypes = {"application/pdf", "application/x-pdf", "application/msword", "image/jpeg"}, 
      *      mimeTypesMessage = "Please upload a valid PDF, MS Word doc or a JPG/JPEG file"
      * )
      */
-    private $fileName;
+    private $filename;
     
     /**
      * @var string
@@ -40,6 +42,20 @@ class Document extends BaseEntity
      * @ORM\Column(name="mimeType", type="string")
      */
     private $mimeType;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="size", type="integer")
+     */
+    private $size;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="s3Key", type="string")
+     */
+    private $s3Key;
     
     /**
      * @var string
@@ -47,8 +63,34 @@ class Document extends BaseEntity
      * @ORM\Column(name="s3Path", type="string")
      */
     private $s3Path;
-    
-    
+
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function mapUploadedFileProperties()
+    {
+        if ($this->filename && $this->filename instanceof UploadedFile) {
+            /** @var  UploadedFile $tempFile */
+            $tempFile = $this->filename;
+            $tempFilename = $tempFile->getFilename();
+            $this->filename = $tempFile->getClientOriginalName();
+            $this->mimeType = $tempFile->getMimeType();
+            $this->size = $tempFile->getSize();
+        }
+    }
+
+    /**
+     * Generate unique key based on filename
+     *
+     * @return string
+     */
+    public function generateUniqueKey()
+    {
+        $key = md5(uniqid()).$this->filename;
+        return $key;
+    }
+
 
 
     /**
@@ -62,27 +104,27 @@ class Document extends BaseEntity
     }
 
     /**
-     * Set fileName
+     * Set filename
      *
-     * @param string $fileName
+     * @param string $filename
      *
      * @return Document
      */
-    public function setFileName($fileName)
+    public function setFilename($filename)
     {
-        $this->fileName = $fileName;
+        $this->filename = $filename;
 
         return $this;
     }
 
     /**
-     * Get fileName
+     * Get filename
      *
      * @return string
      */
-    public function getFileName()
+    public function getFilename()
     {
-        return $this->fileName;
+        return $this->filename;
     }
 
     /**
