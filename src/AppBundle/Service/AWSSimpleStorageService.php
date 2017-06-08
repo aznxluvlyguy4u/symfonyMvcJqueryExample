@@ -162,4 +162,17 @@ class AWSSimpleStorageService
     {
         return $this->upload(file_get_contents($filepath), $key, $contentType);
     }
+
+    /**
+     * Get
+     */
+    public function getObject($key)
+    {
+        $key = $this->pathApppendage.$key;
+        $client = $this->s3Service;
+        return $client->getObject([
+            'Bucket' => $this->bucket,
+            'Key' => $key,
+        ]);
+    }
 }

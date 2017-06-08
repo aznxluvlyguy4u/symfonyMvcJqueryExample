@@ -159,36 +159,8 @@ class MembershipController extends Controller
         $membershipDocumentForm->handleRequest($request);
         
         if ($membershipDocumentForm->isSubmitted() && $membershipDocumentForm->isValid()) {
-//            $uow = $em->getUnitOfWork();
-//            $uow->computeChangeSets();
-//            $changesets = $uow->getEntityChangeSet($membership);
-//            dump($changesets);
-//
-//            foreach ($changesets as $property => $value) {
-//
-//            }
-//dump($membershipDocumentForm);
             $em->persist($membership);
             $em->flush($membership);
-            // $file stores the uploaded PDF file
-            /** @var UploadedFile $file */
-
-//            $em->persist($membership);
-//            dump($membership);
-//            $file = $membership->getContractDoc();
-//            dump($file);die();
-
-
-//            $originalFilename = $file->getClientOriginalName();
-//            // generate unique file name before saving it
-//            $filename = md5(uniqid()).'.'.$file->guessExtension();
-//
-//            $AWSS3 = $this->get('app.aws.storageservice');
-//            dump($filename);die('wtf');
-//            ->add('sepaForm', FileType::class, ['label' => 'SEPA Form', 'required' => false])
-//            ->add('keysForm', FileType::class, ['label' => 'Keys Form', 'required' => false])
-//            ->add('kvkExtract', FileType::class, ['label' => 'KVK Extract', 'required' => false])
-//            ->add('depositReceipt', FileType::class, ['label' => 'Deposit Receipt', 'required' => false])
         }
 
         return [
@@ -241,27 +213,6 @@ class MembershipController extends Controller
 
         throw new BadRequestHttpException();
     }
-    
-    /**
-     * Upload Files
-     * @Route("/upload")
-     * @Template
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
-     * @Method("GET")
-     */
-    public function uploadDocument(Request $request)
-    {
-        $AWSS3 = $this->get('app.aws.storageservice');
-        $client = $AWSS3->getS3Client();
-        $root = $this->get('kernel')->getRootDir();
-        $file = $root.'/../web/img/rose.png';
-//        $bucket = $client->listObjects(['Bucket' => 'the-hague-tech']);
-//        dump($bucket);die();
-
-        $upload = $AWSS3->uploadFromFilePath($file, 'wtf.png', 'image/png');
-        dump($upload);die();
-    }
-    
 
     /**
      * Deletes a membership entity.

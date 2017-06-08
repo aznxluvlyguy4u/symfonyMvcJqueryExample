@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\EventListener\S3DocumentUploader;
 
 
 /**
@@ -12,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="document")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\DocumentRepository")
- * @ORM\HasLifecycleCallbacks()
+ * @ORM\EntityListeners({"AppBundle\EventListener\S3DocumentUploader"})
  */
 class Document extends BaseEntity
 {
@@ -60,38 +61,9 @@ class Document extends BaseEntity
     /**
      * @var string
      *
-     * @ORM\Column(name="s3Path", type="string")
+     * @ORM\Column(name="s3Path", type="text")
      */
     private $s3Path;
-
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function mapUploadedFileProperties()
-    {
-        if ($this->filename && $this->filename instanceof UploadedFile) {
-            /** @var  UploadedFile $tempFile */
-            $tempFile = $this->filename;
-            $tempFilename = $tempFile->getFilename();
-            $this->filename = $tempFile->getClientOriginalName();
-            $this->mimeType = $tempFile->getMimeType();
-            $this->size = $tempFile->getSize();
-        }
-    }
-
-    /**
-     * Generate unique key based on filename
-     *
-     * @return string
-     */
-    public function generateUniqueKey()
-    {
-        $key = md5(uniqid()).$this->filename;
-        return $key;
-    }
-
-
 
     /**
      * Get id
@@ -269,5 +241,53 @@ class Document extends BaseEntity
     public function getCreatedBy()
     {
         return $this->createdBy;
+    }
+
+    /**
+     * Set size
+     *
+     * @param integer $size
+     *
+     * @return Document
+     */
+    public function setSize($size)
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    /**
+     * Get size
+     *
+     * @return integer
+     */
+    public function getSize()
+    {
+        return $this->size;
+    }
+
+    /**
+     * Set s3Key
+     *
+     * @param string $s3Key
+     *
+     * @return Document
+     */
+    public function setS3Key($s3Key)
+    {
+        $this->s3Key = $s3Key;
+
+        return $this;
+    }
+
+    /**
+     * Get s3Key
+     *
+     * @return string
+     */
+    public function getS3Key()
+    {
+        return $this->s3Key;
     }
 }

@@ -29,7 +29,6 @@ services:
 
     app.eventlisteners.s3documentuploader:
         class: AppBundle\EventListener\S3DocumentUploader
-        arguments: ["@app.aws.storageservice"]
+        arguments: ["@app.aws.storageservice","@security.token_storage"]
         tags:
-            - { name: doctrine.event_listener, event:preFlush }
-#        arguments: ['@app.aws.storageservice']
+            - { name: doctrine.orm.entity_listener }
