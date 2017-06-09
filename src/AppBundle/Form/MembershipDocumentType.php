@@ -14,7 +14,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Membership;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use AppBundle\Entity\Document;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use AppBundle\Entity\ContractDoc;
 
 class MembershipDocumentType extends AbstractType
 {
@@ -37,11 +38,11 @@ class MembershipDocumentType extends AbstractType
             ->add('user', EntityType::class, ['label' =>false, 'class' => User::class, 'data' => $membership->getUser(), 'choice_label' => 'usernameCanonical', 'attr' => array('style' => 'display:none')])
             ->add('card', EntityType::class, ['label' =>false, 'class' => Card::class, 'data' => $membership->getCard(), 'choice_label' => 'id', 'attr' => array('style' => 'display:none')])
             ->add('status', EntityType::class, ['label' =>false, 'class' => MembershipStatus::class, 'data' => $membership->getStatus(), 'choice_label' => 'label', 'attr' => array('style' => 'display:none')])
-            ->add('contractDoc', DocumentType::class, [ 'data_class' => Document::class, 'label' => 'Signed contract', 'required' => false])
-            ->add('sepaForm', DocumentType::class, [ 'data_class' => Document::class, 'label' => 'SEPA form', 'required' => false])
-            ->add('keysForm', DocumentType::class, [ 'data_class' => Document::class, 'label' => 'Keys form', 'required' => false])
-            ->add('kvkExtract', DocumentType::class, [ 'data_class' => Document::class, 'label' => 'KVK extract', 'required' => false])
-            ->add('depositReceipt',  DocumentType::class, [ 'data_class' => Document::class, 'label' => 'Deposit receipt', 'required' => false])
+            ->add('contractDocs', CollectionType::class, [ 'entry_type' => ContractDocType::class, 'allow_add' => true, 'by_reference' => false, 'required' => false])
+//            ->add('sepaForms', CollectionType::class, [ 'entry_type' => Document::class, 'required' => false])
+//            ->add('keysForms', CollectionType::class, [ 'entry_type' => Document::class, 'required' => false])
+//            ->add('kvkExtracts', CollectionType::class, [ 'entry_type' => Document::class, 'required' => false])
+//            ->add('depositReceipts',  CollectionType::class, [ 'entry_type' => Document::class, 'required' => false])
             ->add('save', SubmitType::class)
             ->add('saveAndQuit', SubmitType::class)
             ->add('redirect', HiddenType::class, array('data' => $options['redirect'], 'mapped' => false))

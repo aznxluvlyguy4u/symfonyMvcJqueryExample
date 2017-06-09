@@ -37,16 +37,22 @@
                             <div class="tab-pane" id="documents">
                                 {{ form_start(membershipDocumentForm) }}
                                 <div class="box-body">
-                                    {{ form_row(membershipDocumentForm.contractDoc) }}
- {#                                   <ul class="contractDoc" data-prototype="{{ form_widget(membershipDocumentForm.contractDoc.vars.prototype)|e('html_attr') }}">
-                                        ...
-                                    </ul>#}
-                                    {#{{ dump(membershipDocumentForm.contractDoc.vars.prototype.fileName) }}#}
-                                    {#{{ form_row(membershipDocumentForm.contractDoc.vars.prototype.fileName)|e }}#}
-                                    {{ form_row(membershipDocumentForm.sepaForm) }}
-                                    {{ form_row(membershipDocumentForm.keysForm) }}
-                                    {{ form_row(membershipDocumentForm.kvkExtract) }}
-                                    {{ form_row(membershipDocumentForm.depositReceipt) }}
+                                    <label class="control-label">Contract Documents</label>
+                                    <div class="contractDocs" data-prototype-create="{{ form_row(membershipDocumentForm.contractDocs.vars.prototype.file)|e('html_attr') }}">
+                                        {#<ul class="contractDocUl">#}
+                                             {#iterate over each existing tag and render its only field: name#}
+                                            {#{% for contractDoc in membershipDocumentForm.contractDocs %}#}
+                                                {#<li>{{ form_row(contractDoc.filename) }}</li>#}
+                                            {#{% endfor %}#}
+                                            {#<li>{{ form_row( membershipDocumentForm.contractDocs.vars.prototype.uploadFiles ) }}</li>#}
+                                        {#</ul>#}
+                                    </div>
+
+                                    {#{{ form_row(membershipDocumentForm.contractDocs) }}#}
+                                    {#{{ form_row(membershipDocumentForm.sepaForms) }}#}
+                                    {#{{ form_row(membershipDocumentForm.keysForms) }}#}
+                                    {#{{ form_row(membershipDocumentForm.kvkExtracts) }}#}
+                                    {#{{ form_row(membershipDocumentForm.depositReceipts) }}#}
                                     <div class="form-group pull-right">
                                         {{form_widget(membershipDocumentForm.save)}}
                                         {{form_widget(membershipDocumentForm.saveAndQuit, {'attr': {'class': 'btn-primary'}})}}
@@ -90,3 +96,8 @@
         {% endblock %}
     {% endembed %}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="/js/Membership/edit.js"></script>
+{% endblock javascripts %}

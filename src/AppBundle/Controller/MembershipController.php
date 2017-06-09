@@ -159,6 +159,11 @@ class MembershipController extends Controller
         $membershipDocumentForm->handleRequest($request);
         
         if ($membershipDocumentForm->isSubmitted() && $membershipDocumentForm->isValid()) {
+//            $uow = $em->getUnitOfWork();
+//            $uow->computeChangeSets();
+//            $changeset = $uow->getEntityChangeSet($membership);
+//            dump($changeset);
+//
             $em->persist($membership);
             $em->flush($membership);
         }

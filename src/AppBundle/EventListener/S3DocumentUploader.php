@@ -20,11 +20,11 @@ class S3DocumentUploader
         $this->tokenStorage = $tokenStorage;
     }
 
-    public function preFlush(Document $document, PreFlushEventArgs $args)
+    public function preFlush($document, PreFlushEventArgs $args)
     {
         $loggedInUser = $this->tokenStorage->getToken()->getUser();
         $document->setCreatedBy($loggedInUser);
-        $uploadedFile = $document->getFilename();
+        $uploadedFile = $document->getFile();
 
         if ($uploadedFile && $uploadedFile instanceof UploadedFile) {
             $filename = $uploadedFile->getClientOriginalName();

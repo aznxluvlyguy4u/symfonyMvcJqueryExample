@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
-class DocumentType extends AbstractType
+class DocumentTypeorg extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -18,9 +18,8 @@ class DocumentType extends AbstractType
             ->add('filename')
             ->add('mimeType')
             ->add('size')
-            ->add('s3Key')
-            ->add('s3Path')
-            ->add('file', FileType::class, ['data_class' => null, 'label' => false]);
+            ->add('createdAt')
+            ->add('uploadFiles', FileType::class, ['multiple' => true, 'data_class' => null, 'label' => false, 'mapped' => false]);
     }
     
     /**

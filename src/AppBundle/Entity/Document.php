@@ -12,10 +12,12 @@ use AppBundle\EventListener\S3DocumentUploader;
  * Document
  *
  * @ORM\Table(name="document")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\DocumentRepository")
+ * @ORM\Entity(repositoryClass="BaseEntityRepository")
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="dtype", type="string")
  * @ORM\EntityListeners({"AppBundle\EventListener\S3DocumentUploader"})
  */
-class Document extends BaseEntity
+abstract class Document extends BaseEntity
 {
     /**
      * @var int
@@ -25,15 +27,21 @@ class Document extends BaseEntity
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @var UploadedFile
+     *
+     * @Assert\File(
+     *      mimeTypes = {"application/pdf", "application/x-pdf", "application/msword", "image/jpeg"},
+     *      mimeTypesMessage = "Please upload a valid PDF, MS Word doc or a JPG/JPEG file"
+     * )
+     */
+    private $file;
     
     /**
      * @var string
      *
      * @ORM\Column(name="filename", type="string")
-     * @Assert\File(
-     *      mimeTypes = {"application/pdf", "application/x-pdf", "application/msword", "image/jpeg"}, 
-     *      mimeTypesMessage = "Please upload a valid PDF, MS Word doc or a JPG/JPEG file"
-     * )
      */
     private $filename;
     
@@ -73,6 +81,30 @@ class Document extends BaseEntity
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set file
+     *
+     * @param string $file
+     *
+     * @return Document
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+    /**
+     * Get file
+     *
+     * @return string
+     */
+    public function getFile()
+    {
+        return $this->file;
     }
 
     /**

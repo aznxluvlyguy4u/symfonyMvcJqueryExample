@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,10 +16,6 @@ class Membership extends BaseEntity
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
-    public function __construct()
-    {
-    }
 
     /**
      * @ORM\Column(type="datetime")
@@ -67,34 +64,45 @@ class Membership extends BaseEntity
     protected $statusHistory;
 
     /**
-     * @ORM\OneToOne(targetEntity="Document", cascade={"persist"})
-     * @ORM\JoinColumn(name="contract_document_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     * @ORM\OneToMany(targetEntity="ContractDoc", mappedBy="membership", cascade={"persist"})
+     * @ORM\JoinColumn(name="contract_doc_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
-    protected $contractDoc;
+    protected $contractDocs;
 
     /**
-     * @ORM\OneToOne(targetEntity="Document", cascade={"persist"})
-     * @ORM\JoinColumn(name="sepaForm_document_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     * @ORM\OneToMany(targetEntity="SepaForm", mappedBy="membership", cascade={"persist"})
+     * @ORM\JoinColumn(name="sepa_form_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
-    protected $sepaForm;
+    protected $sepaForms;
 
     /**
-     * @ORM\OneToOne(targetEntity="Document", cascade={"persist"})
-     * @ORM\JoinColumn(name="keysForm_document_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     * @ORM\OneToMany(targetEntity="KeysForm", mappedBy="membership", cascade={"persist"})
+     * @ORM\JoinColumn(name="keys_form_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
-    protected $keysForm;
+    protected $keysForms;
 
     /**
-     * @ORM\OneToOne(targetEntity="Document", cascade={"persist"})
-     * @ORM\JoinColumn(name="kvkExtract_document_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     * @ORM\OneToMany(targetEntity="KvkExtract", mappedBy="membership", cascade={"persist"})
+     * @ORM\JoinColumn(name="kvk_extract_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
-    protected $kvkExtract;
+    protected $kvkExtracts;
 
     /**
-     * @ORM\OneToOne(targetEntity="Document", cascade={"persist"})
-     * @ORM\JoinColumn(name="depositReceipt_document_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     * @ORM\OneToMany(targetEntity="DepositReceipt", mappedBy="membership", cascade={"persist"})
+     * @ORM\JoinColumn(name="deposit_receipt_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
-    protected $depositReceipt;
+    protected $depositReceipts;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+        $this->statusHistory = new ArrayCollection();
+        $this->contractDocs = new ArrayCollection();
+        $this->sepaForms = new ArrayCollection();
+        $this->keysForms = new ArrayCollection();
+        $this->kvkExtracts = new ArrayCollection();
+        $this->depositReceipts = new ArrayCollection();
+    }
 
     /**
      * Get MembershipStatus change date
@@ -439,122 +447,174 @@ class Membership extends BaseEntity
     }
 
     /**
-     * Set contractDoc
+     * Add contractDoc
      *
-     * @param \AppBundle\Entity\Document $contractDoc
+     * @param \AppBundle\Entity\ContractDoc $contractDoc
      *
      * @return Membership
      */
-    public function setContractDoc(\AppBundle\Entity\Document $contractDoc = null)
+    public function addContractDoc(\AppBundle\Entity\ContractDoc $contractDoc)
     {
-        $this->contractDoc = $contractDoc;
+        $contractDoc->setMembership($this);
+        $this->contractDocs[] = $contractDoc;
 
         return $this;
     }
 
     /**
-     * Get contractDoc
+     * Remove contractDoc
      *
-     * @return \AppBundle\Entity\Document
+     * @param \AppBundle\Entity\ContractDoc $contractDoc
      */
-    public function getContractDoc()
+    public function removeContractDoc(\AppBundle\Entity\ContractDoc $contractDoc)
     {
-        return $this->contractDoc;
+        $contractDoc->setIsDeleted(true);
+        $this->contractDocs->removeElement($contractDoc);
     }
 
     /**
-     * Set sepaForm
+     * Get contractDocs
      *
-     * @param \AppBundle\Entity\Document $sepaForm
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getContractDocs()
+    {
+        return $this->contractDocs;
+    }
+
+    /**
+     * Add sepaForm
+     *
+     * @param \AppBundle\Entity\SepaForm $sepaForm
      *
      * @return Membership
      */
-    public function setSepaForm(\AppBundle\Entity\Document $sepaForm = null)
+    public function addSepaForm(\AppBundle\Entity\SepaForm $sepaForm)
     {
-        $this->sepaForm = $sepaForm;
+        $this->sepaForms[] = $sepaForm;
 
         return $this;
     }
 
     /**
-     * Get sepaForm
+     * Remove sepaForm
      *
-     * @return \AppBundle\Entity\Document
+     * @param \AppBundle\Entity\SepaForm $sepaForm
      */
-    public function getSepaForm()
+    public function removeSepaForm(\AppBundle\Entity\SepaForm $sepaForm)
     {
-        return $this->sepaForm;
+        $this->sepaForms->removeElement($sepaForm);
     }
 
     /**
-     * Set keysForm
+     * Get sepaForms
      *
-     * @param \AppBundle\Entity\Document $keysForm
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSepaForms()
+    {
+        return $this->sepaForms;
+    }
+
+    /**
+     * Add keysForm
+     *
+     * @param \AppBundle\Entity\KeysForm $keysForm
      *
      * @return Membership
      */
-    public function setKeysForm(\AppBundle\Entity\Document $keysForm = null)
+    public function addKeysForm(\AppBundle\Entity\KeysForm $keysForm)
     {
-        $this->keysForm = $keysForm;
+        $this->keysForms[] = $keysForm;
 
         return $this;
     }
 
     /**
-     * Get keysForm
+     * Remove keysForm
      *
-     * @return \AppBundle\Entity\Document
+     * @param \AppBundle\Entity\KeysForm $keysForm
      */
-    public function getKeysForm()
+    public function removeKeysForm(\AppBundle\Entity\KeysForm $keysForm)
     {
-        return $this->keysForm;
+        $this->keysForms->removeElement($keysForm);
     }
 
     /**
-     * Set kvkExtract
+     * Get keysForms
      *
-     * @param \AppBundle\Entity\Document $kvkExtract
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getKeysForms()
+    {
+        return $this->keysForms;
+    }
+
+    /**
+     * Add kvkExtract
+     *
+     * @param \AppBundle\Entity\KvkExtract $kvkExtract
      *
      * @return Membership
      */
-    public function setKvkExtract(\AppBundle\Entity\Document $kvkExtract = null)
+    public function addKvkExtract(\AppBundle\Entity\KvkExtract $kvkExtract)
     {
-        $this->kvkExtract = $kvkExtract;
+        $this->kvkExtracts[] = $kvkExtract;
 
         return $this;
     }
 
     /**
-     * Get kvkExtract
+     * Remove kvkExtract
      *
-     * @return \AppBundle\Entity\Document
+     * @param \AppBundle\Entity\KvkExtract $kvkExtract
      */
-    public function getKvkExtract()
+    public function removeKvkExtract(\AppBundle\Entity\KvkExtract $kvkExtract)
     {
-        return $this->kvkExtract;
+        $this->kvkExtracts->removeElement($kvkExtract);
     }
 
     /**
-     * Set depositReceipt
+     * Get kvkExtracts
      *
-     * @param \AppBundle\Entity\Document $depositReceipt
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getKvkExtracts()
+    {
+        return $this->kvkExtracts;
+    }
+
+    /**
+     * Add depositReceipt
+     *
+     * @param \AppBundle\Entity\DepositReceipt $depositReceipt
      *
      * @return Membership
      */
-    public function setDepositReceipt(\AppBundle\Entity\Document $depositReceipt = null)
+    public function addDepositReceipt(\AppBundle\Entity\DepositReceipt $depositReceipt)
     {
-        $this->depositReceipt = $depositReceipt;
+        $this->depositReceipts[] = $depositReceipt;
 
         return $this;
     }
 
     /**
-     * Get depositReceipt
+     * Remove depositReceipt
      *
-     * @return \AppBundle\Entity\Document
+     * @param \AppBundle\Entity\DepositReceipt $depositReceipt
      */
-    public function getDepositReceipt()
+    public function removeDepositReceipt(\AppBundle\Entity\DepositReceipt $depositReceipt)
     {
-        return $this->depositReceipt;
+        $this->depositReceipts->removeElement($depositReceipt);
+    }
+
+    /**
+     * Get depositReceipts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDepositReceipts()
+    {
+        return $this->depositReceipts;
     }
 }
