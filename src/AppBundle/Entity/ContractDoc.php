@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="contract_doc")
  * @ORM\Entity(repositoryClass="BaseEntityRepository")
- * @ORM\EntityListeners({"AppBundle\EventListener\S3DocumentUploader"})
  */
 class ContractDoc extends Document
 {

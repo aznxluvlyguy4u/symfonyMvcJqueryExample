@@ -38,12 +38,18 @@
                                 {{ form_start(membershipDocumentForm) }}
                                 <div class="box-body">
                                     <label class="control-label">Contract Documents</label>
-                                    <div class="contractDocs" data-prototype-create="{{ form_row(membershipDocumentForm.contractDocs.vars.prototype.file)|e('html_attr') }}">
+                                    <div class="appbundle_membership_contractDocs" data-prototype-create="{{ form_row(membershipDocumentForm.contractDocs.vars.prototype.file)|e('html_attr') }}">
+                                        {#iterate over each existing tag and render its only field: name#}
+                                        {% for contractDoc in membershipDocumentForm.contractDocs %}
+                                            <div class="contractDoc">
+                                                {{ form_widget(contractDoc) }}
+                                                <a href="{{ contractDoc.vars.value.s3Path }}">{{ contractDoc.vars.value.filename }}</a>
+                                            </div>
+                                        {% endfor %}
+
                                         {#<ul class="contractDocUl">#}
-                                             {#iterate over each existing tag and render its only field: name#}
-                                            {#{% for contractDoc in membershipDocumentForm.contractDocs %}#}
+                                             
                                                 {#<li>{{ form_row(contractDoc.filename) }}</li>#}
-                                            {#{% endfor %}#}
                                             {#<li>{{ form_row( membershipDocumentForm.contractDocs.vars.prototype.uploadFiles ) }}</li>#}
                                         {#</ul>#}
                                     </div>

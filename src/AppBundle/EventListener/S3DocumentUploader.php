@@ -20,7 +20,7 @@ class S3DocumentUploader
         $this->tokenStorage = $tokenStorage;
     }
 
-    public function preFlush($document, PreFlushEventArgs $args)
+    public function prePersist($document, LifecycleEventArgs $args)
     {
         $loggedInUser = $this->tokenStorage->getToken()->getUser();
         $document->setCreatedBy($loggedInUser);

@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use AppBundle\Form\EventListener\DocumentTypeSubscriber;
 
 class DocumentType extends AbstractType
 {
@@ -14,13 +15,7 @@ class DocumentType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('filename')
-            ->add('mimeType')
-            ->add('size')
-            ->add('s3Key')
-            ->add('s3Path')
-            ->add('file', FileType::class, ['data_class' => null, 'label' => false]);
+        $builder->addEventSubscriber(new DocumentTypeSubscriber());
     }
     
     /**

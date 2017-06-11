@@ -163,9 +163,10 @@ class MembershipController extends Controller
 //            $uow->computeChangeSets();
 //            $changeset = $uow->getEntityChangeSet($membership);
 //            dump($changeset);
+//            die('asdf');
 //
             $em->persist($membership);
-            $em->flush($membership);
+            $result = $em->flush();
         }
 
         return [

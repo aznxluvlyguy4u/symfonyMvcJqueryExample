@@ -23,6 +23,7 @@ class MembershipDocumentType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => Membership::class,
+            'allow_extra_fields' => true,
             'redirect' => 'app_membership_index'
         ));
     }
@@ -38,7 +39,14 @@ class MembershipDocumentType extends AbstractType
             ->add('user', EntityType::class, ['label' =>false, 'class' => User::class, 'data' => $membership->getUser(), 'choice_label' => 'usernameCanonical', 'attr' => array('style' => 'display:none')])
             ->add('card', EntityType::class, ['label' =>false, 'class' => Card::class, 'data' => $membership->getCard(), 'choice_label' => 'id', 'attr' => array('style' => 'display:none')])
             ->add('status', EntityType::class, ['label' =>false, 'class' => MembershipStatus::class, 'data' => $membership->getStatus(), 'choice_label' => 'label', 'attr' => array('style' => 'display:none')])
-            ->add('contractDocs', CollectionType::class, [ 'entry_type' => ContractDocType::class, 'allow_add' => true, 'by_reference' => false, 'required' => false])
+            ->add('contractDocs', CollectionType::class, [
+                'entry_type' => ContractDocType::class, 
+                'allow_add' => true,
+                'allow_delete' => true,
+                'delete_empty' => true,
+                'by_reference' => false, 
+                'required' => false
+            ])
 //            ->add('sepaForms', CollectionType::class, [ 'entry_type' => Document::class, 'required' => false])
 //            ->add('keysForms', CollectionType::class, [ 'entry_type' => Document::class, 'required' => false])
 //            ->add('kvkExtracts', CollectionType::class, [ 'entry_type' => Document::class, 'required' => false])
