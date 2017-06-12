@@ -5,21 +5,16 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 
-class DocumentTypeorg extends AbstractType
+//Extends DocumentType
+class SepaFormType extends DocumentType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('filename')
-            ->add('mimeType')
-            ->add('size')
-            ->add('createdAt')
-            ->add('uploadFiles', FileType::class, ['multiple' => true, 'data_class' => null, 'label' => false, 'mapped' => false]);
+        parent::buildForm($builder, $options);
     }
     
     /**
@@ -28,7 +23,7 @@ class DocumentTypeorg extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Document'
+            'data_class' => 'AppBundle\Entity\SepaForm'
         ));
     }
 
@@ -37,7 +32,7 @@ class DocumentTypeorg extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_document';
+        return 'appbundle_sepaform';
     }
 
 

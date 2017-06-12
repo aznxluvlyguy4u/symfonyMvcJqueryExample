@@ -1,7 +1,7 @@
 var $contractDocCollectionHolder;
 
 // setup an "add a ContractDoc" link
-var $addContractDocLink = $('<td colspan="3" align="right"><a href="#" class="add_contractDoc_link"><i class="fa fa-plus" aria-hidden="true"></i> Add a Contract Document</a></td>');
+var $addContractDocLink = $('<td colspan="3" align="center"><a href="#" class="add_contractDoc_link"><i class="fa fa-plus" aria-hidden="true"></i> Add a Contract Document</a></td>');
 var $newContractDocLinkLi = $('<tr class="contractDoc"></tr>').append($addContractDocLink);
 
 $(function() {

@@ -37,6 +37,8 @@
                             <div class="tab-pane" id="documents">
                                 {{ form_start(membershipDocumentForm) }}
                                 <div class="box-body">
+                                    
+                                    {# contractDocs #}
                                     <div class="appbundle_membership_contractDocs box box-info">
                                         <div class="box-header with-border">
                                             <h3 class="box-title">Contract Documents</h3>
@@ -66,9 +68,38 @@
                                             </table>
                                         </div>
                                     </div>
+                                    
+                                    {# SepaForms #}
+                                    <div class="appbundle_membership_sepaForms box box-warning">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">SEPA Forms</h3>
+                                        </div>
+                                        <div class="box-body no-padding">
+                                            <table class="table table-condensed table-striped">
+                                                <tbody data-prototype-create="{{ form_row(membershipDocumentForm.sepaForms.vars.prototype.file)|e('html_attr') }}">
+                                                    {#iterate over each existing tag and render its only field: name#}
+                                                    {% for sepaForm in membershipDocumentForm.sepaForms %}
+                                                        <tr class="sepaForm">
+                                                            <td width="15%">
+                                                                {% if sepaForm.vars.value.mimeType == "image/jpeg" or sepaForm.vars.value.mimeType == "image/png" %}
+                                                                    <i class="fa fa-file-image-o" aria-hidden="true"></i>
+                                                                {% elseif sepaForm.vars.value.mimeType == "application/pdf" %}
+                                                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                                                {% endif %}
+                                                            </td>
+                                                            <td width="70%">
+                                                                <a href="{{ sepaForm.vars.value.presignedUrl }}">{{ sepaForm.vars.value.filename }}</a>
+                                                            </td>
+                                                            <td width="15%" class="sepaForm-delete">
+                                                                {{ form_widget(sepaForm) }}
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
 
-                                    {#{{ form_row(membershipDocumentForm.contractDocs) }}#}
-                                    {#{{ form_row(membershipDocumentForm.sepaForms) }}#}
                                     {#{{ form_row(membershipDocumentForm.keysForms) }}#}
                                     {#{{ form_row(membershipDocumentForm.kvkExtracts) }}#}
                                     {#{{ form_row(membershipDocumentForm.depositReceipts) }}#}

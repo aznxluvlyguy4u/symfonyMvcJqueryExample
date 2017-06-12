@@ -70,7 +70,6 @@ class Membership extends BaseEntity
 
     /**
      * @ORM\OneToMany(targetEntity="SepaForm", mappedBy="membership", cascade={"persist"})
-     * @ORM\JoinColumn(name="sepa_form_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $sepaForms;
 

@@ -96,7 +96,6 @@ class MembershipController extends Controller
     public function editAction(Request $request, Membership $membership)
     {
         $em = $this->getDoctrine()->getManager();
-//        $membershipRepo = $em->getRepository(Membership::class);
         $redirect = $request->query->get('redirect') ? $request->query->get('redirect') : 'app_membership_index';
         
         //Edit form block
