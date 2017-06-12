@@ -19,6 +19,14 @@ class S3DocumentUploader
         $this->s3service = $s3service;
         $this->tokenStorage = $tokenStorage;
     }
+    
+    public function postLoad($document, LifecycleEventArgs $args)
+    {
+        $presignedUrl = $this->s3service->getPresignedUrl($document->getS3Key());
+        if ($presignedUrl) {
+            $document->setPresignedUrl($presignedUrl);
+        }
+    }
 
     public function prePersist($document, LifecycleEventArgs $args)
     {
@@ -31,9 +39,9 @@ class S3DocumentUploader
             $size = $uploadedFile->getSize();
             $s3Key = md5(uniqid()).'-'.$filename;
             $mimeType = $uploadedFile->getMimeType();
-            $s3Path = $this->s3service->uploadFromFilePath($uploadedFile, $s3Key, $mimeType);
-            if ($s3Path) {
-                $document->setS3Path($s3Path);
+            $presignedUrl = $this->s3service->uploadFromFilePath($uploadedFile, $s3Key, $mimeType);
+            if ($presignedUrl) {
+                $document->setPresignedUrl($presignedUrl);
             }
             $document->setS3Key($s3Key);
             $document->setSize($size);

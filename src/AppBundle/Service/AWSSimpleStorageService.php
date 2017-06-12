@@ -164,15 +164,19 @@ class AWSSimpleStorageService
     }
 
     /**
-     * Get
+     * Get Object
      */
-    public function getObject($key)
+    public function getPresignedUrl($key)
     {
         $key = $this->pathApppendage.$key;
-        $client = $this->s3Service;
-        return $client->getObject([
+        $command = $this->s3Service->getCommand('GetObject', [
             'Bucket' => $this->bucket,
             'Key' => $key,
         ]);
+        
+        $request = $this->s3Service->createPresignedRequest($command, '+30 minutes');
+        $url = (string) $request->getUri(); //The S3 download link including the accesstoken
+
+        return $url;
     }
 }

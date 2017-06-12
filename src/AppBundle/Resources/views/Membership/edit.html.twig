@@ -37,21 +37,34 @@
                             <div class="tab-pane" id="documents">
                                 {{ form_start(membershipDocumentForm) }}
                                 <div class="box-body">
-                                    <label class="control-label">Contract Documents</label>
-                                    <div class="appbundle_membership_contractDocs" data-prototype-create="{{ form_row(membershipDocumentForm.contractDocs.vars.prototype.file)|e('html_attr') }}">
-                                        {#iterate over each existing tag and render its only field: name#}
-                                        {% for contractDoc in membershipDocumentForm.contractDocs %}
-                                            <div class="contractDoc">
-                                                {{ form_widget(contractDoc) }}
-                                                <a href="{{ contractDoc.vars.value.s3Path }}">{{ contractDoc.vars.value.filename }}</a>
-                                            </div>
-                                        {% endfor %}
-
-                                        {#<ul class="contractDocUl">#}
-                                             
-                                                {#<li>{{ form_row(contractDoc.filename) }}</li>#}
-                                            {#<li>{{ form_row( membershipDocumentForm.contractDocs.vars.prototype.uploadFiles ) }}</li>#}
-                                        {#</ul>#}
+                                    <div class="appbundle_membership_contractDocs box box-info">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Contract Documents</h3>
+                                        </div>
+                                        <div class="box-body no-padding">
+                                            <table class="table table-condensed">
+                                                <tbody data-prototype-create="{{ form_row(membershipDocumentForm.contractDocs.vars.prototype.file)|e('html_attr') }}">
+                                                    {#iterate over each existing tag and render its only field: name#}
+                                                    {% for contractDoc in membershipDocumentForm.contractDocs %}
+                                                        <tr class="contractDoc">
+                                                            {{ form_widget(contractDoc) }}
+                                                            <td>
+                                                                {% if contractDoc.vars.value.mimeType == "image/jpeg" %}
+                                                                    <i class="fa fa-file-image-o" aria-hidden="true"></i>
+                                                                {% elseif contractDoc.vars.value.mimeType == "application/pdf" %}
+                                                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                                                {% endif %}
+                                                            </td>
+                                                            <td>
+                                                                <a href="{{ contractDoc.vars.value.presignedUrl }}">{{ contractDoc.vars.value.filename }}</a>
+                                                            </td>
+                                                            <td class="contractDoc-delete">
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
 
                                     {#{{ form_row(membershipDocumentForm.contractDocs) }}#}

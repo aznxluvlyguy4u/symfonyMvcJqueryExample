@@ -96,6 +96,7 @@ class MembershipController extends Controller
     public function editAction(Request $request, Membership $membership)
     {
         $em = $this->getDoctrine()->getManager();
+//        $membershipRepo = $em->getRepository(Membership::class);
         $redirect = $request->query->get('redirect') ? $request->query->get('redirect') : 'app_membership_index';
         
         //Edit form block
@@ -159,14 +160,14 @@ class MembershipController extends Controller
         $membershipDocumentForm->handleRequest($request);
         
         if ($membershipDocumentForm->isSubmitted() && $membershipDocumentForm->isValid()) {
-//            $uow = $em->getUnitOfWork();
-//            $uow->computeChangeSets();
-//            $changeset = $uow->getEntityChangeSet($membership);
-//            dump($changeset);
-//            die('asdf');
-//
             $em->persist($membership);
-            $result = $em->flush();
+            $em->flush();
+            
+            if ($membershipDocumentForm->get('save')->isClicked()) {
+                return $this->redirectToRoute('app_membership_edit', ['membership' => $membership->getId()]);
+            } else {
+                return $this->redirectToRoute('app_membership_index');
+            }
         }
 
         return [
@@ -237,5 +238,10 @@ class MembershipController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('app_membership_index');
+    }
+    
+    public function downloadDocumentAction()
+    {
+        
     }
 }

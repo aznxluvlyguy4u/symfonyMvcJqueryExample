@@ -40,6 +40,11 @@ abstract class Document extends BaseEntity
     
     /**
      * @var string
+     */
+    private $presignedUrl;
+    
+    /**
+     * @var string
      *
      * @ORM\Column(name="filename", type="string")
      */
@@ -66,12 +71,7 @@ abstract class Document extends BaseEntity
      */
     private $s3Key;
     
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="s3Path", type="text")
-     */
-    private $s3Path;
+    
 
     /**
      * Get id
@@ -105,6 +105,30 @@ abstract class Document extends BaseEntity
     public function getFile()
     {
         return $this->file;
+    }
+    
+    /**
+     * Set presignedUrl
+     *
+     * @param string $presignedUrl
+     *
+     * @return Document
+     */
+    public function setPresignedUrl($presignedUrl)
+    {
+        $this->presignedUrl = $presignedUrl;
+
+        return $this;
+    }
+        
+    /**
+     * Get presignedUrl
+     *
+     * @return string
+     */
+    public function getPresignedUrl()
+    {
+        return $this->presignedUrl;
     }
 
     /**
@@ -153,30 +177,6 @@ abstract class Document extends BaseEntity
     public function getMimeType()
     {
         return $this->mimeType;
-    }
-
-    /**
-     * Set s3Path
-     *
-     * @param string $s3Path
-     *
-     * @return Document
-     */
-    public function setS3Path($s3Path)
-    {
-        $this->s3Path = $s3Path;
-
-        return $this;
-    }
-
-    /**
-     * Get s3Path
-     *
-     * @return string
-     */
-    public function getS3Path()
-    {
-        return $this->s3Path;
     }
 
     /**

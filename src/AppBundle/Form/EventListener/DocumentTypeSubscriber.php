@@ -29,11 +29,11 @@ class DocumentTypeSubscriber implements EventSubscriberInterface
 
         } else {
             $form
+                ->add('presignedUrl', HiddenType::class, array('data' => $document->getPresignedUrl()))
                 ->add('filename', HiddenType::class, array('data' => $document->getFilename()))
                 ->add('mimeType', HiddenType::class, array('data' => $document->getMimeType()))
                 ->add('size', HiddenType::class, array('data' => $document->getSize()))
-                ->add('s3Key', HiddenType::class, array('data' => $document->getS3Key()))
-                ->add('s3Path', HiddenType::class, array('data' => $document->getS3Path()));
+                ->add('s3Key', HiddenType::class, array('data' => $document->getS3Key()));
         }
     }
 }
