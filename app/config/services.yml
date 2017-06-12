@@ -27,11 +27,14 @@ services:
             prefix: %aws_s3_prefix_key%
             currentEnv: %kernel.environment%
 
-#    app.eventlisteners.s3documentuploader:
-#        class: AppBundle\EventListener\S3DocumentUploader
-#        arguments: ["@app.aws.storageservice","@security.token_storage"]
-#        tags:
-#            - { name: doctrine.event_listener, event: preFlush }
+    before_request_listener:
+        class: AppBundle\EventListener\BeforeRequestListener
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            -
+                name: kernel.event_listener
+                event: kernel.request
+                method: onKernelRequest
 
     app.eventlisteners.s3documentuploader:
         class: AppBundle\EventListener\S3DocumentUploader
