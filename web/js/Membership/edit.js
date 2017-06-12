@@ -1,7 +1,7 @@
 var $contractDocCollectionHolder;
 
 // setup an "add a ContractDoc" link
-var $addContractDocLink = $('<td colspan="3"><a href="#" class="add_contractDoc_link">Add a Contract Document</a></td>');
+var $addContractDocLink = $('<td colspan="3" align="right"><a href="#" class="add_contractDoc_link"><i class="fa fa-plus" aria-hidden="true"></i> Add a Contract Document</a></td>');
 var $newContractDocLinkLi = $('<tr class="contractDoc"></tr>').append($addContractDocLink);
 
 $(function() {
@@ -36,24 +36,16 @@ $(function() {
         var prototypeCreate = $contractDocCollectionHolder.data('prototype-create');
         // get the new index
         var index = $contractDocCollectionHolder.data('index');
-
         // Replace '__name__' in the prototype's HTML to
         // instead be a number based on how many items we have
-        var newFormCreateRow = $('<tr><td><i class="fa fa-upload" aria-hidden="true"></i></td><td class="upload-icon"></td><td class="contractDoc-delete"></td></tr>');
-        console.log(newFormCreateRow);
-        var newFormCreate = newFormCreateRow.find('.upload-icon').append(prototypeCreate.replace(/__name__/g, index));
-//        console.log(newFormCreate);
+        var newFormCreateRow = $('<tr class="contractDoc"><td><i class="fa fa-upload" aria-hidden="true"></i></td></tr>');
+        var newFormCreate = newFormCreateRow.append($('<td></td>').append(prototypeCreate.replace(/__name__/g, index))).append($('<td class="contractDoc-delete"></td>'));
         // increase the index with one for the next item
         $contractDocCollectionHolder.data('index', index + 1);
-
         // Display the form in the page in an li, before the "Add a contractDoc" link li
-//        var $newFormUl = $('<tr class="contractDoc"></tr>').append($('<th></th>')).append(newFormCreate).append('<th class="contractDoc-delete"></th>');
-        var $newFormUl = $('<tr class="contractDoc"></tr>').append(newFormCreate);
-//        console.log($newFormUl);
-        $newLinkLi.before($newFormUl);
-
+        $newLinkLi.before(newFormCreate);
         // add a delete link to the new form
-        addContractDocFormDeleteLink($newFormUl.find('.contractDoc-delete'));
+        addContractDocFormDeleteLink(newFormCreate.find('.contractDoc-delete'));
     }
 
     function addContractDocFormDeleteLink($newFormUl) {

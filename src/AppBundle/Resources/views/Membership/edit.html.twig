@@ -42,23 +42,23 @@
                                             <h3 class="box-title">Contract Documents</h3>
                                         </div>
                                         <div class="box-body no-padding">
-                                            <table class="table table-condensed">
+                                            <table class="table table-condensed table-striped">
                                                 <tbody data-prototype-create="{{ form_row(membershipDocumentForm.contractDocs.vars.prototype.file)|e('html_attr') }}">
                                                     {#iterate over each existing tag and render its only field: name#}
                                                     {% for contractDoc in membershipDocumentForm.contractDocs %}
                                                         <tr class="contractDoc">
-                                                            {{ form_widget(contractDoc) }}
-                                                            <td>
-                                                                {% if contractDoc.vars.value.mimeType == "image/jpeg" %}
+                                                            <td width="15%">
+                                                                {% if contractDoc.vars.value.mimeType == "image/jpeg" or contractDoc.vars.value.mimeType == "image/png" %}
                                                                     <i class="fa fa-file-image-o" aria-hidden="true"></i>
                                                                 {% elseif contractDoc.vars.value.mimeType == "application/pdf" %}
                                                                     <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                                                                 {% endif %}
                                                             </td>
-                                                            <td>
+                                                            <td width="70%">
                                                                 <a href="{{ contractDoc.vars.value.presignedUrl }}">{{ contractDoc.vars.value.filename }}</a>
                                                             </td>
-                                                            <td class="contractDoc-delete">
+                                                            <td width="15%" class="contractDoc-delete">
+                                                                {{ form_widget(contractDoc) }}
                                                             </td>
                                                         </tr>
                                                     {% endfor %}

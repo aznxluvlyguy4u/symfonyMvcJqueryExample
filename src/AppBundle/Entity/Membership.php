@@ -65,7 +65,6 @@ class Membership extends BaseEntity
 
     /**
      * @ORM\OneToMany(targetEntity="ContractDoc", mappedBy="membership", cascade={"persist"})
-     * @ORM\JoinColumn(name="contract_doc_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $contractDocs;
 

@@ -28,12 +28,14 @@ class DocumentTypeSubscriber implements EventSubscriberInterface
                 ->add('file', FileType::class, ['data_class' => null, 'label' => false]);
 
         } else {
+            $isDeleted = $document->getIsDeleted() == true ? 1 : 0;
             $form
                 ->add('presignedUrl', HiddenType::class, array('data' => $document->getPresignedUrl()))
                 ->add('filename', HiddenType::class, array('data' => $document->getFilename()))
                 ->add('mimeType', HiddenType::class, array('data' => $document->getMimeType()))
                 ->add('size', HiddenType::class, array('data' => $document->getSize()))
-                ->add('s3Key', HiddenType::class, array('data' => $document->getS3Key()));
+                ->add('s3Key', HiddenType::class, array('data' => $document->getS3Key()))
+                ->add('isDeleted', HiddenType::class, array('data' => $isDeleted));
         }
     }
 }

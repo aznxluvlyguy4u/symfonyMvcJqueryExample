@@ -14,6 +14,7 @@ class ContractDoc extends Document
 {
     /**
      * @ORM\ManyToOne(targetEntity="Membership", inversedBy="contractDocs")
+     * @ORM\JoinColumn(name="membership_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $membership;
 

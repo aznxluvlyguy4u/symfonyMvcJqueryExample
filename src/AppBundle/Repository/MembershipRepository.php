@@ -11,12 +11,12 @@ class MembershipRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
         $membershipStatuses = $em->getRepository(MembershipStatus::class)->findAll();
         $results = $em->createQueryBuilder()
-            ->select('c', 'COALESCE( MAX(csh.createdAt), c.createdAt) AS createdAt')
-            ->from('AppBundle:Membership', 'c')
-            ->leftJoin('c.statusHistory', 'csh')
-            ->where('c.isDeleted = :isDeleted')
+            ->select('m', 'COALESCE( MAX(msh.createdAt), m.createdAt) AS createdAt')
+            ->from('AppBundle:Membership', 'm')
+            ->leftJoin('m.statusHistory', 'msh')
+            ->where('m.isDeleted = :isDeleted')
             ->orderBy('createdAt', 'ASC')
-            ->groupBy('c.id')
+            ->groupBy('m.id')
             ->setParameter('isDeleted', false)
             ->getQuery()
             ->getResult();
@@ -31,5 +31,29 @@ class MembershipRepository extends \Doctrine\ORM\EntityRepository
             $memberships[$result[0]->getStatus()->getLabel()][] = $result[0];
         }
         return $memberships;
+    }
+
+    public function findMembershipWithDocuments($membershipId)
+    {
+        $em = $this->getEntityManager();
+        $result = $em->createQueryBuilder()
+            ->select('m', 'mcd')
+            ->from('AppBundle:Membership', 'm')
+            ->join('m.contractDocs', 'mcd')
+//            ->join('m.SepaForm', 'msf')
+//            ->join('m.KeysForm', 'mkf')
+//            ->join('m.KvkExtract', 'mke')
+//            ->join('m.DepositReceipt', 'mdr')
+            ->where('m.id = :mid')
+            ->andWhere('mcd.isDeleted = :isDeleted')
+//            ->andWhere('msf.isDeleted = :isDeleted')
+//            ->andWhere('mkf.isDeleted = :isDeleted')
+//            ->andWhere('mke.isDeleted = :isDeleted')
+//            ->andWhere('mdr.isDeleted = :isDeleted')
+            ->setParameters(array('mid' => $membershipId, 'isDeleted' => false))
+            ->getQuery()
+            ->getResult();
+
+        return $result;
     }
 }
