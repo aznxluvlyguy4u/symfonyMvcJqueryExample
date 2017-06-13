@@ -131,8 +131,38 @@
                                             </div>
                                         </div>
 
-                                        {#{{ form_row(membershipDocumentForm.keysForms) }}#}
-                                        {#{{ form_row(membershipDocumentForm.kvkExtracts) }}#}
+                                        {# KvkExtracts #}
+                                        <div class="appbundle_membership_kvkExtracts box box-danger">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title">KVK Extracts</h3>
+                                            </div>
+                                            <div class="box-body no-padding">
+                                                <table class="table table-condensed table-striped">
+                                                    <tbody data-prototype-create="{{ form_row(membershipDocumentForm.kvkExtracts.vars.prototype.file)|e('html_attr') }}">
+                                                    {#iterate over each existing tag and render its only field: name#}
+                                                    {% for kvkExtract in membershipDocumentForm.kvkExtracts %}
+                                                        <tr class="kvkExtract">
+                                                            <td width="15%">
+                                                                {% if kvkExtract.vars.value.mimeType == "image/jpeg" or kvkExtract.vars.value.mimeType == "image/png" %}
+                                                                    <i class="fa fa-file-image-o" aria-hidden="true"></i>
+                                                                {% elseif kvkExtract.vars.value.mimeType == "application/pdf" %}
+                                                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                                                {% endif %}
+                                                            </td>
+                                                            <td width="70%">
+                                                                <a href="{{ kvkExtract.vars.value.presignedUrl }}">{{ kvkExtract.vars.value.filename }}</a>
+                                                            </td>
+                                                            <td width="15%" class="kvkExtract-delete">
+                                                                {{ form_widget(kvkExtract) }}
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+
                                         {#{{ form_row(membershipDocumentForm.depositReceipts) }}#}
                                         <div class="form-group pull-right">
                                             {{form_widget(membershipDocumentForm.save)}}

@@ -1,6 +1,7 @@
 var $contractDocCollectionHolder;
 var $sepaFormCollectionHolder;
 var $keysFormCollectionHolder;
+var $kvkExtractCollectionHolder;
 
 // setup an "add a Document" link
 var $addContractDocLink = $('<td colspan="3" align="center"><a href="#" class="add_contractDoc_link"><i class="fa fa-plus" aria-hidden="true"></i> Add a Contract Document</a></td>');
@@ -11,6 +12,9 @@ var $newSepaFormLinkLi = $('<tr class="sepaForm"></tr>').append($addSepaFormLink
 
 var $addKeysFormLink = $('<td colspan="3" align="center"><a href="#" class="add_keysForm_link"><i class="fa fa-plus" aria-hidden="true"></i> Add a Keys Form</a></td>');
 var $newKeysFormLinkLi = $('<tr class="keysForm"></tr>').append($addKeysFormLink);
+
+var $addKvkExtractLink = $('<td colspan="3" align="center"><a href="#" class="add_kvkExtract_link"><i class="fa fa-plus" aria-hidden="true"></i> Add a KVK Extract</a></td>');
+var $newKvkExtractLinkLi = $('<tr class="kvkExtract"></tr>').append($addKvkExtractLink);
 
 $(function() {
     /*
@@ -104,6 +108,31 @@ $(function() {
         $keysFormCollectionHolder.data('index', index + 1);
         $newLinkLi.before(newFormCreate);
         addDocumentFormDeleteLink(newFormCreate.find('.keysForm-delete'));
+    }
+
+    /*
+     * KvkExtract Block
+     */
+    $kvkExtractCollectionHolder = $('.appbundle_membership_kvkExtracts tbody');
+    $kvkExtractCollectionHolder.find('.kvkExtract-delete').each(function() {
+        addDocumentFormDeleteLink($(this));
+    });
+
+    $kvkExtractCollectionHolder.append($newKvkExtractLinkLi);
+    $kvkExtractCollectionHolder.data('index', $kvkExtractCollectionHolder.find('.kvkExtract').length);
+    $addKvkExtractLink.children('a').on('click', function(e) {
+        e.preventDefault();
+        addKvkExtractForm($kvkExtractCollectionHolder, $newKvkExtractLinkLi);
+    });
+
+    function addKvkExtractForm($kvkExtractCollectionHolder, $newLinkLi) {
+        var prototypeCreate = $kvkExtractCollectionHolder.data('prototype-create');
+        var index = $kvkExtractCollectionHolder.data('index');
+        var newFormCreateRow = $('<tr class="kvkExtract"><td width="15%"><i class="fa fa-upload" aria-hidden="true"></i></td></tr>');
+        var newFormCreate = newFormCreateRow.append($('<td width="70%" ></td>').append(prototypeCreate.replace(/__name__/g, index))).append($('<td width="15%" class="keysForm-delete"></td>'));
+        $kvkExtractCollectionHolder.data('index', index + 1);
+        $newLinkLi.before(newFormCreate);
+        addDocumentFormDeleteLink(newFormCreate.find('.kvkExtract-delete'));
     }
 
     

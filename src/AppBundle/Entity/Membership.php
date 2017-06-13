@@ -558,6 +558,7 @@ class Membership extends BaseEntity
      */
     public function addKvkExtract(\AppBundle\Entity\KvkExtract $kvkExtract)
     {
+        $kvkExtract->setMembership($this);
         $this->kvkExtracts[] = $kvkExtract;
 
         return $this;
@@ -570,6 +571,7 @@ class Membership extends BaseEntity
      */
     public function removeKvkExtract(\AppBundle\Entity\KvkExtract $kvkExtract)
     {
+        $kvkExtract->setIsDeleted(true);
         $this->kvkExtracts->removeElement($kvkExtract);
     }
 
