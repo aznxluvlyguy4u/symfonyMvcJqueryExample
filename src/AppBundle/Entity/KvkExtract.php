@@ -14,6 +14,7 @@ class KvkExtract extends Document
 {
     /**
      * @ORM\ManyToOne(targetEntity="Membership", inversedBy="kvkExtracts")
+     * @ORM\JoinColumn(name="membership_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $membership;
 

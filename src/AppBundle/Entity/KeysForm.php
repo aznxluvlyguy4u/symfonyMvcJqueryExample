@@ -14,6 +14,7 @@ class KeysForm extends Document
 {
     /**
      * @ORM\ManyToOne(targetEntity="Membership", inversedBy="keysForms")
+     * @ORM\JoinColumn(name="membership_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $membership;
 

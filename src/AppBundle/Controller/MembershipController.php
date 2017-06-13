@@ -153,26 +153,12 @@ class MembershipController extends Controller
                 return $this->redirectToRoute('app_membership_index');
             }
         }
-        
+
         // Documents form block
-        $membershipDocumentForm = $this->createForm(MembershipDocumentType::class, $membership, ['redirect' => $redirect]);
-        $membershipDocumentForm->handleRequest($request);
-        dump($membershipDocumentForm->isValid());
-        dump($membershipDocumentForm->getErrors(true));
-        dump($membershipDocumentForm);die();
-        if ($membershipDocumentForm->isSubmitted() && $membershipDocumentForm->isValid()) {
-//            dump($membershipDocumentForm);die();
-//            dump($membership);die();
-            $em->persist($membership);
-//            die('yolo');
-            $em->flush();
-            
-            if ($membershipDocumentForm->get('save')->isClicked()) {
-                return $this->redirectToRoute('app_membership_edit', ['membership' => $membership->getId()]);
-            } else {
-                return $this->redirectToRoute('app_membership_index');
-            }
-        }
+        $membershipDocumentForm = $this->createForm(MembershipDocumentType::class, $membership, [
+            'redirect' => $redirect,
+            'action' => $this->generateUrl('app_membership_handledocument', ['membership' => $membership->getId()])
+        ]);
 
         return [
             'companyCommentForm' => $membershipCommentForm->createView(),
@@ -180,6 +166,29 @@ class MembershipController extends Controller
             'form' => $editForm->createView(),
             'membershipDocumentForm' => $membershipDocumentForm->createView()
         ];
+    }
+
+    /**
+     * @Route("/{membership}/document")
+     * @Method({"POST"})
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     */
+    public function handleDocumentAction(Request $request, Membership $membership)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $membershipDocumentForm = $this->createForm(MembershipDocumentType::class, $membership);
+        $membershipDocumentForm->handleRequest($request);
+
+        if ($membershipDocumentForm->isSubmitted() && $membershipDocumentForm->isValid()) {
+            $em->persist($membership);
+            $em->flush();
+
+            if ($membershipDocumentForm->get('save')->isClicked()) {
+                return $this->redirectToRoute('app_membership_edit', ['membership' => $membership->getId()]);
+            } else {
+                return $this->redirectToRoute('app_membership_index');
+            }
+        }
     }
 
     /**

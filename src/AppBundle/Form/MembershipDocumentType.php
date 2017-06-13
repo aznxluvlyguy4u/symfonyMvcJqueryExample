@@ -57,7 +57,15 @@ class MembershipDocumentType extends AbstractType
                 'required' => false,
                 'label' => false
             ])
-//            ->add('keysForms', CollectionType::class, [ 'entry_type' => Document::class, 'required' => false])
+            ->add('keysForms', CollectionType::class, [
+                'entry_type' => KeysFormType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'delete_empty' => true,
+                'by_reference' => false,
+                'required' => false,
+                'label' => false
+            ])
 //            ->add('kvkExtracts', CollectionType::class, [ 'entry_type' => Document::class, 'required' => false])
 //            ->add('depositReceipts',  CollectionType::class, [ 'entry_type' => Document::class, 'required' => false])
             ->add('save', SubmitType::class)

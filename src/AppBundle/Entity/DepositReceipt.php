@@ -14,6 +14,7 @@ class DepositReceipt extends Document
 {
     /**
      * @ORM\ManyToOne(targetEntity="Membership", inversedBy="depositReceipts")
+     * @ORM\JoinColumn(name="membership_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $membership;
 

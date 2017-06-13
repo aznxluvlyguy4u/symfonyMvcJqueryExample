@@ -75,19 +75,16 @@ class Membership extends BaseEntity
 
     /**
      * @ORM\OneToMany(targetEntity="KeysForm", mappedBy="membership", cascade={"persist"})
-     * @ORM\JoinColumn(name="keys_form_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $keysForms;
 
     /**
      * @ORM\OneToMany(targetEntity="KvkExtract", mappedBy="membership", cascade={"persist"})
-     * @ORM\JoinColumn(name="kvk_extract_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $kvkExtracts;
 
     /**
      * @ORM\OneToMany(targetEntity="DepositReceipt", mappedBy="membership", cascade={"persist"})
-     * @ORM\JoinColumn(name="deposit_receipt_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $depositReceipts;
 
@@ -525,6 +522,7 @@ class Membership extends BaseEntity
      */
     public function addKeysForm(\AppBundle\Entity\KeysForm $keysForm)
     {
+        $keysForm->setMembership($this);
         $this->keysForms[] = $keysForm;
 
         return $this;
@@ -537,6 +535,7 @@ class Membership extends BaseEntity
      */
     public function removeKeysForm(\AppBundle\Entity\KeysForm $keysForm)
     {
+        $keysForm->setIsDeleted(true);
         $this->keysForms->removeElement($keysForm);
     }
 

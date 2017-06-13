@@ -1,5 +1,6 @@
 var $contractDocCollectionHolder;
 var $sepaFormCollectionHolder;
+var $keysFormCollectionHolder;
 
 // setup an "add a Document" link
 var $addContractDocLink = $('<td colspan="3" align="center"><a href="#" class="add_contractDoc_link"><i class="fa fa-plus" aria-hidden="true"></i> Add a Contract Document</a></td>');
@@ -7,6 +8,9 @@ var $newContractDocLinkLi = $('<tr class="contractDoc"></tr>').append($addContra
 
 var $addSepaFormLink = $('<td colspan="3" align="center"><a href="#" class="add_sepaForm_link"><i class="fa fa-plus" aria-hidden="true"></i> Add a SEPA Form</a></td>');
 var $newSepaFormLinkLi = $('<tr class="sepaForm"></tr>').append($addSepaFormLink);
+
+var $addKeysFormLink = $('<td colspan="3" align="center"><a href="#" class="add_keysForm_link"><i class="fa fa-plus" aria-hidden="true"></i> Add a Keys Form</a></td>');
+var $newKeysFormLinkLi = $('<tr class="keysForm"></tr>').append($addKeysFormLink);
 
 $(function() {
     /*
@@ -75,6 +79,31 @@ $(function() {
         $sepaFormCollectionHolder.data('index', index + 1);
         $newLinkLi.before(newFormCreate);
         addDocumentFormDeleteLink(newFormCreate.find('.sepaForm-delete'));
+    }
+
+    /*
+     * KeysForm Block
+     */
+    $keysFormCollectionHolder = $('.appbundle_membership_keysForms tbody');
+    $keysFormCollectionHolder.find('.keysForm-delete').each(function() {
+        addDocumentFormDeleteLink($(this));
+    });
+
+    $keysFormCollectionHolder.append($newKeysFormLinkLi);
+    $keysFormCollectionHolder.data('index', $keysFormCollectionHolder.find('.keysForm').length);
+    $addKeysFormLink.children('a').on('click', function(e) {
+        e.preventDefault();
+        addKeysFormForm($keysFormCollectionHolder, $newKeysFormLinkLi);
+    });
+
+    function addKeysFormForm($keysFormCollectionHolder, $newLinkLi) {
+        var prototypeCreate = $keysFormCollectionHolder.data('prototype-create');
+        var index = $keysFormCollectionHolder.data('index');
+        var newFormCreateRow = $('<tr class="keysForm"><td width="15%"><i class="fa fa-upload" aria-hidden="true"></i></td></tr>');
+        var newFormCreate = newFormCreateRow.append($('<td width="70%" ></td>').append(prototypeCreate.replace(/__name__/g, index))).append($('<td width="15%" class="keysForm-delete"></td>'));
+        $keysFormCollectionHolder.data('index', index + 1);
+        $newLinkLi.before(newFormCreate);
+        addDocumentFormDeleteLink(newFormCreate.find('.keysForm-delete'));
     }
 
     
