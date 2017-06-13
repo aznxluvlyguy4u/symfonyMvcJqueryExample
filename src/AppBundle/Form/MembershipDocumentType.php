@@ -45,7 +45,8 @@ class MembershipDocumentType extends AbstractType
                 'allow_delete' => true,
                 'delete_empty' => true,
                 'by_reference' => false, 
-                'required' => false
+                'required' => false,
+                'label' => false
             ])
             ->add('sepaForms', CollectionType::class, [
                 'entry_type' => SepaFormType::class, 
@@ -53,7 +54,8 @@ class MembershipDocumentType extends AbstractType
                 'allow_delete' => true,
                 'delete_empty' => true,
                 'by_reference' => false, 
-                'required' => false
+                'required' => false,
+                'label' => false
             ])
 //            ->add('keysForms', CollectionType::class, [ 'entry_type' => Document::class, 'required' => false])
 //            ->add('kvkExtracts', CollectionType::class, [ 'entry_type' => Document::class, 'required' => false])

@@ -489,6 +489,7 @@ class Membership extends BaseEntity
      */
     public function addSepaForm(\AppBundle\Entity\SepaForm $sepaForm)
     {
+        $sepaForm->setMembership($this);
         $this->sepaForms[] = $sepaForm;
 
         return $this;
@@ -501,6 +502,7 @@ class Membership extends BaseEntity
      */
     public function removeSepaForm(\AppBundle\Entity\SepaForm $sepaForm)
     {
+        $sepaForm->setIsDeleted(true);
         $this->sepaForms->removeElement($sepaForm);
     }
 

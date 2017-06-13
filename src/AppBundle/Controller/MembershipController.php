@@ -157,9 +157,14 @@ class MembershipController extends Controller
         // Documents form block
         $membershipDocumentForm = $this->createForm(MembershipDocumentType::class, $membership, ['redirect' => $redirect]);
         $membershipDocumentForm->handleRequest($request);
-        
+        dump($membershipDocumentForm->isValid());
+        dump($membershipDocumentForm->getErrors(true));
+        dump($membershipDocumentForm);die();
         if ($membershipDocumentForm->isSubmitted() && $membershipDocumentForm->isValid()) {
+//            dump($membershipDocumentForm);die();
+//            dump($membership);die();
             $em->persist($membership);
+//            die('yolo');
             $em->flush();
             
             if ($membershipDocumentForm->get('save')->isClicked()) {
