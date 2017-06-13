@@ -594,6 +594,7 @@ class Membership extends BaseEntity
      */
     public function addDepositReceipt(\AppBundle\Entity\DepositReceipt $depositReceipt)
     {
+        $depositReceipt->setMembership($this);
         $this->depositReceipts[] = $depositReceipt;
 
         return $this;
@@ -606,6 +607,7 @@ class Membership extends BaseEntity
      */
     public function removeDepositReceipt(\AppBundle\Entity\DepositReceipt $depositReceipt)
     {
+        $depositReceipt->setIsDeleted(true);
         $this->depositReceipts->removeElement($depositReceipt);
     }
 

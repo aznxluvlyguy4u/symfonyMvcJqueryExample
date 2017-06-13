@@ -75,7 +75,15 @@ class MembershipDocumentType extends AbstractType
                 'required' => false,
                 'label' => false
             ])
-//            ->add('depositReceipts',  CollectionType::class, [ 'entry_type' => Document::class, 'required' => false])
+            ->add('depositReceipts',  CollectionType::class, [
+                'entry_type' => DepositReceiptType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'delete_empty' => true,
+                'by_reference' => false,
+                'required' => false,
+                'label' => false
+            ])
             ->add('save', SubmitType::class)
             ->add('saveAndQuit', SubmitType::class)
             ->add('redirect', HiddenType::class, array('data' => $options['redirect'], 'mapped' => false))

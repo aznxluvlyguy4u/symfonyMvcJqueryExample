@@ -2,6 +2,7 @@ var $contractDocCollectionHolder;
 var $sepaFormCollectionHolder;
 var $keysFormCollectionHolder;
 var $kvkExtractCollectionHolder;
+var $depositReceiptCollectionHolder;
 
 // setup an "add a Document" link
 var $addContractDocLink = $('<td colspan="3" align="center"><a href="#" class="add_contractDoc_link"><i class="fa fa-plus" aria-hidden="true"></i> Add a Contract Document</a></td>');
@@ -15,6 +16,9 @@ var $newKeysFormLinkLi = $('<tr class="keysForm"></tr>').append($addKeysFormLink
 
 var $addKvkExtractLink = $('<td colspan="3" align="center"><a href="#" class="add_kvkExtract_link"><i class="fa fa-plus" aria-hidden="true"></i> Add a KVK Extract</a></td>');
 var $newKvkExtractLinkLi = $('<tr class="kvkExtract"></tr>').append($addKvkExtractLink);
+
+var $addDepositReceiptLink = $('<td colspan="3" align="center"><a href="#" class="add_depositReceipt_link"><i class="fa fa-plus" aria-hidden="true"></i> Add a Deposit Receipt</a></td>');
+var $newDepositReceiptLinkLi = $('<tr class="depositReceipt"></tr>').append($addDepositReceiptLink);
 
 $(function() {
     /*
@@ -129,10 +133,35 @@ $(function() {
         var prototypeCreate = $kvkExtractCollectionHolder.data('prototype-create');
         var index = $kvkExtractCollectionHolder.data('index');
         var newFormCreateRow = $('<tr class="kvkExtract"><td width="15%"><i class="fa fa-upload" aria-hidden="true"></i></td></tr>');
-        var newFormCreate = newFormCreateRow.append($('<td width="70%" ></td>').append(prototypeCreate.replace(/__name__/g, index))).append($('<td width="15%" class="keysForm-delete"></td>'));
+        var newFormCreate = newFormCreateRow.append($('<td width="70%" ></td>').append(prototypeCreate.replace(/__name__/g, index))).append($('<td width="15%" class="kvkExtract-delete"></td>'));
         $kvkExtractCollectionHolder.data('index', index + 1);
         $newLinkLi.before(newFormCreate);
         addDocumentFormDeleteLink(newFormCreate.find('.kvkExtract-delete'));
+    }
+
+    /*
+     * Deposit Receipt Block
+     */
+    $depositReceiptCollectionHolder = $('.appbundle_membership_depositReceipts tbody');
+    $depositReceiptCollectionHolder.find('.depositReceipt-delete').each(function() {
+        addDocumentFormDeleteLink($(this));
+    });
+
+    $depositReceiptCollectionHolder.append($newDepositReceiptLinkLi);
+    $depositReceiptCollectionHolder.data('index', $depositReceiptCollectionHolder.find('.depositReceipt').length);
+    $addDepositReceiptLink.children('a').on('click', function(e) {
+        e.preventDefault();
+        addDepositReceiptForm($depositReceiptCollectionHolder, $newDepositReceiptLinkLi);
+    });
+
+    function addDepositReceiptForm($depositReceiptCollectionHolder, $newLinkLi) {
+        var prototypeCreate = $depositReceiptCollectionHolder.data('prototype-create');
+        var index = $depositReceiptCollectionHolder.data('index');
+        var newFormCreateRow = $('<tr class="depositReceipt"><td width="15%"><i class="fa fa-upload" aria-hidden="true"></i></td></tr>');
+        var newFormCreate = newFormCreateRow.append($('<td width="70%" ></td>').append(prototypeCreate.replace(/__name__/g, index))).append($('<td width="15%" class="depositReceipt-delete"></td>'));
+        $depositReceiptCollectionHolder.data('index', index + 1);
+        $newLinkLi.before(newFormCreate);
+        addDocumentFormDeleteLink(newFormCreate.find('.depositReceipt-delete'));
     }
 
     
