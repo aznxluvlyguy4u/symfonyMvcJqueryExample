@@ -2,9 +2,10 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\BaseEntityRepository;
 use AppBundle\Entity\CompanyStatus;
 
-class CompanyRepository extends \Doctrine\ORM\EntityRepository
+class CompanyRepository extends BaseEntityRepository
 {
     public function findCompaniesForFunnel()
     {
