@@ -14,7 +14,9 @@ use AppBundle\Entity\MembershipStatus;
 use AppBundle\Entity\MembershipStatusHistory;
 use AppBundle\Entity\MembershipComment;
 use AppBundle\Form\CreateCommentType;
+use AppBundle\Form\MembershipDocumentType;
 use AppBundle\Form\MembershipType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -94,8 +96,9 @@ class MembershipController extends Controller
     public function editAction(Request $request, Membership $membership)
     {
         $em = $this->getDoctrine()->getManager();
-
         $redirect = $request->query->get('redirect') ? $request->query->get('redirect') : 'app_membership_index';
+        
+        //Edit form block
         $editForm = $this->createForm(MembershipType::class, $membership, ['redirect' => $redirect]);
         $editForm->handleRequest($request);
 
@@ -133,9 +136,9 @@ class MembershipController extends Controller
             }
         }
 
+        // Comments form block
         $membershipComment = new MembershipComment();
         $membershipCommentForm = $this->createForm(CreateCommentType::class, $membershipComment);
-
         $membershipCommentForm->handleRequest($request);
 
         if ($membershipCommentForm->isSubmitted() && $membershipCommentForm->isValid()) {
@@ -151,11 +154,41 @@ class MembershipController extends Controller
             }
         }
 
+        // Documents form block
+        $membershipDocumentForm = $this->createForm(MembershipDocumentType::class, $membership, [
+            'redirect' => $redirect,
+            'action' => $this->generateUrl('app_membership_handledocument', ['membership' => $membership->getId()])
+        ]);
+
         return [
             'companyCommentForm' => $membershipCommentForm->createView(),
             'membership' => $membership,
             'form' => $editForm->createView(),
+            'membershipDocumentForm' => $membershipDocumentForm->createView()
         ];
+    }
+
+    /**
+     * @Route("/{membership}/document")
+     * @Method({"POST"})
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     */
+    public function handleDocumentAction(Request $request, Membership $membership)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $membershipDocumentForm = $this->createForm(MembershipDocumentType::class, $membership);
+        $membershipDocumentForm->handleRequest($request);
+
+        if ($membershipDocumentForm->isSubmitted() && $membershipDocumentForm->isValid()) {
+            $em->persist($membership);
+            $em->flush();
+
+            if ($membershipDocumentForm->get('save')->isClicked()) {
+                return $this->redirectToRoute('app_membership_edit', ['membership' => $membership->getId()]);
+            } else {
+                return $this->redirectToRoute('app_membership_index');
+            }
+        }
     }
 
     /**
@@ -200,19 +233,6 @@ class MembershipController extends Controller
 
         throw new BadRequestHttpException();
     }
-    
-    /**
-     * Upload Files
-     * @Route("/upload")
-     * @Template
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
-     * @Method("POST")
-     */
-    public function uploadDocument()
-    {
-        
-    }
-    
 
     /**
      * Deletes a membership entity.
@@ -231,5 +251,10 @@ class MembershipController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('app_membership_index');
+    }
+    
+    public function downloadDocumentAction()
+    {
+        
     }
 }

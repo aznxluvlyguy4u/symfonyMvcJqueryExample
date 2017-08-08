@@ -16,3 +16,28 @@ services:
         class: Twig_Extension_StringLoader
         tags:
             - { name: twig.extension }
+
+    app.aws.storageservice:
+        class: AppBundle\Service\AWSSimpleStorageService
+        arguments:
+            credentials: ['%aws_access_key_id%', '%aws_secret_key%']
+            region: %aws_s3_region%
+            version: %aws_s3_version%
+            bucket: %aws_s3_bucket%
+            prefix: %aws_s3_prefix_key%
+            currentEnv: %kernel.environment%
+
+    before_request_listener:
+        class: AppBundle\EventListener\BeforeRequestListener
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            -
+                name: kernel.event_listener
+                event: kernel.request
+                method: onKernelRequest
+
+    app.eventlisteners.s3documentuploader:
+        class: AppBundle\EventListener\S3DocumentUploader
+        arguments: ["@app.aws.storageservice","@security.token_storage"]
+        tags:
+            - { name: doctrine.orm.entity_listener }

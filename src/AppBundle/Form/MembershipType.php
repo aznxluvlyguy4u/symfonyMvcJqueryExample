@@ -12,6 +12,7 @@ use AppBundle\Entity\Company;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Card;
 use AppBundle\Entity\MembershipStatus;
+use AppBundle\Entity\Document;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use DateTime;
 use Doctrine\ORM\EntityRepository;
@@ -29,9 +30,12 @@ class MembershipType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $defaultStartDate = $options['data']->getStartDate() == null ? new DateTime() : $options['data']->getStartDate();
+        $defaultEndDate = $options['data']->getEndDate() == null ? new DateTime() : $options['data']->getEndDate();
+
         $builder
-            ->add('startDate', DateType::class, ['data' => new DateTime()])
-            ->add('endDate', DateType::class, ['data' => new DateTime()])
+            ->add('startDate', DateType::class, ['data' => $defaultStartDate])
+            ->add('endDate', DateType::class, ['data' => $defaultEndDate])
             ->add('company', EntityType::class, [
                 'class' => Company::class, 
                 'choice_label' => 'companyName', 
@@ -47,6 +51,11 @@ class MembershipType extends AbstractType
             ->add('user', EntityType::class, ['class' => User::class, 'choice_label' => 'usernameCanonical'])
             ->add('card', EntityType::class, ['class' => Card::class, 'choice_label' => 'id'])
             ->add('status', EntityType::class, ['class' => MembershipStatus::class, 'choice_label' => 'label'])
+//            ->add('contractDoc', DocumentTypeorg::class, [ 'data_class' => Document::class, 'label' => 'Signed contract', 'required' => false])
+//            ->add('sepaForm', DocumentTypeorg::class, [ 'data_class' => DocumentTypeorg::class, 'label' => 'SEPA form', 'required' => false])
+//            ->add('keysForm', DocumentTypeorg::class, [ 'data_class' => DocumentTypeorg::class, 'label' => 'Keys form', 'required' => false])
+//            ->add('kvkExtract', DocumentTypeorg::class, [ 'data_class' => DocumentTypeorg::class, 'label' => 'KVK extract', 'required' => false])
+//            ->add('depositReceipt',  DocumentTypeorg::class, [ 'data_class' => DocumentTypeorg::class, 'label' => 'Deposit receipt', 'required' => false])
             ->add('save', SubmitType::class)
             ->add('saveAndQuit', SubmitType::class)
             ->add('redirect', HiddenType::class, array('data' => $options['redirect'], 'mapped' => false))

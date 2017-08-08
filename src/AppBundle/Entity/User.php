@@ -18,6 +18,11 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+   
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $isDeleted = false;
 
     /**
      * @ORM\OneToMany(targetEntity="Membership", mappedBy="user")
@@ -91,5 +96,29 @@ class User extends BaseUser
     public function getMemberships()
     {
         return $this->memberships;
+    }
+
+    /**
+     * Set isDeleted
+     *
+     * @param boolean $isDeleted
+     *
+     * @return User
+     */
+    public function setIsDeleted($isDeleted)
+    {
+        $this->isDeleted = $isDeleted;
+
+        return $this;
+    }
+
+    /**
+     * Get isDeleted
+     *
+     * @return boolean
+     */
+    public function getIsDeleted()
+    {
+        return $this->isDeleted;
     }
 }

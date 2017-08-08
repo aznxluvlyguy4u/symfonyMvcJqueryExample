@@ -5,24 +5,202 @@
         {% block content %}
             <div class="row">
                 <div class="col-md-6">
-                    <div class="box">
-                        <div class="box-header">
-                            <h3 class="box-title">Create new Membership</h3>
-                        </div>
-                        {{ form_start(form) }}
-                        <div class="box-body">
-                            {{ form_row(form.startDate) }}
-                            {{ form_row(form.endDate) }}
-                            {{ form_row(form.company) }}
-                            {{ form_row(form.user) }}
-                            {{ form_row(form.card) }}
-                            {{ form_row(form.status) }}
-                            <div class="form-group pull-right">
-                                {{form_widget(form.save)}}
-                                {{form_widget(form.saveAndQuit, {'attr': {'class': 'btn-primary'}})}}
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#edit" data-toggle="tab" aria-expanded="true">Edit Membership</a>
+                            </li>
+                            <li>
+                                <a href="#documents" data-toggle="tab" aria-expanded="false">Documents</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            {# Edit pane #}
+                            <div class="tab-pane active" id="edit">
+                                {{ form_start(form) }}
+                                <div class="box-body">
+                                    {{ form_row(form.startDate) }}
+                                    {{ form_row(form.endDate) }}
+                                    {{ form_row(form.company) }}
+                                    {{ form_row(form.user) }}
+                                    {{ form_row(form.card) }}
+                                    {{ form_row(form.status) }}
+                                    <div class="form-group pull-right">
+                                        {{form_widget(form.save)}}
+                                        {{form_widget(form.saveAndQuit, {'attr': {'class': 'btn-primary'}})}}
+                                    </div>
+                                </div>
+                                {{ form_end(form) }}
+                            </div>
+                            
+                            {# Documents pane #}
+                            <div class="tab-pane" id="documents">
+                                {{ form_start(membershipDocumentForm) }}
+                                    <div class="box-body">
+
+                                        {# contractDocs #}
+                                        <div class="appbundle_membership_contractDocs box box-info">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title">Contract Documents</h3>
+                                            </div>
+                                            <div class="box-body no-padding">
+                                                <table class="table table-condensed table-striped">
+                                                    <tbody data-prototype-create="{{ form_row(membershipDocumentForm.contractDocs.vars.prototype.file)|e('html_attr') }}">
+                                                        {#iterate over each existing tag and render its only field: name#}
+                                                        {% for contractDoc in membershipDocumentForm.contractDocs %}
+                                                            <tr class="contractDoc">
+                                                                <td width="15%">
+                                                                    {% if contractDoc.vars.value.mimeType == "image/jpeg" or contractDoc.vars.value.mimeType == "image/png" %}
+                                                                        <i class="fa fa-file-image-o" aria-hidden="true"></i>
+                                                                    {% elseif contractDoc.vars.value.mimeType == "application/pdf" %}
+                                                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td width="70%">
+                                                                    <a href="{{ contractDoc.vars.value.presignedUrl }}">{{ contractDoc.vars.value.filename }}</a>
+                                                                </td>
+                                                                <td width="15%" class="contractDoc-delete">
+                                                                {{ form_widget(contractDoc) }}
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        {# SepaForms #}
+                                        <div class="appbundle_membership_sepaForms box box-warning">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title">SEPA Forms</h3>
+                                            </div>
+                                            <div class="box-body no-padding">
+                                                <table class="table table-condensed table-striped">
+                                                    <tbody data-prototype-create="{{ form_row(membershipDocumentForm.sepaForms.vars.prototype.file)|e('html_attr') }}">
+                                                        {#iterate over each existing tag and render its only field: name#}
+                                                        {% for sepaForm in membershipDocumentForm.sepaForms %}
+                                                            <tr class="sepaForm">
+                                                                <td width="15%">
+                                                                    {% if sepaForm.vars.value.mimeType == "image/jpeg" or sepaForm.vars.value.mimeType == "image/png" %}
+                                                                        <i class="fa fa-file-image-o" aria-hidden="true"></i>
+                                                                    {% elseif sepaForm.vars.value.mimeType == "application/pdf" %}
+                                                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td width="70%">
+                                                                    <a href="{{ sepaForm.vars.value.presignedUrl }}">{{ sepaForm.vars.value.filename }}</a>
+                                                                </td>
+                                                                <td width="15%" class="sepaForm-delete">
+                                                                {{ form_widget(sepaForm) }}
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        {# KeysForms #}
+                                        <div class="appbundle_membership_keysForms box box-success">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title">Keys Forms</h3>
+                                            </div>
+                                            <div class="box-body no-padding">
+                                                <table class="table table-condensed table-striped">
+                                                    <tbody data-prototype-create="{{ form_row(membershipDocumentForm.keysForms.vars.prototype.file)|e('html_attr') }}">
+                                                    {#iterate over each existing tag and render its only field: name#}
+                                                    {% for keysForm in membershipDocumentForm.keysForms %}
+                                                        <tr class="keysForm">
+                                                            <td width="15%">
+                                                                {% if keysForm.vars.value.mimeType == "image/jpeg" or keysForm.vars.value.mimeType == "image/png" %}
+                                                                    <i class="fa fa-file-image-o" aria-hidden="true"></i>
+                                                                {% elseif keysForm.vars.value.mimeType == "application/pdf" %}
+                                                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                                                {% endif %}
+                                                            </td>
+                                                            <td width="70%">
+                                                                <a href="{{ keysForm.vars.value.presignedUrl }}">{{ keysForm.vars.value.filename }}</a>
+                                                            </td>
+                                                            <td width="15%" class="keysForm-delete">
+                                                                {{ form_widget(keysForm) }}
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        {# KvkExtracts #}
+                                        <div class="appbundle_membership_kvkExtracts box box-danger">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title">KVK Extracts</h3>
+                                            </div>
+                                            <div class="box-body no-padding">
+                                                <table class="table table-condensed table-striped">
+                                                    <tbody data-prototype-create="{{ form_row(membershipDocumentForm.kvkExtracts.vars.prototype.file)|e('html_attr') }}">
+                                                    {#iterate over each existing tag and render its only field: name#}
+                                                    {% for kvkExtract in membershipDocumentForm.kvkExtracts %}
+                                                        <tr class="kvkExtract">
+                                                            <td width="15%">
+                                                                {% if kvkExtract.vars.value.mimeType == "image/jpeg" or kvkExtract.vars.value.mimeType == "image/png" %}
+                                                                    <i class="fa fa-file-image-o" aria-hidden="true"></i>
+                                                                {% elseif kvkExtract.vars.value.mimeType == "application/pdf" %}
+                                                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                                                {% endif %}
+                                                            </td>
+                                                            <td width="70%">
+                                                                <a href="{{ kvkExtract.vars.value.presignedUrl }}">{{ kvkExtract.vars.value.filename }}</a>
+                                                            </td>
+                                                            <td width="15%" class="kvkExtract-delete">
+                                                                {{ form_widget(kvkExtract) }}
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        {# DepositReceipts #}
+                                        <div class="appbundle_membership_depositReceipts box box-danger">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title">Deposit Receipts</h3>
+                                            </div>
+                                            <div class="box-body no-padding">
+                                                <table class="table table-condensed table-striped">
+                                                    <tbody data-prototype-create="{{ form_row(membershipDocumentForm.depositReceipts.vars.prototype.file)|e('html_attr') }}">
+                                                    {#iterate over each existing tag and render its only field: name#}
+                                                    {% for depositReceipt in membershipDocumentForm.depositReceipts %}
+                                                        <tr class="depositReceipt">
+                                                            <td width="15%">
+                                                                {% if depositReceipt.vars.value.mimeType == "image/jpeg" or depositReceipt.vars.value.mimeType == "image/png" %}
+                                                                    <i class="fa fa-file-image-o" aria-hidden="true"></i>
+                                                                {% elseif depositReceipt.vars.value.mimeType == "application/pdf" %}
+                                                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                                                {% endif %}
+                                                            </td>
+                                                            <td width="70%">
+                                                                <a href="{{ depositReceipt.vars.value.presignedUrl }}">{{ depositReceipt.vars.value.filename }}</a>
+                                                            </td>
+                                                            <td width="15%" class="depositReceipt-delete">
+                                                                {{ form_widget(depositReceipt) }}
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group pull-right">
+                                            {{form_widget(membershipDocumentForm.save)}}
+                                            {{form_widget(membershipDocumentForm.saveAndQuit, {'attr': {'class': 'btn-primary'}})}}
+                                        </div>
+                                    </div>
+                                {{ form_end(membershipDocumentForm) }}
                             </div>
                         </div>
-                        {{ form_end(form) }}
                     </div>
                 </div>
                     
@@ -58,3 +236,8 @@
         {% endblock %}
     {% endembed %}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="/js/Membership/edit.js"></script>
+{% endblock javascripts %}

@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity
  */
-class MembershipStatus
+class MembershipStatus extends BaseEntity
 {
     /**
      * @ORM\Id
@@ -27,6 +27,12 @@ class MembershipStatus
      * @ORM\JoinColumn(name="email_template_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $emailTemplate;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $createdBy;
 
     /**
      * @ORM\OneToMany(targetEntity="Membership", mappedBy="status")
@@ -128,5 +134,101 @@ class MembershipStatus
     public function getEmailTemplate()
     {
         return $this->emailTemplate;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return MembershipStatus
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set modifiedAt
+     *
+     * @param \DateTime $modifiedAt
+     *
+     * @return MembershipStatus
+     */
+    public function setModifiedAt($modifiedAt)
+    {
+        $this->modifiedAt = $modifiedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get modifiedAt
+     *
+     * @return \DateTime
+     */
+    public function getModifiedAt()
+    {
+        return $this->modifiedAt;
+    }
+
+    /**
+     * Set isDeleted
+     *
+     * @param boolean $isDeleted
+     *
+     * @return MembershipStatus
+     */
+    public function setIsDeleted($isDeleted)
+    {
+        $this->isDeleted = $isDeleted;
+
+        return $this;
+    }
+
+    /**
+     * Get isDeleted
+     *
+     * @return boolean
+     */
+    public function getIsDeleted()
+    {
+        return $this->isDeleted;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param \AppBundle\Entity\User $createdBy
+     *
+     * @return MembershipStatus
+     */
+    public function setCreatedBy(\AppBundle\Entity\User $createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
     }
 }
