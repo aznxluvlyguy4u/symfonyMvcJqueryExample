@@ -3,9 +3,11 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
- * @ORM\Entity(repositoryClass="BaseEntityRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\CompanyRepository")
  */
 class Company extends BaseEntity
 {
@@ -16,22 +18,39 @@ class Company extends BaseEntity
      */
     protected $id;
 
-    public function __construct()
-    {
-    }
-
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=false)
      */
-    protected $name;
+    protected $contactFirstname;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CompanyStatus")
+     * @ORM\Column(type="string", nullable=false)
      */
-    protected $status;
+    protected $contactLastname;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", nullable=false)
+     */
+    protected $companyName;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="CompanySector", inversedBy="companies")
+     * @ORM\JoinColumn(name="sector_id", referencedColumnName="id")
+     */
+    protected $sector;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $numberOfEmployees;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $squareMetersWanted;
+
+    /**
+     * @ORM\Column(type="string", nullable=false)
      */
     protected $email;
 
@@ -41,16 +60,67 @@ class Company extends BaseEntity
     protected $phone;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $address;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $zipcode;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $city;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $websiteUrl;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $reference;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $offer;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $demand;
+
+    /**
      * @ORM\OneToMany(targetEntity="CompanyComment", mappedBy="company")
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     protected $comments;
 
     /**
+     * @ORM\ManyToOne(targetEntity="CompanyStatus", inversedBy="companies")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id", nullable=false)
+     */
+    protected $status;
+
+    /**
      * @ORM\OneToMany(targetEntity="CompanyStatusHistory", mappedBy="company")
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     protected $statusHistory;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Membership", mappedBy="company")
+     */
+    protected $memberships;
+
+    public function __construct()
+    {
+        $this->memberships = new ArrayCollection();
+    }
 
     /**
      * Get CompanyStatus change date
@@ -84,30 +154,6 @@ class Company extends BaseEntity
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Company
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**
@@ -313,40 +359,6 @@ class Company extends BaseEntity
     }
 
     /**
-     * Add companyStatusHistory
-     *
-     * @param \AppBundle\Entity\CompanyStatusHistory $companyStatusHistory
-     *
-     * @return Company
-     */
-    public function addCompanyStatusHistory(\AppBundle\Entity\CompanyStatusHistory $companyStatusHistory)
-    {
-        $this->companyStatusHistory[] = $companyStatusHistory;
-
-        return $this;
-    }
-
-    /**
-     * Remove companyStatusHistory
-     *
-     * @param \AppBundle\Entity\CompanyStatusHistory $companyStatusHistory
-     */
-    public function removeCompanyStatusHistory(\AppBundle\Entity\CompanyStatusHistory $companyStatusHistory)
-    {
-        $this->companyStatusHistory->removeElement($companyStatusHistory);
-    }
-
-    /**
-     * Get companyStatusHistory
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCompanyStatusHistory()
-    {
-        return $this->companyStatusHistory;
-    }
-
-    /**
      * Add statusHistory
      *
      * @param \AppBundle\Entity\CompanyStatusHistory $statusHistory
@@ -378,5 +390,362 @@ class Company extends BaseEntity
     public function getStatusHistory()
     {
         return $this->statusHistory;
+    }
+
+    /**
+     * Set contactFirstname
+     *
+     * @param string $contactFirstname
+     *
+     * @return Company
+     */
+    public function setContactFirstname($contactFirstname)
+    {
+        $this->contactFirstname = $contactFirstname;
+
+        return $this;
+    }
+
+    /**
+     * Get contactFirstname
+     *
+     * @return string
+     */
+    public function getContactFirstname()
+    {
+        return $this->contactFirstname;
+    }
+
+    /**
+     * Set contactLastname
+     *
+     * @param string $contactLastname
+     *
+     * @return Company
+     */
+    public function setContactLastname($contactLastname)
+    {
+        $this->contactLastname = $contactLastname;
+
+        return $this;
+    }
+
+    /**
+     * Get contactLastname
+     *
+     * @return string
+     */
+    public function getContactLastname()
+    {
+        return $this->contactLastname;
+    }
+
+    /**
+     * Virtual field
+     * Get contact full name
+     *
+     * @return string
+     */
+    public function getContactFullName()
+    {
+        return $this->contactFirstname.' '.$this->contactLastname;
+    }
+
+    /**
+     * Set companyName
+     *
+     * @param string $companyName
+     *
+     * @return Company
+     */
+    public function setCompanyName($companyName)
+    {
+        $this->companyName = $companyName;
+
+        return $this;
+    }
+
+    /**
+     * Get companyName
+     *
+     * @return string
+     */
+    public function getCompanyName()
+    {
+        return $this->companyName;
+    }
+
+    /**
+     * Set numberOfEmployees
+     *
+     * @param integer $numberOfEmployees
+     *
+     * @return Company
+     */
+    public function setNumberOfEmployees($numberOfEmployees)
+    {
+        $this->numberOfEmployees = $numberOfEmployees;
+
+        return $this;
+    }
+
+    /**
+     * Get numberOfEmployees
+     *
+     * @return integer
+     */
+    public function getNumberOfEmployees()
+    {
+        return $this->numberOfEmployees;
+    }
+
+    /**
+     * Set squareMetersWanted
+     *
+     * @param integer $squareMetersWanted
+     *
+     * @return Company
+     */
+    public function setSquareMetersWanted($squareMetersWanted)
+    {
+        $this->squareMetersWanted = $squareMetersWanted;
+
+        return $this;
+    }
+
+    /**
+     * Get squareMetersWanted
+     *
+     * @return integer
+     */
+    public function getSquareMetersWanted()
+    {
+        return $this->squareMetersWanted;
+    }
+
+    /**
+     * Set address
+     *
+     * @param string $address
+     *
+     * @return Company
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return string
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set zipcode
+     *
+     * @param string $zipcode
+     *
+     * @return Company
+     */
+    public function setZipcode($zipcode)
+    {
+        $this->zipcode = $zipcode;
+
+        return $this;
+    }
+
+    /**
+     * Get zipcode
+     *
+     * @return string
+     */
+    public function getZipcode()
+    {
+        return $this->zipcode;
+    }
+
+    /**
+     * Set city
+     *
+     * @param string $city
+     *
+     * @return Company
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * Get city
+     *
+     * @return string
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * Set websiteUrl
+     *
+     * @param string $websiteUrl
+     *
+     * @return Company
+     */
+    public function setWebsiteUrl($websiteUrl)
+    {
+        $this->websiteUrl = $websiteUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get websiteUrl
+     *
+     * @return string
+     */
+    public function getWebsiteUrl()
+    {
+        return $this->websiteUrl;
+    }
+
+    /**
+     * Set reference
+     *
+     * @param string $reference
+     *
+     * @return Company
+     */
+    public function setReference($reference)
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    /**
+     * Get reference
+     *
+     * @return string
+     */
+    public function getReference()
+    {
+        return $this->reference;
+    }
+
+    /**
+     * Set offer
+     *
+     * @param string $offer
+     *
+     * @return Company
+     */
+    public function setOffer($offer)
+    {
+        $this->offer = $offer;
+
+        return $this;
+    }
+
+    /**
+     * Get offer
+     *
+     * @return string
+     */
+    public function getOffer()
+    {
+        return $this->offer;
+    }
+
+    /**
+     * Set demand
+     *
+     * @param string $demand
+     *
+     * @return Company
+     */
+    public function setDemand($demand)
+    {
+        $this->demand = $demand;
+
+        return $this;
+    }
+
+    /**
+     * Get demand
+     *
+     * @return string
+     */
+    public function getDemand()
+    {
+        return $this->demand;
+    }
+
+    /**
+     * Set sector
+     *
+     * @param \AppBundle\Entity\CompanySector $sector
+     *
+     * @return Company
+     */
+    public function setSector(\AppBundle\Entity\CompanySector $sector = null)
+    {
+        $this->sector = $sector;
+
+        return $this;
+    }
+
+    /**
+     * Get sector
+     *
+     * @return \AppBundle\Entity\CompanySector
+     */
+    public function getSector()
+    {
+        return $this->sector;
+    }
+
+    /**
+     * Add membership
+     *
+     * @param \AppBundle\Entity\Membership $membership
+     *
+     * @return Company
+     */
+    public function addMembership(\AppBundle\Entity\Membership $membership)
+    {
+        $this->memberships[] = $membership;
+
+        return $this;
+    }
+
+    /**
+     * Remove membership
+     *
+     * @param \AppBundle\Entity\Membership $membership
+     */
+    public function removeMembership(\AppBundle\Entity\Membership $membership)
+    {
+        $this->memberships->removeElement($membership);
+    }
+
+    /**
+     * Get memberships
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMemberships()
+    {
+        return $this->memberships;
     }
 }

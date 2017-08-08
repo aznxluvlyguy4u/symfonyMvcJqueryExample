@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ReflectionClass;
 
 /**
  * @ORM\MappedSuperclass
@@ -46,5 +47,14 @@ class BaseEntity
     public function setModifiedDate()
     {
         $this->modifiedAt = new \DateTime();
+    }
+    
+    /**
+     * Get the comment object type
+     * @return string
+     */
+    public function getClassName()
+    {
+        return (new ReflectionClass($this))->getShortName();
     }
 }

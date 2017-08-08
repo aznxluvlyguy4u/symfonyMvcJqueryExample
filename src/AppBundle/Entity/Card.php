@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="BaseEntityRepository")
@@ -16,8 +17,14 @@ class Card extends BaseEntity
      */
     protected $id;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Membership", mappedBy="card")
+     */
+    protected $memberships;
+
     public function __construct()
     {
+        $this->memberships = new ArrayCollection();
     }
 
     /**
@@ -124,5 +131,39 @@ class Card extends BaseEntity
     public function getCreatedBy()
     {
         return $this->createdBy;
+    }
+
+    /**
+     * Add membership
+     *
+     * @param \AppBundle\Entity\Membership $membership
+     *
+     * @return Card
+     */
+    public function addMembership(\AppBundle\Entity\Membership $membership)
+    {
+        $this->memberships[] = $membership;
+
+        return $this;
+    }
+
+    /**
+     * Remove membership
+     *
+     * @param \AppBundle\Entity\Membership $membership
+     */
+    public function removeMembership(\AppBundle\Entity\Membership $membership)
+    {
+        $this->memberships->removeElement($membership);
+    }
+
+    /**
+     * Get memberships
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMemberships()
+    {
+        return $this->memberships;
     }
 }

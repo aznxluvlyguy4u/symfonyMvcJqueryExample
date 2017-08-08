@@ -6,6 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use AppBundle\Entity\CompanyStatus;
+use AppBundle\Entity\MembershipStatus;
+use AppBundle\Entity\Company;
+use AppBundle\Entity\Membership;
+use AppBundle\Form\SendEmailType;
+use Swift_Mailer;
 
 /**
  * @Route("/")
@@ -21,7 +27,7 @@ class DashboardController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $status = $em->getRepository('AppBundle:CompanyStatus')->findOneByLabel('member');
+        $status = $em->getRepository('AppBundle:CompanyStatus')->findOneByLabel('Contract signed');
         $companies = $em->getRepository('AppBundle:Company')->findBy(['isDeleted' => false, 'status' => $status]);
 
         $profiles = $em->getRepository('AppBundle:Profile')->findAll();
@@ -43,36 +49,19 @@ class DashboardController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $companyStatuses = $em->getRepository('AppBundle:CompanyStatus')->findAll();
-
-        $qb = $em->createQueryBuilder();
-
-        $qb
-            ->select('c', 'COALESCE( MAX(csh.createdAt), c.createdAt) AS createdAt')
-            ->from('AppBundle:Company', 'c')
-            ->leftJoin('c.statusHistory', 'csh')
-            ->where('c.isDeleted = :isDeleted')
-            ->orderBy('createdAt', 'ASC')
-            ->groupBy('c.id')
-            ->setParameter('isDeleted', false)
-        ;
-
-        $results = $qb->getQuery()->getResult();
-
-        $companies = [];
-        foreach ($companyStatuses as $companyStatus) {
-            $companies[$companyStatus->getLabel()] = [];
-        }
-
-        foreach ($results as $result) {
-            $companies[$result[0]->getStatus()->getLabel()][] = $result[0];
-        }
-
-        // $companies = $em->getRepository('AppBundle:Company')->findAll();
+        // TODO if in the future needed to add customizable status orders, install stofDoctrineExtensionBundle and use sortable position for sorting order
+        $companyStatuses = $em->getRepository(CompanyStatus::class)->findBy(array(), array('id' => 'ASC'));
+        $membershipStatuses = $em->getRepository(MembershipStatus::class)->findBy(array(), array('id' => 'ASC'));
+        $companies = $em->getRepository(Company::class)->findCompaniesForFunnel();
+        $memberships = $em->getRepository(Membership::class)->findMembershipsForFunnel();
+        $emailForm = $this->createForm(SendEmailType::class);
 
         return [
             'companyStatuses' => $companyStatuses,
             'companies' => $companies,
+            'membershipStatuses' => $membershipStatuses,
+            'memberships' => $memberships,
+            'emailForm' => $emailForm->createView(),
         ];
     }
 }

@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="BaseEntityRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\MembershipRepository")
  */
 class Membership extends BaseEntity
 {
@@ -31,19 +31,64 @@ class Membership extends BaseEntity
     protected $endDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Company")
+     * @ORM\ManyToOne(targetEntity="Company", inversedBy="memberships")
+     * @ORM\JoinColumn(name="company_id", referencedColumnName="id")
      */
     protected $company;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="memberships")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     protected $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Card")
+     * @ORM\ManyToOne(targetEntity="Card", inversedBy="memberships")
+     * @ORM\JoinColumn(name="card_id", referencedColumnName="id")
      */
     protected $card;
+
+    /**
+     * @ORM\OneToMany(targetEntity="MembershipComment", mappedBy="membership")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
+     */
+    protected $comments;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="MembershipStatus", inversedBy="memberships")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     */
+    protected $status;
+
+    /**
+     * @ORM\OneToMany(targetEntity="MembershipStatusHistory", mappedBy="membership")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
+     */
+    protected $statusHistory;
+
+    /**
+     * Get MembershipStatus change date
+     *
+     * @return \DateTime
+     */
+    public function getStatusChangeDate()
+    {
+        if ($this->getStatusHistory()->isEmpty()) {
+            return $this->getCreatedAt();
+        } else {
+            return $this->getStatusHistory()->first()->getCreatedAt();
+        }
+    }
+
+    /**
+     * Get MembershipStatus change date difference in days
+     *
+     * @return integer
+     */
+    public function getDiffStatusChangeInDays()
+    {
+        return $this->getStatusChangeDate()->diff(new \DateTime())->format('%a');
+    }
 
     /**
      * Get id
@@ -269,5 +314,97 @@ class Membership extends BaseEntity
     public function getCreatedBy()
     {
         return $this->createdBy;
+    }
+
+    /**
+     * Set status
+     *
+     * @param \AppBundle\Entity\MembershipStatus $status
+     *
+     * @return Membership
+     */
+    public function setStatus(\AppBundle\Entity\MembershipStatus $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \AppBundle\Entity\MembershipStatus
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Add statusHistory
+     *
+     * @param \AppBundle\Entity\MembershipStatusHistory $statusHistory
+     *
+     * @return Membership
+     */
+    public function addStatusHistory(\AppBundle\Entity\MembershipStatusHistory $statusHistory)
+    {
+        $this->statusHistory[] = $statusHistory;
+
+        return $this;
+    }
+
+    /**
+     * Remove statusHistory
+     *
+     * @param \AppBundle\Entity\MembershipStatusHistory $statusHistory
+     */
+    public function removeStatusHistory(\AppBundle\Entity\MembershipStatusHistory $statusHistory)
+    {
+        $this->statusHistory->removeElement($statusHistory);
+    }
+
+    /**
+     * Get statusHistory
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStatusHistory()
+    {
+        return $this->statusHistory;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\MembershipComment $comment
+     *
+     * @return Membership
+     */
+    public function addComment(\AppBundle\Entity\MembershipComment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\MembershipComment $comment
+     */
+    public function removeComment(\AppBundle\Entity\MembershipComment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

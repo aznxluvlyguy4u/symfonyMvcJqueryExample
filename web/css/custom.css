@@ -1,0 +1,37 @@
+.form-group .control-label.required:after {
+    content:" *";
+    color:red;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+.flex-items {
+    width: 11%;
+    flex: 0 0 12%;
+}
+
+.row-condense {
+    margin-bottom: 5px
+}
+
+.status-column {
+    padding: 0px 5px 0px 5px;
+}
+
+.draggable {
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+/* (Optional) Apply a "closed-hand" cursor during drag operation. */
+.draggable:active {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+}
