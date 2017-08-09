@@ -29,7 +29,7 @@ class CompanyStatusController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $companyStatuses = $em->getRepository('AppBundle:CompanyStatus')->findBy(array(), array('id' => 'ASC'));
+        $companyStatuses = $em->getRepository('AppBundle:CompanyStatus')->findBy(array(), array('position' => 'ASC'));
 
         return $this->render('companystatus/index.html.twig', array(
             'companyStatuses' => $companyStatuses,
@@ -88,6 +88,26 @@ class CompanyStatusController extends Controller
             'companyStatus' => $companyStatus,
             'form' => $editForm->createView(),
         ));
+    }
+
+    /**
+     * Resorts an item using it's doctrine sortable property
+     * @param integer $id
+     * @param integer $position
+     * @Route("/sort/{id}/{position}")
+     * @Template
+     * @Method("GET")
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     */
+    public function sortAction($id, $position)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $productCategory = $em->getRepository('AppBundle:CompanyStatus')->find($id);
+        $productCategory->setPosition($position);
+        $em->persist($productCategory);
+        $em->flush();
+        $request = new Request();
+        return $this->indexAction($request);
     }
 
     /**

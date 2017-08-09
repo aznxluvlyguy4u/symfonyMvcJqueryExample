@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
@@ -27,7 +28,15 @@ class MembershipStatus extends BaseEntity
      * @ORM\JoinColumn(name="email_template_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $emailTemplate;
-    
+
+    /**
+     * @var integer $position
+     *
+     * @Gedmo\Sortable()
+     * @ORM\Column(name="position", type="integer")
+     */
+    private $position;
+
     /**
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(nullable=true)
@@ -134,6 +143,21 @@ class MembershipStatus extends BaseEntity
     public function getEmailTemplate()
     {
         return $this->emailTemplate;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+    /**
+     * @param int $position
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
     }
 
     /**
