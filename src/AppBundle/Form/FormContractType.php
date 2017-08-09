@@ -19,7 +19,7 @@ class FormContractType extends AbstractType
                 'query_builder' => function (EntityRepository $er) {
                     return $er->queryAll();
                 },
-                'choice_label' => 'name',
+                'choice_label' => 'companyName',
             ])
             ->add('startDate', DateType::class, [
                 'widget' => 'single_text',
