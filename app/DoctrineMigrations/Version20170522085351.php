@@ -16,15 +16,15 @@ class Version20170522085351 extends AbstractMigration
     public function up(Schema $schema)
     {
         $this->addSql("ALTER SEQUENCE company_status_id_seq RESTART WITH 1");
-        $this->addSql("INSERT INTO company_status (id, label, email_template_id, created_by_id, created_at, modified_at, is_deleted) VALUES
-        (nextval('company_status_id_seq'), 'Suspect', NULL, NULL, current_timestamp, current_timestamp, false), 
-        (nextval('company_status_id_seq'), 'Lead', NULL, NULL, current_timestamp, current_timestamp, false), 
-        (nextval('company_status_id_seq'), 'First contact', NULL, NULL, current_timestamp, current_timestamp, false), 
-        (nextval('company_status_id_seq'), 'Appointment', NULL, NULL, current_timestamp, current_timestamp, false), 
-        (nextval('company_status_id_seq'), 'Follow up', NULL, NULL, current_timestamp,current_timestamp, false), 
-        (nextval('company_status_id_seq'), 'Client waiting for contract', NULL, NULL, current_timestamp, current_timestamp, false), 
-        (nextval('company_status_id_seq'), 'Waiting for contract to be signed', NULL, NULL, current_timestamp, current_timestamp, false), 
-        (nextval('company_status_id_seq'), 'Contract signed', NULL, NULL, current_timestamp, current_timestamp, false)");
+        $this->addSql("INSERT INTO company_status (id, label, position, email_template_id, created_by_id, created_at, modified_at, is_deleted) VALUES
+        (nextval('company_status_id_seq'), 'Suspect', 0, NULL, NULL, current_timestamp, current_timestamp, false), 
+        (nextval('company_status_id_seq'), 'Lead', 1, NULL, NULL, current_timestamp, current_timestamp, false), 
+        (nextval('company_status_id_seq'), 'First contact', 2, NULL, NULL, current_timestamp, current_timestamp, false), 
+        (nextval('company_status_id_seq'), 'Appointment', 3, NULL, NULL, current_timestamp, current_timestamp, false), 
+        (nextval('company_status_id_seq'), 'Follow up', 4, NULL, NULL, current_timestamp,current_timestamp, false), 
+        (nextval('company_status_id_seq'), 'Client waiting for contract', 5, NULL, NULL, current_timestamp, current_timestamp, false), 
+        (nextval('company_status_id_seq'), 'Waiting for contract to be signed', 6, NULL, NULL, current_timestamp, current_timestamp, false), 
+        (nextval('company_status_id_seq'), 'Contract signed', 7, NULL, NULL, current_timestamp, current_timestamp, false)");
     }
 
     /**
