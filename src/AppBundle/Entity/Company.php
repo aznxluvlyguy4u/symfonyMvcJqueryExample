@@ -20,12 +20,12 @@ class Company extends BaseEntity
     protected $id;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $contactFirstname;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $contactLastname;
 
