@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Membershipstatus controller.
  *
  * @Route("membershipstatus")
+ * @Security("is_granted('ROLE_SUPER_ADMIN')")
  */
 class MembershipStatusController extends Controller
 {
@@ -23,7 +24,6 @@ class MembershipStatusController extends Controller
      * @Route("/")
      * @Method("GET")
      * @Template
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function indexAction()
     {
@@ -42,7 +42,6 @@ class MembershipStatusController extends Controller
      * @Route("/create")
      * @Method({"GET", "POST"})
      * @Template
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function createAction(Request $request)
     {
@@ -70,7 +69,6 @@ class MembershipStatusController extends Controller
      * @Route("/{id}/edit")
      * @Method({"GET", "POST"})
      * @Template
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function editAction(Request $request, MembershipStatus $membershipStatus)
     {
@@ -98,7 +96,6 @@ class MembershipStatusController extends Controller
      * @Route("/sort/{id}/{position}")
      * @Template
      * @Method("GET")
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function sortAction($id, $position)
     {
@@ -116,7 +113,6 @@ class MembershipStatusController extends Controller
      *
      * @Route("/{id}")
      * @Template
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function deleteAction(Request $request, MembershipStatus $membershipStatus)
     {

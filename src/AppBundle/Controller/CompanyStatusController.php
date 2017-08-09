@@ -13,7 +13,9 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Companystatus controller.
  *
+ *
  * @Route("companystatus")
+ * @Security("is_granted('ROLE_SUPER_ADMIN')")
  */
 class CompanyStatusController extends Controller
 {
@@ -23,7 +25,6 @@ class CompanyStatusController extends Controller
      * @Route("/")
      * @Template
      * @Method("GET")
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function indexAction()
     {
@@ -42,7 +43,6 @@ class CompanyStatusController extends Controller
      * @Route("/create")
      * @Method({"GET", "POST"})
      * @Template
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function createAction(Request $request)
     {
@@ -97,7 +97,6 @@ class CompanyStatusController extends Controller
      * @Route("/sort/{id}/{position}")
      * @Template
      * @Method("GET")
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function sortAction($id, $position)
     {
@@ -115,7 +114,6 @@ class CompanyStatusController extends Controller
      *
      * @Route("/delete/{id}")
      * @Template
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function deleteAction(Request $request, CompanyStatus $companyStatus)
     {

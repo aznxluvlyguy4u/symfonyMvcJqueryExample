@@ -22,13 +22,13 @@ use Twig_Error_Syntax;
 
 /**
  * @Route("/email")
+ * @Security("is_granted('ROLE_SUPER_ADMIN')")
  */
 class EmailController extends Controller
 {
     /**
      * @Route("/template/company/{company}")
      * @Method({"GET"})
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function getTemplateForCompanyAction(Request $request, Company $company) {
         if($request->isXmlHttpRequest()) {
@@ -59,7 +59,6 @@ class EmailController extends Controller
     /**
      * @Route("/template/membership/{membership}")
      * @Method({"GET"})
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function getTemplateForMembershipAction(Request $request, Membership $membership) {
         if($request->isXmlHttpRequest()) {
@@ -90,7 +89,6 @@ class EmailController extends Controller
     /**
      * @Route("/send")
      * @Method({"POST"})
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function sendEmailToCompanyAction(Request $request) {
         $form = $this->createForm(SendEmailType::class);
