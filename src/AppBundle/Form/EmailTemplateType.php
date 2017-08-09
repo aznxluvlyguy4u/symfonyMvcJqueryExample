@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Ivory\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 
 class EmailTemplateType extends AbstractType
 {
@@ -18,6 +20,7 @@ class EmailTemplateType extends AbstractType
             ->add('name')
             ->add('subject')
             ->add('body', CKEditorType::class, array('label' => 'Message', 'attr' => array('rows' => '8')))
+            ->add('save', SubmitType::class)
         ;
     }
     

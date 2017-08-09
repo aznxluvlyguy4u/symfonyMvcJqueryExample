@@ -7,6 +7,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Entity\EmailTemplate;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 
 class CompanyStatusType extends AbstractType
 {
@@ -17,7 +19,9 @@ class CompanyStatusType extends AbstractType
     {
         $builder
             ->add('label')
-            ->add('emailTemplate', EntityType::class, array('class' => EmailTemplate::class, 'placeholder' => '--none--', 'empty_data' => null, 'required' => false, 'choice_label' => 'subject'));
+            ->add('emailTemplate', EntityType::class, array('class' => EmailTemplate::class, 'placeholder' => '--none--', 'empty_data' => null, 'required' => false, 'choice_label' => 'subject'))
+            ->add('save', SubmitType::class);
+
     }
     
     /**
