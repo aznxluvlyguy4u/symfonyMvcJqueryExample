@@ -21,7 +21,6 @@ class Company extends BaseEntity
 
     /**
      * @Assert\NotBlank()
-     * @Assert\Email()
      * @ORM\Column(type="string", nullable=false)
      */
     protected $contactFirstname;
