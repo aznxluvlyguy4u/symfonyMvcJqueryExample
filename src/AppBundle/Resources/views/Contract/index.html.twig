@@ -20,7 +20,7 @@
                         <tbody>
                             {% for contract in contracts %}
                                 <tr>
-                                    <td>{{contract.company.name}}</td>
+                                    <td>{{contract.company.companyName}}</td>
                                     <td>{{contract.startDate|date('Y-m-d')}}</td>
                                     <td>
                                         {% if contract.endDate is not null%}

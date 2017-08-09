@@ -24,7 +24,7 @@
                                     <td>{{profile.passnumber}}</td>
                                     <td>
                                         {% for company in profile.companies %}
-                                            <a href="{{ path('app_company_edit', {'company': company.id}) }}" class="btn btn-primary btn-flat btn-sm">{{company.name}}</a>
+                                            <a href="{{ path('app_company_edit', {'company': company.id}) }}" class="btn btn-primary btn-flat btn-sm">{{company.companyName}}</a>
                                         {% endfor %}
                                     </td>
                                     <td>

@@ -21,7 +21,7 @@ class EditProfileType extends AbstractType
                 'query_builder' => function (EntityRepository $er) {
                     return $er->queryAll();
                 },
-                'choice_label' => 'name',
+                'choice_label' => 'companyName',
                 'multiple' => true
             ])
             ->add('save', SubmitType::class)
