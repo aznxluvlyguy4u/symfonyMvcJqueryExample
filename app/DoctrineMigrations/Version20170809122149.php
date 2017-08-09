@@ -15,7 +15,7 @@ class Version20170809122149 extends AbstractMigration
      */
     public function up(Schema $schema)
     {
-        $this->addSql("ALTER TABLE membership_status ADD position INT");
+        $this->addColumn( 'mebership_status', 'position', 'integer' );
 
     }
 
@@ -24,6 +24,7 @@ class Version20170809122149 extends AbstractMigration
      */
     public function down(Schema $schema)
     {
+        $this->removeColumn( 'membership_status', 'position' );
         // this down() migration is auto-generated, please modify it to your needs
 
     }

@@ -15,9 +15,8 @@ class Version20170809113859 extends AbstractMigration
      */
     public function up(Schema $schema)
     {
-        $this->addSql("ALTER TABLE company_status ADD position INT");
+        $this->addColumn( 'company_status', 'position', 'integer' );
 
-        // this up() migration is auto-generated, please modify it to your needs
 
     }
 
@@ -26,7 +25,7 @@ class Version20170809113859 extends AbstractMigration
      */
     public function down(Schema $schema)
     {
-        // this down() migration is auto-generated, please modify it to your needs
+        $this->removeColumn( 'company_status', 'position' );
 
     }
 }
