@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 class BeforeRequestListener
 {
     private $em;
-    
+
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
@@ -17,6 +17,8 @@ class BeforeRequestListener
     {
         $filter = $this->em
             ->getFilters()
-            ->enable('is_deleted_filter');
+            // Disabled, needs to be rewritten in the Respective Entity Repositories
+            // ->enable('is_deleted_filter')
+        ;
     }
 }

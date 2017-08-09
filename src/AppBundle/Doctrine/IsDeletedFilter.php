@@ -14,6 +14,7 @@ class IsDeletedFilter extends SQLFilter
      * @return The constraint SQL if there is available, empty string otherwise.
      */
     public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias) {
-        return sprintf('%s.is_deleted = false', $targetTableAlias);
+        // return sprintf('%s.is_deleted = false', $targetTableAlias);
+        return "";
     }
 }
