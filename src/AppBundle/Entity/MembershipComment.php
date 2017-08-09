@@ -36,6 +36,12 @@ class MembershipComment extends Comment
     }
 
     /**
+     * @Assert\NotBlank()
+     * @ORM\Column(type="string", nullable=false)
+     */
+    protected $text;
+
+    /**
      * Set text
      *
      * @param string $text
