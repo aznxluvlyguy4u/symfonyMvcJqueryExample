@@ -13,6 +13,7 @@
                     <table id="emailtemplate" class="table table-bordered table-striped">
                         <thead>
                         <tr>
+                            <th>Name</th>
                             <th>Subject</th>
                             <th>Body</th>
                             <th>Actions</th>
@@ -21,6 +22,7 @@
                         <tbody>
                         {% for emailTemplate in emailTemplates %}
                             <tr>
+                                <td>{{ emailTemplate.name }}</td>
                                 <td>{{ emailTemplate.subject }}</td>
                                 <td>{{ emailTemplate.body }} </td>
                                 <td>
