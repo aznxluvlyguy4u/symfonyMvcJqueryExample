@@ -12,6 +12,7 @@
                         <thead>
                         <tr>
                             <th>Status Name</th>
+                            <th>Position</th>
                             <th>Last Modified</th>
                             <th>Options</th>
                         </tr>
@@ -20,6 +21,7 @@
                         {% for companyStatus in companyStatuses %}
                             <tr draggable="true" rel="{{ companyStatus.id }}">
                                 <td>{{ companyStatus.label }}</td>
+                                <td>{{ companyStatus.position }}</td>
                                 <td>{{ companyStatus.modifiedAt|date('Y-m-d H:i')}}</td>
                                 <td>
                                     <a class="btn btn-default btn-flat" href="{{ path('app_companystatus_edit', { 'id': companyStatus.id }) }}">

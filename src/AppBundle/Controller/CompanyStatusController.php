@@ -102,9 +102,9 @@ class CompanyStatusController extends Controller
     public function sortAction($id, $position)
     {
         $em = $this->getDoctrine()->getManager();
-        $productCategory = $em->getRepository('AppBundle:CompanyStatus')->find($id);
-        $productCategory->setPosition($position);
-        $em->persist($productCategory);
+        $companyStatus = $em->getRepository('AppBundle:CompanyStatus')->find($id);
+        $companyStatus->setPosition($position);
+        $em->persist($companyStatus);
         $em->flush();
         $request = new Request();
         return $this->indexAction($request);
@@ -119,9 +119,12 @@ class CompanyStatusController extends Controller
      */
     public function deleteAction(Request $request, CompanyStatus $companyStatus)
     {
+
         $em = $this->getDoctrine()->getManager();
 
+        $companyStatus->setPosition(-1);
         $companyStatus->setIsDeleted(true);
+        $em->persist($companyStatus);
 
         $em->flush();
 

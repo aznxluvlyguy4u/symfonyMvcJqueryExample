@@ -103,9 +103,9 @@ class MembershipStatusController extends Controller
     public function sortAction($id, $position)
     {
         $em = $this->getDoctrine()->getManager();
-        $productCategory = $em->getRepository('AppBundle:MembershipStatus')->find($id);
-        $productCategory->setPosition($position);
-        $em->persist($productCategory);
+        $membershipStatus = $em->getRepository('AppBundle:MembershipStatus')->find($id);
+        $membershipStatus->setPosition($position);
+        $em->persist($membershipStatus);
         $em->flush();
         $request = new Request();
         return $this->indexAction($request);
@@ -122,6 +122,7 @@ class MembershipStatusController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $membershipStatus->setPosition(-1);
         $membershipStatus->setIsDeleted(true);
 
         $em->flush();
