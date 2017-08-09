@@ -4,8 +4,11 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\EmailTemplate;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Emailtemplate controller.
@@ -17,8 +20,10 @@ class EmailTemplateController extends Controller
     /**
      * Lists all emailTemplate entities.
      *
-     * @Route("/", name="emailtemplate_index")
+     * @Route("/")
      * @Method("GET")
+     * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function indexAction()
     {
@@ -34,10 +39,12 @@ class EmailTemplateController extends Controller
     /**
      * Creates a new emailTemplate entity.
      *
-     * @Route("/new", name="emailtemplate_new")
+     * @Route("/create")
      * @Method({"GET", "POST"})
+     * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
-    public function newAction(Request $request)
+    public function createAction(Request $request)
     {
         $emailTemplate = new Emailtemplate();
         $form = $this->createForm('AppBundle\Form\EmailTemplateType', $emailTemplate);
@@ -49,61 +56,48 @@ class EmailTemplateController extends Controller
             $em->persist($emailTemplate);
             $em->flush($emailTemplate);
 
-            return $this->redirectToRoute('emailtemplate_show', array('id' => $emailTemplate->getId()));
+            return $this->redirectToRoute('app_emailtemplate_edit', array('id' => $emailTemplate->getId()));
         }
 
-        return $this->render('emailtemplate/new.html.twig', array(
+        return $this->render('emailtemplate/create.html.twig', array(
             'emailTemplate' => $emailTemplate,
             'form' => $form->createView(),
         ));
     }
 
     /**
-     * Finds and displays a emailTemplate entity.
-     *
-     * @Route("/{id}", name="emailtemplate_show")
-     * @Method("GET")
-     */
-    public function showAction(EmailTemplate $emailTemplate)
-    {
-        $deleteForm = $this->createDeleteForm($emailTemplate);
-
-        return $this->render('emailtemplate/show.html.twig', array(
-            'emailTemplate' => $emailTemplate,
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
      * Displays a form to edit an existing emailTemplate entity.
      *
-     * @Route("/{id}/edit", name="emailtemplate_edit")
+     * @Route("/{id}/edit")
      * @Method({"GET", "POST"})
+     * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function editAction(Request $request, EmailTemplate $emailTemplate)
     {
-        $deleteForm = $this->createDeleteForm($emailTemplate);
+        //$deleteForm = $this->createDeleteForm($emailTemplate);
         $editForm = $this->createForm('AppBundle\Form\EmailTemplateType', $emailTemplate);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('emailtemplate_edit', array('id' => $emailTemplate->getId()));
+            return $this->redirectToRoute('app_emailtemplate_edit', array('id' => $emailTemplate->getId()));
         }
 
         return $this->render('emailtemplate/edit.html.twig', array(
             'emailTemplate' => $emailTemplate,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'form' => $editForm->createView(),
+            //'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
      * Deletes a emailTemplate entity.
      *
-     * @Route("/{id}", name="emailtemplate_delete")
-     * @Method("DELETE")
+     * @Route("/{id}")
+     * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function deleteAction(Request $request, EmailTemplate $emailTemplate)
     {
