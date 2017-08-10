@@ -71,11 +71,9 @@ class CompanyStatusController extends Controller
      * @Route("/{id}/edit")
      * @Method({"GET", "POST"})
      * @Template
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function editAction(Request $request, CompanyStatus $companyStatus)
     {
-        //$deleteForm = $this->createDeleteForm($companyStatus);
         $editForm = $this->createForm('AppBundle\Form\CompanyStatusType', $companyStatus);
         $editForm->handleRequest($request);
 
@@ -93,21 +91,21 @@ class CompanyStatusController extends Controller
 
     /**
      * Resorts an item using it's doctrine sortable property
-     * @param integer $id
-     * @param integer $position
      * @Route("/sort/{id}/{position}")
-     * @Template
+     * @Template("AppBundle:CompanyStatus:index.html.twig")
      * @Method("GET")
      */
-    public function sortAction($id, $position)
+    public function sortAction(Request $request, $id, $position)
     {
-        $em = $this->getDoctrine()->getManager();
-        $companyStatus = $em->getRepository('AppBundle:CompanyStatus')->find($id);
-        $companyStatus->setPosition($position);
-        $em->persist($companyStatus);
-        $em->flush();
-        $request = new Request();
-        return $this->indexAction($request);
+        if($request->isXmlHttpRequest()) {
+            $em = $this->getDoctrine()->getManager();
+            $companyStatus = $em->getRepository('AppBundle:CompanyStatus')->find($id);
+            $companyStatus->setPosition($position);
+            $em->persist($companyStatus);
+            $em->flush();
+            $request = new Request();
+            return $this->indexAction($request);
+        }
     }
 
     /**
@@ -128,21 +126,5 @@ class CompanyStatusController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('app_companystatus_index');
-    }
-
-    /**
-     * Creates a form to delete a companyStatus entity.
-     *
-     * @param CompanyStatus $companyStatus The companyStatus entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(CompanyStatus $companyStatus)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('app_companystatus_delete', array('id' => $companyStatus->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
     }
 }

@@ -91,21 +91,21 @@ class MembershipStatusController extends Controller
 
     /**
      * Resorts an item using it's doctrine sortable property
-     * @param integer $id
-     * @param integer $position
      * @Route("/sort/{id}/{position}")
-     * @Template
+     * @Template("AppBundle:MembershipStatus:index.html.twig")
      * @Method("GET")
      */
-    public function sortAction($id, $position)
+    public function sortAction(Request $request, $id, $position)
     {
-        $em = $this->getDoctrine()->getManager();
-        $membershipStatus = $em->getRepository('AppBundle:MembershipStatus')->find($id);
-        $membershipStatus->setPosition($position);
-        $em->persist($membershipStatus);
-        $em->flush();
-        $request = new Request();
-        return $this->indexAction($request);
+        if($request->isXmlHttpRequest()) {
+            $em = $this->getDoctrine()->getManager();
+            $membershipStatus = $em->getRepository('AppBundle:MembershipStatus')->find($id);
+            $membershipStatus->setPosition($position);
+            $em->persist($membershipStatus);
+            $em->flush();
+            $request = new Request();
+            return $this->indexAction($request);
+        }
     }
 
     /**

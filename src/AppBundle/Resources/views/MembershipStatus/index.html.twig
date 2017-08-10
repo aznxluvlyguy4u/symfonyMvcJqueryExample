@@ -12,6 +12,7 @@
                         <thead>
                         <tr>
                             <th>Status Name</th>
+                            <th>Position</th>
                             <th>Last Modified</th>
                             <th>Options</th>
                         </tr>
@@ -20,6 +21,7 @@
                         {% for membershipStatus in membershipStatuses %}
                             <tr draggable="true" rel="{{ membershipStatus.id }}">
                                 <td>{{ membershipStatus.label }}</td>
+                                <td>{{ membershipStatus.position }}</td>
                                 <td>{{ membershipStatus.modifiedAt|date('Y-m-d H:i')}}</td>
                                 <td>
                                     <a class="btn btn-default btn-flat" href="{{ path('app_membershipstatus_edit', { 'id': membershipStatus.id }) }}">
@@ -41,7 +43,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="/js/Dashboard/sortable.js"></script>
+    <script type="text/javascript" src="/js/sortable/sortable.js"></script>
 
     <script type="text/javascript" src="/js/datatables/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="/js/datatables/dataTables.bootstrap.min.js"></script>

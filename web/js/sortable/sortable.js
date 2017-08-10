@@ -1,6 +1,7 @@
 var adminNs =
     {
-        initDraggableEntityRows: function() {
+        initDraggableEntityRows: function()
+        {
             var dragSourceElement = null; // the object being drug
             var startPosition = null; // the index of the row element (0 through whatever)
             var endPosition = null; // the index of the row element being dropped on (0 through whatever)
@@ -8,18 +9,18 @@ var adminNs =
             var entityId; // the id (key) of the entity
             var oldColor = null;
             var feedbackColor = '#abcdef';
-            function handleDragStart(e) {
+            function handleDragStart(e)
+            {
                 dragSourceElement = this;
                 entityId = $(this).attr('rel');
                 dragSourceElement.style.opacity = '0.8';
                 parent = dragSourceElement.parentNode;
                 startPosition = Array.prototype.indexOf.call(parent.children, dragSourceElement);
-                console.log("start: "+startPosition);
                 e.dataTransfer.effectAllowed = 'move';
                 e.dataTransfer.setData('text/html', this.innerHTML);
-                console.log(entityId);
             }
-            function handleDragOver(e) {
+            function handleDragOver(e)
+            {
 
                 if (e.preventDefault) {
                     e.preventDefault(); // Necessary. Allows us to drop.
@@ -27,24 +28,24 @@ var adminNs =
                 e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
                 return false;
             }
-            function handleDragEnter(e) {
+            function handleDragEnter(e)
+            {
                 if(e.target !== dragSourceElement) {
                     oldColor = $(e.target).parent().css('background-color');
                     $(e.target).parent().css('background-color', feedbackColor);
                 }
                 this.classList.add('over');
             }
-            function handleDragLeave(e) {
+            function handleDragLeave(e)
+            {
                 if(e.target !== dragSourceElement) {
                     $(e.target).parent().css('background-color', oldColor);
                     oldColor = $(e.target).parent().css('background-color');
                 }
                 this.classList.remove('over');  // this / e.target is previous target element.
             }
-            function handleDrop(e) {
-                //console.log('drop: '+ e.target);
-                //console.log(e.currentTarget);
-                //console.log(dragSrcEl);
+            function handleDrop(e)
+            {
                 if (e.stopPropagation) {
                     e.stopPropagation(); // stops the browser from redirecting.
                 }
@@ -59,20 +60,20 @@ var adminNs =
                     $.ajax({
                         url: 'sort/'+entityId+'/'+endPosition,
                     })
-                        .done(function(res) {
-                            $("table.sortable tbody").replaceWith($(res).find("table.sortable tbody"));
-                        })
-                        .fail(function(err) {
-                            alert("An error occurred while sorting. Please refresh the page and try again.")
-                        })
-                        .always(function() {
-                            adminNs.initDraggableEntityRows();
-                        });
+                    .done(function(res) {
+                        $("table.sortable tbody").replaceWith($(res).find("table.sortable tbody"));
+                    })
+                    .fail(function(err) {
+                        alert("An error occurred while sorting. Please refresh the page and try again." + err)
+                    })
+                    .always(function() {
+                        adminNs.initDraggableEntityRows();
+                    });
                 }
                 return false;
             }
-            function handleDragEnd(e) {
-//console.log('drag end: '+ e.target);
+            function handleDragEnd(e)
+            {
                 this.style.opacity = '1';  // this / e.target is the source node.
                 [].forEach.call(rows, function (row) {
                     row.classList.remove('over');
@@ -101,13 +102,3 @@ var adminNs =
 $(function() {
     adminNs.init();
 });
-
-function hexc(colorval) {
-    var parts = colorval.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-    delete(parts[0]);
-    for (var i = 1; i <= 3; ++i) {
-        parts[i] = parseInt(parts[i]).toString(16);
-        if (parts[i].length == 1) parts[i] = '0' + parts[i];
-    }
-    color = '#' + parts.join('');
-}

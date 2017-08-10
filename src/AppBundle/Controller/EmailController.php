@@ -30,7 +30,8 @@ class EmailController extends Controller
      * @Route("/template/company/{company}")
      * @Method({"GET"})
      */
-    public function getTemplateForCompanyAction(Request $request, Company $company) {
+    public function getTemplateForCompanyAction(Request $request, Company $company)
+    {
         if($request->isXmlHttpRequest()) {
             if ($company) {
                 $template = $company->getStatus()->getEmailTemplate();
@@ -60,7 +61,8 @@ class EmailController extends Controller
      * @Route("/template/membership/{membership}")
      * @Method({"GET"})
      */
-    public function getTemplateForMembershipAction(Request $request, Membership $membership) {
+    public function getTemplateForMembershipAction(Request $request, Membership $membership)
+    {
         if($request->isXmlHttpRequest()) {
             if ($membership) {
                 $template = $membership->getStatus()->getEmailTemplate();
@@ -90,7 +92,8 @@ class EmailController extends Controller
      * @Route("/send")
      * @Method({"POST"})
      */
-    public function sendEmailToCompanyAction(Request $request) {
+    public function sendEmailToCompanyAction(Request $request)
+    {
         $form = $this->createForm(SendEmailType::class);
         $form->handleRequest($request);
 
