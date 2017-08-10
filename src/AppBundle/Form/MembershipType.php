@@ -55,7 +55,7 @@ class MembershipType extends AbstractType
                 }
             ])
             ->add('user', EntityType::class, ['class' => User::class, 'choice_label' => 'usernameCanonical'])
-            ->add('card', EntityType::class, ['class' => Card::class, 'choice_label' => 'id'])
+            ->add('card', EntityType::class, ['class' => Card::class, 'choice_label' => 'number'])
             ->add('status', EntityType::class, ['class' => MembershipStatus::class, 'choice_label' => 'label'])
 //            ->add('contractDoc', DocumentTypeorg::class, [ 'data_class' => Document::class, 'label' => 'Signed contract', 'required' => false])
 //            ->add('sepaForm', DocumentTypeorg::class, [ 'data_class' => DocumentTypeorg::class, 'label' => 'SEPA form', 'required' => false])

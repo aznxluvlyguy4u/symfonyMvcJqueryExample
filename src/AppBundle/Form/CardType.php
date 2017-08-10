@@ -5,6 +5,8 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 
 class CardType extends AbstractType
 {
@@ -13,7 +15,14 @@ class CardType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('createdAt')->add('modifiedAt')->add('isDeleted')->add('createdBy')        ;
+        $builder
+            ->add('number')
+            //->add('createdAt')
+            //->add('modifiedAt')
+            //->add('isDeleted')
+            //->add('createdBy')
+            ->add('save', SubmitType::class);
+        ;
     }
     
     /**

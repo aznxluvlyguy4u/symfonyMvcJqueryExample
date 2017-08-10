@@ -133,6 +133,28 @@
                 </li>
             {% endif %}
 
+            {# Cards #}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_card' %} active{% endif %}">
+                    <a href="#">
+                        <i class="fa fa-address-card-o"></i>
+                        <span>Cards</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="{% if app.request.attributes.get('_route') == 'app_card_index' %}active{% endif %}">
+                            <a href="{{ path('app_card_index') }}">
+                                <i class="fa fa-list"></i>
+                                List cards</a>
+                        </li>
+                        <li class="{% if app.request.attributes.get('_route') == 'app_card_create' %}active{% endif %}">
+                            <a href="{{ path('app_card_create') }}">
+                                <i class="fa fa-plus"></i>
+                                Add card</a>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
+
             {# Configuration Settings #}
             {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_companystatus' or
@@ -141,7 +163,7 @@
 
                 %} active{% endif %}">
                     <a href="#">
-                        <i class="fa fa-users"></i>
+                        <i class="fa fa-wrench"></i>
                         <span>Configuration Settings</span>
                     </a>
                     <ul class="treeview-menu">
