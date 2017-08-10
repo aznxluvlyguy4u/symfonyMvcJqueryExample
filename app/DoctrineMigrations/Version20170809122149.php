@@ -15,7 +15,7 @@ class Version20170809122149 extends AbstractMigration
      */
     public function up(Schema $schema)
     {
-        $this->addColumn( 'mebership_status', 'position', 'integer' );
+        $this->addColumn( 'membership_status', 'position', 'integer' );
 
     }
 
