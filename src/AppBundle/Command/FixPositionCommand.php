@@ -62,15 +62,13 @@ class FixPositionCommand extends ContainerAwareCommand
 
     private function fixPositions($repository)
     {
-        $position = 0;
 
         $em = $this->getContainer()->get('doctrine')->getManager();
 
-        $entities = $em->getRepository($repository)->findBy(array(), array('position' => 'ASC'));
+        $entities = $em->getRepository($repository)->findBy(array(), array());
         foreach($entities as $entity) {
-            $entity->setPosition($position);
+            $entity->setPosition(0);
             $em->persist($entity);
-            $position++;
         }
         $em->flush();
     }
