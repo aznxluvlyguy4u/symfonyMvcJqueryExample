@@ -6,10 +6,12 @@ var adminNs =
             var endPosition = null; // the index of the row element being dropped on (0 through whatever)
             var parent; // the parent element of the dragged item
             var entityId; // the id (key) of the entity
+            var oldColor = null;
+            var feedbackColor = '#abcdef';
             function handleDragStart(e) {
                 dragSrcEl = this;
                 entityId = $(this).attr('rel');
-                dragSrcEl.style.opacity = '0.4';
+                dragSrcEl.style.opacity = '0.8';
                 parent = dragSrcEl.parentNode;
                 startPosition = Array.prototype.indexOf.call(parent.children, dragSrcEl);
                 console.log("start: "+startPosition);
@@ -18,7 +20,7 @@ var adminNs =
                 console.log(entityId);
             }
             function handleDragOver(e) {
-console.log('drag over: '+ e.target);
+
                 if (e.preventDefault) {
                     e.preventDefault(); // Necessary. Allows us to drop.
                 }
@@ -26,11 +28,17 @@ console.log('drag over: '+ e.target);
                 return false;
             }
             function handleDragEnter(e) {
-console.log('drag enter: '+ e.target);
+                if(e.target !== dragSrcEl) {
+                    oldColor = $(e.target).parent().css('background-color');
+                    $(e.target).parent().css('background-color', feedbackColor);
+                }
                 this.classList.add('over');
             }
             function handleDragLeave(e) {
-console.log('drag leave: '+ e.target);
+                if(e.target !== dragSrcEl) {
+                    $(e.target).parent().css('background-color', oldColor);
+                    oldColor = $(e.target).parent().css('background-color');
+                }
                 this.classList.remove('over');  // this / e.target is previous target element.
             }
             function handleDrop(e) {
@@ -93,3 +101,13 @@ console.log('drag leave: '+ e.target);
 $(function() {
     adminNs.init();
 });
+
+function hexc(colorval) {
+    var parts = colorval.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    delete(parts[0]);
+    for (var i = 1; i <= 3; ++i) {
+        parts[i] = parseInt(parts[i]).toString(16);
+        if (parts[i].length == 1) parts[i] = '0' + parts[i];
+    }
+    color = '#' + parts.join('');
+}
