@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Membershipstatus controller.
  *
- * @Route("/configuration/membershipstatus")
+ * @Route("membershipstatus")
  * @Security("is_granted('ROLE_SUPER_ADMIN')")
  */
 class MembershipStatusController extends Controller
