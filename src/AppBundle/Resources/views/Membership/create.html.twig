@@ -11,8 +11,8 @@
                         </div>
                         {{ form_start(form) }}
                         <div class="box-body">
-                            {{ form_row(form.startDate, {'attr': {'class': 'datepicker'}}) }}
-                            {{ form_row(form.endDate, {'attr': {'class': 'datepicker'}}) }}
+                            {{ form_row(form.startDate) }}
+                            {{ form_row(form.endDate) }}
                             {{ form_row(form.company) }}
                             {{ form_row(form.user) }}
                             {{ form_row(form.card) }}
@@ -28,36 +28,4 @@
             </div>
         {% endblock %}
     {% endembed %}
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script src="/js/select2/select2.full.min.js"></script>
-    <script src="/js/datepicker/bootstrap-datepicker.js"></script>
-    <script>
-        $(".select2").select2({
-            sorter: function(data) {
-                return data.sort(function(a, b) {
-                    if (a.text > b.text) {
-                        return 1;
-                    }
-                    if (a.text < b.text) {
-                        return -1;
-                    }
-                    return 0;
-                });
-            }
-        });
-
-        $('.datepicker').datepicker({
-            autoclose: true,
-            format: 'yyyy-mm-dd'
-        });
-    </script>
-{% endblock javascripts %}
-
-{% block stylesheets %}
-    <link rel="stylesheet" href="/css/select2/select2.min.css">
-    <link rel="stylesheet" href="/css/datepicker/datepicker3.css">
-    {{ parent() }}
 {% endblock %}
