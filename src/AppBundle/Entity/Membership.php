@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\MembershipRepository")
@@ -18,22 +19,26 @@ class Membership extends BaseEntity
     protected $id;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="datetime")
      */
     protected $startDate;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $endDate;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\ManyToOne(targetEntity="Company", inversedBy="memberships")
      * @ORM\JoinColumn(name="company_id", referencedColumnName="id")
      */
     protected $company;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\ManyToOne(targetEntity="User", inversedBy="memberships")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
@@ -52,6 +57,7 @@ class Membership extends BaseEntity
     protected $comments;
     
     /**
+     * @Assert\NotBlank()
      * @ORM\ManyToOne(targetEntity="MembershipStatus", inversedBy="memberships")
      * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
      */
