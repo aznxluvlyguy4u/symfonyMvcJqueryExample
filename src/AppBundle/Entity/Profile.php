@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="BaseEntityRepository")
@@ -21,11 +22,13 @@ class Profile extends BaseEntity
     }
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="string")
      */
     protected $firstName;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="string")
      */
     protected $lastName;

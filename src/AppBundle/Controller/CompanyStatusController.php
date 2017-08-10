@@ -5,7 +5,10 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\CompanyStatus;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Companystatus controller.
@@ -17,8 +20,10 @@ class CompanyStatusController extends Controller
     /**
      * Lists all companyStatus entities.
      *
-     * @Route("/", name="companystatus_index")
+     * @Route("/")
+     * @Template
      * @Method("GET")
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function indexAction()
     {
@@ -26,18 +31,20 @@ class CompanyStatusController extends Controller
 
         $companyStatuses = $em->getRepository('AppBundle:CompanyStatus')->findBy(array(), array('id' => 'ASC'));
 
-        return $this->render('companystatus/index.html.twig', array(
+        return [
             'companyStatuses' => $companyStatuses,
-        ));
+        ];
     }
 
     /**
      * Creates a new companyStatus entity.
      *
-     * @Route("/new", name="companystatus_new")
+     * @Route("/create")
      * @Method({"GET", "POST"})
+     * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
-    public function newAction(Request $request)
+    public function createAction(Request $request)
     {
         $companyStatus = new Companystatus();
         $form = $this->createForm('AppBundle\Form\CompanyStatusType', $companyStatus);
@@ -48,74 +55,57 @@ class CompanyStatusController extends Controller
             $em->persist($companyStatus);
             $em->flush($companyStatus);
 
-            return $this->redirectToRoute('companystatus_show', array('id' => $companyStatus->getId()));
+            return $this->redirectToRoute('app_companystatus_edit', array('id' => $companyStatus->getId()));
         }
 
-        return $this->render('companystatus/new.html.twig', array(
+        return [
             'companyStatus' => $companyStatus,
             'form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * Finds and displays a companyStatus entity.
-     *
-     * @Route("/{id}", name="companystatus_show")
-     * @Method("GET")
-     */
-    public function showAction(CompanyStatus $companyStatus)
-    {
-        $deleteForm = $this->createDeleteForm($companyStatus);
-
-        return $this->render('companystatus/show.html.twig', array(
-            'companyStatus' => $companyStatus,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        ];
     }
 
     /**
      * Displays a form to edit an existing companyStatus entity.
      *
-     * @Route("/{id}/edit", name="companystatus_edit")
+     * @Route("/{id}/edit")
      * @Method({"GET", "POST"})
+     * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function editAction(Request $request, CompanyStatus $companyStatus)
     {
-        $deleteForm = $this->createDeleteForm($companyStatus);
+        //$deleteForm = $this->createDeleteForm($companyStatus);
         $editForm = $this->createForm('AppBundle\Form\CompanyStatusType', $companyStatus);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('companystatus_edit', array('id' => $companyStatus->getId()));
+            return $this->redirectToRoute('app_companystatus_edit', array('id' => $companyStatus->getId()));
         }
 
-        return $this->render('companystatus/edit.html.twig', array(
+        return [
             'companyStatus' => $companyStatus,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+            'form' => $editForm->createView(),
+        ];
     }
 
     /**
      * Deletes a companyStatus entity.
      *
-     * @Route("/{id}", name="companystatus_delete")
-     * @Method("DELETE")
+     * @Route("/delete/{id}")
+     * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function deleteAction(Request $request, CompanyStatus $companyStatus)
     {
-        $form = $this->createDeleteForm($companyStatus);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($companyStatus);
-            $em->flush($companyStatus);
-        }
+        $companyStatus->setIsDeleted(true);
 
-        return $this->redirectToRoute('companystatus_index');
+        $em->flush();
+
+        return $this->redirectToRoute('app_companystatus_index');
     }
 
     /**
@@ -128,7 +118,7 @@ class CompanyStatusController extends Controller
     private function createDeleteForm(CompanyStatus $companyStatus)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('companystatus_delete', array('id' => $companyStatus->getId())))
+            ->setAction($this->generateUrl('app_companystatus_delete', array('id' => $companyStatus->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;

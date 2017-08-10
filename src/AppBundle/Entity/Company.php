@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
-use Symfony\Component\Validator\Constraint as Assert;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CompanyRepository")
@@ -20,16 +20,19 @@ class Company extends BaseEntity
     protected $id;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @Assert\NotBlank()
+     * @ORM\Column(type="string", nullable=false)
      */
     protected $contactFirstname;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @Assert\NotBlank()
+     * @ORM\Column(type="string", nullable=false)
      */
     protected $contactLastname;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", nullable=false)
      */
     protected $companyName;
@@ -51,7 +54,9 @@ class Company extends BaseEntity
     protected $squareMetersWanted;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @Assert\NotBlank()
+     * @Assert\Email()
+     * @ORM\Column(type="string", nullable=false)
      */
     protected $email;
 
