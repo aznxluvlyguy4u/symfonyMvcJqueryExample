@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
  * Emailtemplate controller.
  *
  * @Route("emailtemplate")
- * @Security("is_granted('ROLE_SUPER_ADMIN')")
  */
 class EmailTemplateController extends Controller
 {
@@ -24,6 +23,7 @@ class EmailTemplateController extends Controller
      * @Route("/")
      * @Method("GET")
      * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function indexAction()
     {
@@ -42,6 +42,7 @@ class EmailTemplateController extends Controller
      * @Route("/create")
      * @Method({"GET", "POST"})
      * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function createAction(Request $request)
     {
@@ -70,6 +71,7 @@ class EmailTemplateController extends Controller
      * @Route("/{id}/edit")
      * @Method({"GET", "POST"})
      * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function editAction(Request $request, EmailTemplate $emailTemplate)
     {
@@ -95,6 +97,7 @@ class EmailTemplateController extends Controller
      *
      * @Route("/{id}")
      * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function deleteAction(Request $request, EmailTemplate $emailTemplate)
     {

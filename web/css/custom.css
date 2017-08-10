@@ -29,13 +29,9 @@
     cursor: -webkit-grab;
 }
 
-table.sortable tr{
-    cursor:move;
-    cursor: grab;
-    cursor: -moz-grab;
-    cursor: -webkit-grab;
-}
-
-table.sortable tbody tr:hover{
-    background-color: #abcdef;
+/* (Optional) Apply a "closed-hand" cursor during drag operation. */
+.draggable:active {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
 }

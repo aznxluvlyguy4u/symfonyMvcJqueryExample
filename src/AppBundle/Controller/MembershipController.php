@@ -24,7 +24,6 @@ use Symfony\Component\HttpFoundation\Response;
  * Membership controller.
  *
  * @Route("membership")
- * @Security("is_granted('ROLE_SUPER_ADMIN')")
  */
 class MembershipController extends Controller
 {
@@ -34,6 +33,7 @@ class MembershipController extends Controller
      * @Route("/")
      * @Method("GET")
      * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function indexAction()
     {
@@ -52,6 +52,7 @@ class MembershipController extends Controller
      * @Route("/create")
      * @Method({"GET", "POST"})
      * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function createAction(Request $request)
     {
@@ -90,6 +91,7 @@ class MembershipController extends Controller
      * @Route("/edit/{membership}")
      * @Method({"GET", "POST"})
      * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function editAction(Request $request, Membership $membership)
     {
@@ -169,6 +171,7 @@ class MembershipController extends Controller
     /**
      * @Route("/{membership}/document")
      * @Method({"POST"})
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function handleDocumentAction(Request $request, Membership $membership)
     {
@@ -191,6 +194,7 @@ class MembershipController extends Controller
     /**
      * @Route("/update/{membership}/status/{status}", requirements={"membership": "\d+", "status": "\d+"})
      * @Method("PUT")
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function updateStatusAction(Request $request, Membership $membership, MembershipStatus $status)
     {
@@ -236,6 +240,7 @@ class MembershipController extends Controller
      * @Route("/delete/{membership}")
      * @Method("GET")
      * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function deleteAction(Request $request, Membership $membership)
     {
