@@ -12,13 +12,13 @@ use AppBundle\Form\FormContractType;
 
 /**
  * @Route("/contract")
- * @Security("is_granted('ROLE_SUPER_ADMIN')")
  */
 class ContractController extends Controller
 {
     /**
      * @Route("/")
      * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function indexAction()
     {
@@ -35,6 +35,7 @@ class ContractController extends Controller
     /**
      * @Route("/create")
      * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function createAction(Request $request)
     {
@@ -66,6 +67,7 @@ class ContractController extends Controller
     /**
      * @Route("/edit/{contract}")
      * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function editAction(Request $request, Contract $contract)
     {
@@ -96,6 +98,7 @@ class ContractController extends Controller
     /**
      * @Route("/delete/{contract}")
      * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function deleteAction(Request $request, Contract $contract)
     {

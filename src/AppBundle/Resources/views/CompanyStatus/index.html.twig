@@ -8,20 +8,18 @@
                     <h3 class="box-title">List of Companies</h3>
                 </div>
                 <div class="box-body">
-                    <table id="companies" class="sortable table table-bordered table-striped">
+                    <table id="companies" class="table table-bordered table-striped">
                         <thead>
                         <tr>
                             <th>Status Name</th>
-                            <th>Position</th>
                             <th>Last Modified</th>
                             <th>Options</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for companyStatus in companyStatuses %}
-                            <tr draggable="true" rel="{{ companyStatus.id }}">
+                            <tr>
                                 <td>{{ companyStatus.label }}</td>
-                                <td>{{ companyStatus.position }}</td>
                                 <td>{{ companyStatus.modifiedAt|date('Y-m-d H:i')}}</td>
                                 <td>
                                     <a class="btn btn-default btn-flat" href="{{ path('app_companystatus_edit', { 'id': companyStatus.id }) }}">
@@ -43,8 +41,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="/js/Dashboard/sortable.js"></script>
-
     <script type="text/javascript" src="/js/datatables/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="/js/datatables/dataTables.bootstrap.min.js"></script>
     <script type="text/javascript">
@@ -53,7 +49,7 @@
             "pageLength" : 25,
             "lengthChange": false,
             "searching": true,
-            "ordering": false,
+            "ordering": true,
             "info": true,
             "autoWidth": false
         });
@@ -64,4 +60,3 @@
     {{ parent() }}
     <link rel="stylesheet" href="/css/datatables/dataTables.bootstrap.css">
 {% endblock %}
-

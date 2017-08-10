@@ -23,13 +23,13 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * @Route("/company")
- * @Security("is_granted('ROLE_SUPER_ADMIN')")
  */
 class CompanyController extends Controller
 {
     /**
      * @Route("/")
      * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function indexAction()
     {
@@ -46,6 +46,7 @@ class CompanyController extends Controller
     /**
      * @Route("/create")
      * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function createAction(Request $request)
     {
@@ -76,6 +77,7 @@ class CompanyController extends Controller
     /**
      * @Route("/edit/{company}")
      * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function editAction(Request $request, Company $company)
     {
@@ -150,6 +152,7 @@ class CompanyController extends Controller
     /**
      * @Route("/update/{company}/status/{status}", requirements={"company": "\d+", "status": "\d+"})
      * @Method("PUT")
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function updateStatusAction(Request $request, Company $company, CompanyStatus $status)
     {
@@ -193,6 +196,7 @@ class CompanyController extends Controller
     /**
      * @Route("/delete/{company}")
      * @Template
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function deleteAction(Request $request, Company $company)
     {
