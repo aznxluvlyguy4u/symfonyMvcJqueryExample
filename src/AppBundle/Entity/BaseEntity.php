@@ -12,17 +12,17 @@ use ReflectionClass;
 class BaseEntity
 {
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", options={"default"="CURRENT_TIMESTAMP"})
      */
     protected $createdAt;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", options={"default"="CURRENT_TIMESTAMP"})
      */
     protected $modifiedAt;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default"=false})
      */
     protected $isDeleted = false;
 
@@ -48,7 +48,7 @@ class BaseEntity
     {
         $this->modifiedAt = new \DateTime();
     }
-    
+
     /**
      * Get the comment object type
      * @return string

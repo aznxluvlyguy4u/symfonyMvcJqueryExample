@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use ReflectionClass;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="BaseEntityRepository")
@@ -23,6 +24,7 @@ class Comment extends BaseEntity
     }
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="text")
      */
     protected $text;

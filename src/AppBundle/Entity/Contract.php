@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="BaseEntityRepository")
@@ -26,11 +27,15 @@ class Contract extends BaseEntity
     protected $company;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Date()
      * @ORM\Column(type="datetime")
      */
     protected $startDate;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Date()
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $endDate;

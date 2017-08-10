@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * @ORM\Entity(repositoryClass="BaseEntityRepository")
  */
@@ -153,29 +154,5 @@ class CompanyComment extends Comment
     public function getCompany()
     {
         return $this->company;
-    }
-
-    /**
-     * Set createdBy
-     *
-     * @param \AppBundle\Entity\User $createdBy
-     *
-     * @return CompanyComment
-     */
-    public function setCreatedBy(\AppBundle\Entity\User $createdBy)
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    /**
-     * Get createdBy
-     *
-     * @return \AppBundle\Entity\User
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
     }
 }

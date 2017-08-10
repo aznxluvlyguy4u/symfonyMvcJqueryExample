@@ -62,8 +62,9 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
-        filters:
-            is_deleted_filter: AppBundle\Doctrine\IsDeletedFilter
+        #Disabled, needs to be rewritten in the Respective Entity Repositories
+        # filters:
+        #     is_deleted_filter: AppBundle\Doctrine\IsDeletedFilter
 
 # FOSUserBundle Configuration
 fos_user:
