@@ -5,10 +5,12 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Entity\EmailTemplate;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
-class CardType extends AbstractType
+class CompanySectorType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -16,13 +18,9 @@ class CardType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('number')
-            //->add('createdAt')
-            //->add('modifiedAt')
-            //->add('isDeleted')
-            //->add('createdBy')
+            ->add('label')
             ->add('save', SubmitType::class);
-        ;
+
     }
     
     /**
@@ -31,7 +29,7 @@ class CardType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Card'
+            'data_class' => 'AppBundle\Entity\CompanySector'
         ));
     }
 
@@ -40,7 +38,7 @@ class CardType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_card';
+        return 'appbundle_companysector';
     }
 
 

@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Companystatus controller.
  *
  *
- * @Route("companystatus")
+ * @Route("/configuration/companystatus")
  * @Security("is_granted('ROLE_SUPER_ADMIN')")
  */
 class CompanyStatusController extends Controller
@@ -28,6 +28,7 @@ class CompanyStatusController extends Controller
      */
     public function indexAction()
     {
+
         $em = $this->getDoctrine()->getManager();
 
         $companyStatuses = $em->getRepository('AppBundle:CompanyStatus')->findBy(array(), array('position' => 'ASC'));

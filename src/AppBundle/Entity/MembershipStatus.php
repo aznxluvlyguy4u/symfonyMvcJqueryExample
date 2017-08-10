@@ -35,7 +35,7 @@ class MembershipStatus extends BaseEntity
      * @var integer $position
      *
      * @Gedmo\Sortable()
-     * @ORM\Column(name="position", type="integer")
+     * @ORM\Column(name="position", type="integer", nullable=true)
      */
     private $position;
 
