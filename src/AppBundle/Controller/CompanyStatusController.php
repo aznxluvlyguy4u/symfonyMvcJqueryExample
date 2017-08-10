@@ -13,7 +13,9 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Companystatus controller.
  *
+ *
  * @Route("companystatus")
+ * @Security("is_granted('ROLE_SUPER_ADMIN')")
  */
 class CompanyStatusController extends Controller
 {
@@ -23,13 +25,12 @@ class CompanyStatusController extends Controller
      * @Route("/")
      * @Template
      * @Method("GET")
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $companyStatuses = $em->getRepository('AppBundle:CompanyStatus')->findBy(array(), array('id' => 'ASC'));
+        $companyStatuses = $em->getRepository('AppBundle:CompanyStatus')->findBy(array(), array('position' => 'ASC'));
 
         return [
             'companyStatuses' => $companyStatuses,
@@ -42,7 +43,6 @@ class CompanyStatusController extends Controller
      * @Route("/create")
      * @Method({"GET", "POST"})
      * @Template
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function createAction(Request $request)
     {
@@ -91,17 +91,38 @@ class CompanyStatusController extends Controller
     }
 
     /**
+     * Resorts an item using it's doctrine sortable property
+     * @param integer $id
+     * @param integer $position
+     * @Route("/sort/{id}/{position}")
+     * @Template
+     * @Method("GET")
+     */
+    public function sortAction($id, $position)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $companyStatus = $em->getRepository('AppBundle:CompanyStatus')->find($id);
+        $companyStatus->setPosition($position);
+        $em->persist($companyStatus);
+        $em->flush();
+        $request = new Request();
+        return $this->indexAction($request);
+    }
+
+    /**
      * Deletes a companyStatus entity.
      *
      * @Route("/delete/{id}")
      * @Template
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function deleteAction(Request $request, CompanyStatus $companyStatus)
     {
+
         $em = $this->getDoctrine()->getManager();
 
+        $companyStatus->setPosition(-1);
         $companyStatus->setIsDeleted(true);
+        $em->persist($companyStatus);
 
         $em->flush();
 
