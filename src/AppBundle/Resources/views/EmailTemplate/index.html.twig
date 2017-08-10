@@ -1,0 +1,66 @@
+
+
+{% extends 'AppBundle:AdminLTE:base.html.twig' %}
+
+{% block body %}
+    {% embed 'AppBundle:AdminLTE:_content.html.twig' %}
+        {% block content %}
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">List of Emailtemplates</h3>
+                </div>
+                <div class="box-body">
+                    <table id="emailtemplate" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Subject</th>
+                            <th>Body</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for emailTemplate in emailTemplates %}
+                            <tr>
+                                <td>{{ emailTemplate.name }}</td>
+                                <td>{{ emailTemplate.subject }}</td>
+                                <td>{{ emailTemplate.body }} </td>
+                                <td>
+                                    <a class="btn btn-default btn-flat" href="{{ path('app_emailtemplate_edit', { 'id': emailTemplate.id }) }}">
+                                        <i class="fa fa-fw fa-pencil"></i>
+                                    </a>
+                                    <a class="btn btn-danger btn-flat" href="{{ path('app_emailtemplate_delete', {'id' : emailTemplate.id}) }}">
+                                        <i class="fa fa-fw fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="/js/datatables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $('#emailtemplate').DataTable({
+            "paging": true,
+            "pageLength" : 25,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false
+        });
+    </script>
+{% endblock javascripts %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/css/datatables/dataTables.bootstrap.css">
+{% endblock %}
