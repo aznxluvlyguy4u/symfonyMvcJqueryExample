@@ -31,9 +31,9 @@ class EmailTemplateController extends Controller
 
         $emailTemplates = $em->getRepository('AppBundle:EmailTemplate')->findAll();
 
-        return [
+        return $this->render('emailtemplate/index.html.twig', array(
             'emailTemplates' => $emailTemplates,
-        ];
+        ));
     }
 
     /**
@@ -58,10 +58,10 @@ class EmailTemplateController extends Controller
             return $this->redirectToRoute('app_emailtemplate_edit', array('id' => $emailTemplate->getId()));
         }
 
-        return [
+        return $this->render('emailtemplate/create.html.twig', array(
             'emailTemplate' => $emailTemplate,
             'form' => $form->createView(),
-        ];
+        ));
     }
 
     /**
@@ -83,11 +83,11 @@ class EmailTemplateController extends Controller
             return $this->redirectToRoute('app_emailtemplate_edit', array('id' => $emailTemplate->getId()));
         }
 
-        return [
+        return $this->render('emailtemplate/edit.html.twig', array(
             'emailTemplate' => $emailTemplate,
             'form' => $editForm->createView(),
             //'delete_form' => $deleteForm->createView(),
-        ];
+        ));
     }
 
     /**
