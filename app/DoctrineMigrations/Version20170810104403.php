@@ -19,8 +19,6 @@ class Version20170810104403 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE card ADD number VARCHAR(255) NOT NULL');
-        $this->addSql('ALTER TABLE company_status ADD position INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE membership_status ADD position INT DEFAULT NULL');
     }
 
     /**
@@ -32,8 +30,6 @@ class Version20170810104403 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('CREATE SCHEMA public');
-        $this->addSql('ALTER TABLE company_status DROP position');
         $this->addSql('ALTER TABLE card DROP number');
-        $this->addSql('ALTER TABLE membership_status DROP position');
     }
 }
