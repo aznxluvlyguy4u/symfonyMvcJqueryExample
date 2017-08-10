@@ -1,7 +1,7 @@
 var adminNs =
     {
         initDraggableEntityRows: function() {
-            var dragSrcEl = null; // the object being drug
+            var dragSourceElement = null; // the object being drug
             var startPosition = null; // the index of the row element (0 through whatever)
             var endPosition = null; // the index of the row element being dropped on (0 through whatever)
             var parent; // the parent element of the dragged item
@@ -9,11 +9,11 @@ var adminNs =
             var oldColor = null;
             var feedbackColor = '#abcdef';
             function handleDragStart(e) {
-                dragSrcEl = this;
+                dragSourceElement = this;
                 entityId = $(this).attr('rel');
-                dragSrcEl.style.opacity = '0.8';
-                parent = dragSrcEl.parentNode;
-                startPosition = Array.prototype.indexOf.call(parent.children, dragSrcEl);
+                dragSourceElement.style.opacity = '0.8';
+                parent = dragSourceElement.parentNode;
+                startPosition = Array.prototype.indexOf.call(parent.children, dragSourceElement);
                 console.log("start: "+startPosition);
                 e.dataTransfer.effectAllowed = 'move';
                 e.dataTransfer.setData('text/html', this.innerHTML);
@@ -28,34 +28,34 @@ var adminNs =
                 return false;
             }
             function handleDragEnter(e) {
-                if(e.target !== dragSrcEl) {
+                if(e.target !== dragSourceElement) {
                     oldColor = $(e.target).parent().css('background-color');
                     $(e.target).parent().css('background-color', feedbackColor);
                 }
                 this.classList.add('over');
             }
             function handleDragLeave(e) {
-                if(e.target !== dragSrcEl) {
+                if(e.target !== dragSourceElement) {
                     $(e.target).parent().css('background-color', oldColor);
                     oldColor = $(e.target).parent().css('background-color');
                 }
                 this.classList.remove('over');  // this / e.target is previous target element.
             }
             function handleDrop(e) {
-//console.log('drop: '+ e.target);
-//console.log(e.currentTarget);
-//console.log(dragSrcEl);
+                //console.log('drop: '+ e.target);
+                //console.log(e.currentTarget);
+                //console.log(dragSrcEl);
                 if (e.stopPropagation) {
                     e.stopPropagation(); // stops the browser from redirecting.
                 }
-// Don't do anything if dropping the same column we're dragging.
-                if (dragSrcEl != this) {
+                // Don't do anything if dropping the same column we're dragging.
+                if (dragSourceElement != this) {
                     endPosition = Array.prototype.indexOf.call(parent.children, this);
                     console.log("end: "+endPosition);
-// Set the source column's HTML to the HTML of the column we dropped on.
-                    dragSrcEl.innerHTML = this.innerHTML;
+                    // Set the source column's HTML to the HTML of the column we dropped on.
+                    dragSourceElement.innerHTML = this.innerHTML;
                     this.innerHTML = e.dataTransfer.getData('text/html');
-// do the ajax call to update the database
+                    // do the ajax call to update the database
                     $.ajax({
                         url: 'sort/'+entityId+'/'+endPosition,
                     })
