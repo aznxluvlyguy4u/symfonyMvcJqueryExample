@@ -34,8 +34,14 @@ class MembershipType extends AbstractType
         $defaultEndDate = $options['data']->getEndDate() == null ? new DateTime() : $options['data']->getEndDate();
 
         $builder
-            ->add('startDate', DateType::class, ['data' => $defaultStartDate])
-            ->add('endDate', DateType::class, ['data' => $defaultEndDate])
+            ->add('startDate', DateType::class, [
+                'widget' => 'single_text',
+                'html5' => 'false',
+            ])
+            ->add('endDate', DateType::class, [
+                'widget' => 'single_text',
+                'html5' => 'false',
+            ])
             ->add('company', EntityType::class, [
                 'class' => Company::class, 
                 'choice_label' => 'companyName', 

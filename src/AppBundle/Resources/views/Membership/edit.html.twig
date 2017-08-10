@@ -19,8 +19,8 @@
                             <div class="tab-pane active" id="edit">
                                 {{ form_start(form) }}
                                 <div class="box-body">
-                                    {{ form_row(form.startDate) }}
-                                    {{ form_row(form.endDate) }}
+                                    {{ form_row(form.startDate, {'attr': {'class': 'datepicker'}}) }}
+                                    {{ form_row(form.endDate, {'attr': {'class': 'datepicker'}}) }}
                                     {{ form_row(form.company) }}
                                     {{ form_row(form.user) }}
                                     {{ form_row(form.card) }}
