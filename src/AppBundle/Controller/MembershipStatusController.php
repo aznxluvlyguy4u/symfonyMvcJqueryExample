@@ -31,9 +31,9 @@ class MembershipStatusController extends Controller
 
         $membershipStatuses = $em->getRepository('AppBundle:MembershipStatus')->findBy(array(), array('position' => 'ASC'));
 
-        return $this->render('membershipstatus/index.html.twig', array(
+        return [
             'membershipStatuses' => $membershipStatuses,
-        ));
+        ];
     }
 
     /**
@@ -57,10 +57,10 @@ class MembershipStatusController extends Controller
             return $this->redirectToRoute('app_membershipstatus_edit', array('id' => $membershipStatus->getId()));
         }
 
-        return $this->render('membershipstatus/create.html.twig', array(
+        return [
             'membershipStatus' => $membershipStatus,
             'form' => $form->createView(),
-        ));
+        ];
     }
 
     /**
@@ -82,11 +82,11 @@ class MembershipStatusController extends Controller
             return $this->redirectToRoute('app_membershipstatus_edit', array('id' => $membershipStatus->getId()));
         }
 
-        return $this->render('membershipstatus/edit.html.twig', array(
+        return [
             'membershipStatus' => $membershipStatus,
             'form' => $editForm->createView(),
             //'delete_form' => $deleteForm->createView(),
-        ));
+        ];
     }
 
     /**

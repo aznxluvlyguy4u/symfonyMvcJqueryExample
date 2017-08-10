@@ -32,9 +32,9 @@ class CompanyStatusController extends Controller
 
         $companyStatuses = $em->getRepository('AppBundle:CompanyStatus')->findBy(array(), array('position' => 'ASC'));
 
-        return $this->render('companystatus/index.html.twig', array(
+        return [
             'companyStatuses' => $companyStatuses,
-        ));
+        ];
     }
 
     /**
@@ -58,10 +58,10 @@ class CompanyStatusController extends Controller
             return $this->redirectToRoute('app_companystatus_edit', array('id' => $companyStatus->getId()));
         }
 
-        return $this->render('companystatus/create.html.twig', array(
+        return [
             'companyStatus' => $companyStatus,
             'form' => $form->createView(),
-        ));
+        ];
     }
 
     /**
@@ -84,10 +84,10 @@ class CompanyStatusController extends Controller
             return $this->redirectToRoute('app_companystatus_edit', array('id' => $companyStatus->getId()));
         }
 
-        return $this->render('companystatus/edit.html.twig', array(
+        return [
             'companyStatus' => $companyStatus,
             'form' => $editForm->createView(),
-        ));
+        ];
     }
 
     /**
