@@ -3,7 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -26,12 +25,6 @@ class CompanyComment extends Comment
      * @ORM\ManyToOne(targetEntity="Company", inversedBy="comments")
      */
     protected $company;
-
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", nullable=false)
-     */
-    protected $text;
 
     /**
      * Get id
