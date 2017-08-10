@@ -31,9 +31,9 @@ class MembershipStatusController extends Controller
 
         $membershipStatuses = $em->getRepository('AppBundle:MembershipStatus')->findBy(array(), array('id' => 'ASC'));
 
-        return $this->render('membershipstatus/index.html.twig', array(
+        return [
             'membershipStatuses' => $membershipStatuses,
-        ));
+        ];
     }
 
     /**
@@ -58,10 +58,10 @@ class MembershipStatusController extends Controller
             return $this->redirectToRoute('app_membershipstatus_edit', array('id' => $membershipStatus->getId()));
         }
 
-        return $this->render('membershipstatus/create.html.twig', array(
+        return [
             'membershipStatus' => $membershipStatus,
             'form' => $form->createView(),
-        ));
+        ];
     }
 
     /**
@@ -84,11 +84,11 @@ class MembershipStatusController extends Controller
             return $this->redirectToRoute('app_membershipstatus_edit', array('id' => $membershipStatus->getId()));
         }
 
-        return $this->render('membershipstatus/edit.html.twig', array(
+        return [
             'membershipStatus' => $membershipStatus,
             'form' => $editForm->createView(),
             //'delete_form' => $deleteForm->createView(),
-        ));
+        ];
     }
 
     /**
@@ -119,7 +119,7 @@ class MembershipStatusController extends Controller
     private function createDeleteForm(MembershipStatus $membershipStatus)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('membershipstatus_delete', array('id' => $membershipStatus->getId())))
+            ->setAction($this->generateUrl('app_membershipstatus_delete', array('id' => $membershipStatus->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;
