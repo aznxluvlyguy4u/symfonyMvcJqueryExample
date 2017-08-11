@@ -31,7 +31,7 @@ class CompanyStatusController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $companyStatuses = $em->getRepository('AppBundle:CompanyStatus')->findBy(array(), array('position' => 'ASC'));
+        $companyStatuses = $em->getRepository('AppBundle:CompanyStatus')->findBy(array('isDeleted' => false), array('position' => 'ASC'));
 
         return [
             'companyStatuses' => $companyStatuses,
