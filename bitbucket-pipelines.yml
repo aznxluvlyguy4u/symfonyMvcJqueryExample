@@ -9,4 +9,7 @@ pipelines:
   default:
     - step:
         script:
-
+          - composer install
+          - composer require --dev symfony/phpunit-bridge
+          - bin/console doctrine:schema:validate
+          - ./vendor/bin/simple-phpunit
