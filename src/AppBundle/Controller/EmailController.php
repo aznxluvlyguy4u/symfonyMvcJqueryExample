@@ -22,15 +22,16 @@ use Twig_Error_Syntax;
 
 /**
  * @Route("/email")
+ * @Security("is_granted('ROLE_SUPER_ADMIN')")
  */
 class EmailController extends Controller
 {
     /**
      * @Route("/template/company/{company}")
      * @Method({"GET"})
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
-    public function getTemplateForCompanyAction(Request $request, Company $company) {
+    public function getTemplateForCompanyAction(Request $request, Company $company)
+    {
         if($request->isXmlHttpRequest()) {
             if ($company) {
                 $template = $company->getStatus()->getEmailTemplate();
@@ -59,9 +60,9 @@ class EmailController extends Controller
     /**
      * @Route("/template/membership/{membership}")
      * @Method({"GET"})
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
-    public function getTemplateForMembershipAction(Request $request, Membership $membership) {
+    public function getTemplateForMembershipAction(Request $request, Membership $membership)
+    {
         if($request->isXmlHttpRequest()) {
             if ($membership) {
                 $template = $membership->getStatus()->getEmailTemplate();
@@ -90,9 +91,9 @@ class EmailController extends Controller
     /**
      * @Route("/send")
      * @Method({"POST"})
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
-    public function sendEmailToCompanyAction(Request $request) {
+    public function sendEmailToCompanyAction(Request $request)
+    {
         $form = $this->createForm(SendEmailType::class);
         $form->handleRequest($request);
 

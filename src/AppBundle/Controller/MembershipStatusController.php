@@ -13,7 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Membershipstatus controller.
  *
- * @Route("membershipstatus")
+ * @Route("/configuration/membershipstatus")
+ * @Security("is_granted('ROLE_SUPER_ADMIN')")
  */
 class MembershipStatusController extends Controller
 {
@@ -23,13 +24,12 @@ class MembershipStatusController extends Controller
      * @Route("/")
      * @Method("GET")
      * @Template
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $membershipStatuses = $em->getRepository('AppBundle:MembershipStatus')->findBy(array(), array('id' => 'ASC'));
+        $membershipStatuses = $em->getRepository('AppBundle:MembershipStatus')->findBy(array('isDeleted' => false), array('position' => 'ASC'));
 
         return [
             'membershipStatuses' => $membershipStatuses,
@@ -42,7 +42,6 @@ class MembershipStatusController extends Controller
      * @Route("/create")
      * @Method({"GET", "POST"})
      * @Template
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function createAction(Request $request)
     {
@@ -70,7 +69,6 @@ class MembershipStatusController extends Controller
      * @Route("/{id}/edit")
      * @Method({"GET", "POST"})
      * @Template
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function editAction(Request $request, MembershipStatus $membershipStatus)
     {
@@ -92,16 +90,35 @@ class MembershipStatusController extends Controller
     }
 
     /**
+     * Resorts an item using it's doctrine sortable property
+     * @Route("/sort/{id}/{position}")
+     * @Template("AppBundle:MembershipStatus:index.html.twig")
+     * @Method("GET")
+     */
+    public function sortAction(Request $request, $id, $position)
+    {
+        if($request->isXmlHttpRequest()) {
+            $em = $this->getDoctrine()->getManager();
+            $membershipStatus = $em->getRepository('AppBundle:MembershipStatus')->find($id);
+            $membershipStatus->setPosition($position);
+            $em->persist($membershipStatus);
+            $em->flush();
+            $request = new Request();
+            return $this->indexAction($request);
+        }
+    }
+
+    /**
      * Deletes a membershipStatus entity.
      *
      * @Route("/{id}")
      * @Template
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function deleteAction(Request $request, MembershipStatus $membershipStatus)
     {
         $em = $this->getDoctrine()->getManager();
 
+        $membershipStatus->setPosition(-1);
         $membershipStatus->setIsDeleted(true);
 
         $em->flush();

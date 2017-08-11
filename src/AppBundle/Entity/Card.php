@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="BaseEntityRepository")
@@ -22,6 +23,12 @@ class Card extends BaseEntity
      */
     protected $memberships;
 
+    /**
+     * @Assert\NotBlank()
+     * @ORM\Column(type="string")
+     */
+    protected $number;
+
     public function __construct()
     {
         $this->memberships = new ArrayCollection();
@@ -35,6 +42,30 @@ class Card extends BaseEntity
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set label
+     *
+     * @param string $number
+     *
+     * @return Card
+     */
+    public function setNumber($number)
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    /**
+     * Get label
+     *
+     * @return string
+     */
+    public function getNumber()
+    {
+        return $this->number;
     }
 
     /**

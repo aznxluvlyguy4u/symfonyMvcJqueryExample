@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\CompanySector;
+use AppBundle\Form\CompanySectorType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -11,10 +13,10 @@ use AppBundle\Entity\Contract;
 use AppBundle\Form\FormContractType;
 
 /**
- * @Route("/contract")
+ * @Route("/configuration/sector")
  * @Security("is_granted('ROLE_SUPER_ADMIN')")
  */
-class ContractController extends Controller
+class CompanySectorController extends Controller
 {
     /**
      * @Route("/")
@@ -22,12 +24,13 @@ class ContractController extends Controller
      */
     public function indexAction()
     {
+
         $em = $this->getDoctrine()->getManager();
 
-        $contracts = $em->getRepository('AppBundle:Contract')->findAll();
+        $sectors = $em->getRepository('AppBundle:CompanySector')->findAll();
 
         return [
-            'contracts' => $contracts,
+            'sectors' => $sectors,
         ];
     }
 
@@ -40,21 +43,20 @@ class ContractController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $contract = new Contract();
-        $form = $this->createForm(FormContractType::class, $contract);
+        $sector = new CompanySector();
+        $form = $this->createForm(CompanySectorType::class, $sector);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $contract->setCreatedBy($this->getUser());
-            $contract->setEndDate(null);
-            $em->persist($contract);
+            $sector->setCreatedBy($this->getUser());
+            $em->persist($sector);
             $em->flush();
 
             if ($form->get('save')->isClicked()) {
-                return $this->redirectToRoute('app_contract_edit', ['contract' => $contract->getId()]);
+                return $this->redirectToRoute('app_companysector_edit', ['sector' => $sector->getId()]);
             } else {
-                return $this->redirectToRoute('app_contract_index');
+                return $this->redirectToRoute('app_companysector_index');
             }
         }
 
@@ -64,47 +66,47 @@ class ContractController extends Controller
     }
 
     /**
-     * @Route("/edit/{contract}")
+     * @Route("/edit/{sector}")
      * @Template
      */
-    public function editAction(Request $request, Contract $contract)
+    public function editAction(Request $request, CompanySector $sector)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm(FormContractType::class, $contract);
+        $form = $this->createForm(CompanySectorType::class, $sector);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $contract->setCreatedBy($this->getUser());
-            $em->persist($contract);
+            $sector->setCreatedBy($this->getUser());
+            $em->persist($sector);
             $em->flush();
 
             if ($form->get('save')->isClicked()) {
-                return $this->redirectToRoute('app_contract_edit', ['contract' => $contract->getId()]);
+                return $this->redirectToRoute('app_companysector_edit', ['sector' => $sector->getId()]);
             } else {
-                return $this->redirectToRoute('app_contract_index');
+                return $this->redirectToRoute('app_companysector_index');
             }
         }
 
         return [
             'form' => $form->createView(),
-            'contract' => $contract,
+            'contract' => $sector,
         ];
     }
 
     /**
-     * @Route("/delete/{contract}")
+     * @Route("/delete/{sector}")
      * @Template
      */
-    public function deleteAction(Request $request, Contract $contract)
+    public function deleteAction(Request $request, CompanySector $sector)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $contract->setIsDeleted(true);
+        $sector->setIsDeleted(true);
 
         $em->flush();
 
-        return $this->redirectToRoute('app_contract_index');
+        return $this->redirectToRoute('app_companysector_index');
     }
 }

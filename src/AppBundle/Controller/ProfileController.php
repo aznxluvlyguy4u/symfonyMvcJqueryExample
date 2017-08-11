@@ -13,13 +13,13 @@ use AppBundle\Form\EditProfileType;
 
 /**
  * @Route("/profile")
+ * @Security("is_granted('ROLE_SUPER_ADMIN')")
  */
 class ProfileController extends Controller
 {
     /**
      * @Route("/")
      * @Template
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function indexAction()
     {
@@ -36,7 +36,6 @@ class ProfileController extends Controller
     /**
      * @Route("/create")
      * @Template
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function createAction(Request $request)
     {
@@ -67,7 +66,6 @@ class ProfileController extends Controller
     /**
      * @Route("/edit/{profile}")
      * @Template
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function editAction(Request $request, Profile $profile)
     {
@@ -97,7 +95,6 @@ class ProfileController extends Controller
     /**
      * @Route("/delete/{profile}")
      * @Template
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function deleteAction(Request $request, Profile $profile)
     {

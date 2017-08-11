@@ -2,6 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Card;
+use AppBundle\Entity\CompanySector;
+use AppBundle\Form\CardType;
+use AppBundle\Form\CompanySectorType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -11,10 +15,10 @@ use AppBundle\Entity\Contract;
 use AppBundle\Form\FormContractType;
 
 /**
- * @Route("/contract")
+ * @Route("/card")
  * @Security("is_granted('ROLE_SUPER_ADMIN')")
  */
-class ContractController extends Controller
+class CardController extends Controller
 {
     /**
      * @Route("/")
@@ -22,12 +26,13 @@ class ContractController extends Controller
      */
     public function indexAction()
     {
+
         $em = $this->getDoctrine()->getManager();
 
-        $contracts = $em->getRepository('AppBundle:Contract')->findAll();
+        $cards = $em->getRepository('AppBundle:Card')->findAll();
 
         return [
-            'contracts' => $contracts,
+            'cards' => $cards,
         ];
     }
 
@@ -40,21 +45,20 @@ class ContractController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $contract = new Contract();
-        $form = $this->createForm(FormContractType::class, $contract);
+        $card = new Card();
+        $form = $this->createForm(CardType::class, $card);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $contract->setCreatedBy($this->getUser());
-            $contract->setEndDate(null);
-            $em->persist($contract);
+            $card->setCreatedBy($this->getUser());
+            $em->persist($card);
             $em->flush();
 
             if ($form->get('save')->isClicked()) {
-                return $this->redirectToRoute('app_contract_edit', ['contract' => $contract->getId()]);
+                return $this->redirectToRoute('app_card_edit', ['card' => $card->getId()]);
             } else {
-                return $this->redirectToRoute('app_contract_index');
+                return $this->redirectToRoute('app_card_index');
             }
         }
 
@@ -64,47 +68,47 @@ class ContractController extends Controller
     }
 
     /**
-     * @Route("/edit/{contract}")
+     * @Route("/edit/{card}")
      * @Template
      */
-    public function editAction(Request $request, Contract $contract)
+    public function editAction(Request $request, Card $card)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm(FormContractType::class, $contract);
+        $form = $this->createForm(CardType::class, $card);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $contract->setCreatedBy($this->getUser());
-            $em->persist($contract);
+            $card->setCreatedBy($this->getUser());
+            $em->persist($card);
             $em->flush();
 
             if ($form->get('save')->isClicked()) {
-                return $this->redirectToRoute('app_contract_edit', ['contract' => $contract->getId()]);
+                return $this->redirectToRoute('app_card_edit', ['card' => $card->getId()]);
             } else {
-                return $this->redirectToRoute('app_contract_index');
+                return $this->redirectToRoute('app_card_index');
             }
         }
 
         return [
             'form' => $form->createView(),
-            'contract' => $contract,
+            'contract' => $card,
         ];
     }
 
     /**
-     * @Route("/delete/{contract}")
+     * @Route("/delete/{card}")
      * @Template
      */
-    public function deleteAction(Request $request, Contract $contract)
+    public function deleteAction(Request $request, Card $card)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $contract->setIsDeleted(true);
+        $card->setIsDeleted(true);
 
         $em->flush();
 
-        return $this->redirectToRoute('app_contract_index');
+        return $this->redirectToRoute('app_card_index');
     }
 }

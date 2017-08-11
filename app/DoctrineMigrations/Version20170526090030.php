@@ -16,11 +16,11 @@ class Version20170526090030 extends AbstractMigration
     public function up(Schema $schema)
     {
         $this->addSql("ALTER SEQUENCE membership_status_id_seq RESTART WITH 1");
-        $this->addSql("INSERT INTO membership_status (id, label, email_template_id, created_by_id, created_at, modified_at, is_deleted) VALUES
-            (nextval('membership_status_id_seq'), 'First day scheduled', NULL, NULL, current_timestamp, current_timestamp, false), 
-            (nextval('membership_status_id_seq'), 'First week evaluation', NULL, NULL, current_timestamp, current_timestamp, false), 
-            (nextval('membership_status_id_seq'), 'Monthly evaluation', NULL, NULL, current_timestamp, current_timestamp, false), 
-            (nextval('membership_status_id_seq'), 'Cancelled', NULL, NULL, current_timestamp, current_timestamp, false)
+        $this->addSql("INSERT INTO membership_status (id, label, position, email_template_id, created_by_id, created_at, modified_at, is_deleted) VALUES
+            (nextval('membership_status_id_seq'), 'First day scheduled', 0, NULL, NULL, current_timestamp, current_timestamp, false), 
+            (nextval('membership_status_id_seq'), 'First week evaluation', 1, NULL, NULL, current_timestamp, current_timestamp, false), 
+            (nextval('membership_status_id_seq'), 'Monthly evaluation', 2, NULL, NULL, current_timestamp, current_timestamp, false), 
+            (nextval('membership_status_id_seq'), 'Cancelled', 3, NULL, NULL, current_timestamp, current_timestamp, false)
         ");
     }
 

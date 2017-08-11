@@ -25,7 +25,7 @@
 
             {# Companies #}
             {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_company' %} active{% endif %}">
+                <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_company_' %} active{% endif %}">
                     <a href="#">
                         <i class="fa fa-building-o"></i>
                         <span>Companies</span>
@@ -41,34 +41,13 @@
                                 <i class="fa fa-plus"></i>
                                 Add company</a>
                         </li>
-                        {# CompanyStatus #}
-                        {% if is_granted('ROLE_SUPER_ADMIN') %}
-                            <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_companystatus_index' %} active{% endif %}">
-                                <a href="#">
-                                    <i class="fa fa-user-circle-o"></i>
-                                    <span>Company Status</span>
-                                </a>
-                                <ul class="treeview-menu">
-                                    <li class="{% if app.request.attributes.get('_route') == 'app_companystatus_index' %}active{% endif %}">
-                                        <a href="{{ path('app_companystatus_index') }}">
-                                            <i class="fa fa-list"></i>
-                                            List company statuses</a>
-                                    </li>
-                                    <li class="{% if app.request.attributes.get('_route') == 'app_companystatus_create' %}active{% endif %}">
-                                        <a href="{{ path('app_companystatus_create') }}">
-                                            <i class="fa fa-plus"></i>
-                                            Add company status</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        {% endif %}
                     </ul>
                 </li>
             {% endif %}
 
             {# Memberships #}
             {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_membership' %} active{% endif %}">
+                <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_membership_' %} active{% endif %}">
                     <a href="#">
                         <i class="fa fa-user-circle-o"></i>
                         <span>Memberships</span>
@@ -84,27 +63,6 @@
                                 <i class="fa fa-plus"></i>
                                 Add membership</a>
                         </li>
-                        {# MembershipStatus #}
-                        {% if is_granted('ROLE_SUPER_ADMIN') %}
-                            <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_membershipstatus_index' %} active{% endif %}">
-                                <a href="#">
-                                    <i class="fa fa-user-circle-o"></i>
-                                    <span>Membership Status</span>
-                                </a>
-                                <ul class="treeview-menu">
-                                    <li class="{% if app.request.attributes.get('_route') == 'app_membershipstatus_index' %}active{% endif %}">
-                                        <a href="{{ path('app_membershipstatus_index') }}">
-                                            <i class="fa fa-list"></i>
-                                            List membership statuses</a>
-                                    </li>
-                                    <li class="{% if app.request.attributes.get('_route') == 'app_membershipstatus_create' %}active{% endif %}">
-                                        <a href="{{ path('app_membershipstatus_create') }}">
-                                            <i class="fa fa-plus"></i>
-                                            Add membership status</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        {% endif %}
                     </ul>
                 </li>
             {% endif %}
@@ -170,6 +128,101 @@
                             <a href="{{ path('app_emailtemplate_create') }}">
                                 <i class="fa fa-plus"></i>
                                 Add email template</a>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
+
+            {# Cards #}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_card' %} active{% endif %}">
+                    <a href="#">
+                        <i class="fa fa-address-card-o"></i>
+                        <span>Cards</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="{% if app.request.attributes.get('_route') == 'app_card_index' %}active{% endif %}">
+                            <a href="{{ path('app_card_index') }}">
+                                <i class="fa fa-list"></i>
+                                List cards</a>
+                        </li>
+                        <li class="{% if app.request.attributes.get('_route') == 'app_card_create' %}active{% endif %}">
+                            <a href="{{ path('app_card_create') }}">
+                                <i class="fa fa-plus"></i>
+                                Add card</a>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
+
+            {# Configuration Settings #}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_companystatus' or
+                    app.request.attributes.get('_route') starts with 'app_membershipstatus' or
+                    app.request.attributes.get('_route') starts with 'app_companysector'
+
+                %} active{% endif %}">
+                    <a href="#">
+                        <i class="fa fa-wrench"></i>
+                        <span>Configuration Settings</span>
+                    </a>
+                    <ul class="treeview-menu">
+                    {# CompanyStatus #}
+                        <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_companystatus' %} active{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-user-circle-o"></i>
+                                <span>Company Status</span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="{% if app.request.attributes.get('_route') == 'app_companystatus_index' %}active{% endif %}">
+                                    <a href="{{ path('app_companystatus_index') }}">
+                                        <i class="fa fa-list"></i>
+                                        List company statuses</a>
+                                </li>
+                                <li class="{% if app.request.attributes.get('_route') == 'app_companystatus_create' %}active{% endif %}">
+                                    <a href="{{ path('app_companystatus_create') }}">
+                                        <i class="fa fa-plus"></i>
+                                        Add company status</a>
+                                </li>
+                            </ul>
+                        </li>
+                    {# MembershipStatus #}
+                        <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_membershipstatus' %} active{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-user-circle-o"></i>
+                                <span>Membership Status</span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="{% if app.request.attributes.get('_route') == 'app_membershipstatus_index' %}active{% endif %}">
+                                    <a href="{{ path('app_membershipstatus_index') }}">
+                                        <i class="fa fa-list"></i>
+                                        List membership statuses</a>
+                                </li>
+                                <li class="{% if app.request.attributes.get('_route') == 'app_membershipstatus_create' %}active{% endif %}">
+                                    <a href="{{ path('app_membershipstatus_create') }}">
+                                        <i class="fa fa-plus"></i>
+                                        Add membership status</a>
+                                </li>
+                            </ul>
+                        </li>
+                        {# CompanySector #}
+                        <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_companysector' %} active{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-user-circle-o"></i>
+                                <span>Company Sector</span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="{% if app.request.attributes.get('_route') == 'app_companysector_index' %}active{% endif %}">
+                                    <a href="{{ path('app_companysector_index') }}">
+                                        <i class="fa fa-list"></i>
+                                        List company sectors</a>
+                                </li>
+                                <li class="{% if app.request.attributes.get('_route') == 'app_companysectors_create' %}active{% endif %}">
+                                    <a href="{{ path('app_companysector_create') }}">
+                                        <i class="fa fa-plus"></i>
+                                        Add company sector</a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </li>
