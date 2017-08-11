@@ -21,13 +21,13 @@ class Company extends BaseEntity
 
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $contactFirstname;
 
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $contactLastname;
 
@@ -56,7 +56,7 @@ class Company extends BaseEntity
     /**
      * @Assert\NotBlank()
      * @Assert\Email()
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $email;
 

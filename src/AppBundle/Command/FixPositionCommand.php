@@ -2,6 +2,7 @@
 // src/AppBundle/Command/CreateUserCommand.php
 namespace AppBundle\Command;
 
+use Gedmo\Sortable\SortableListener;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -65,11 +66,31 @@ class FixPositionCommand extends ContainerAwareCommand
 
         $em = $this->getContainer()->get('doctrine')->getManager();
 
-        $entities = $em->getRepository($repository)->findBy(array(), array());
-        foreach($entities as $entity) {
-            $entity->setPosition(0);
-            $em->persist($entity);
+        $searchedListener = null;
+        foreach ($em->getEventManager()->getListeners() as $event => $listeners) {
+            foreach ($listeners as $key => $listener) {
+                if ($listener instanceof SortableListener) {
+                    $searchedListener = $listener;
+                    break 2;
+                }
+            }
         }
+
+        if ($searchedListener) {
+            $evm = $em->getEventManager();
+            $evm->removeEventListener(array('onFlush'), $searchedListener);
+        }
+
+        $entities = $em->getRepository($repository)->findBy(array('isDeleted' => false), array());
+
+        $position = 0;
+        foreach($entities as $entity) {
+            $entity->setPosition($position);
+            $em->persist($entity);
+            $position++;
+        }
+
         $em->flush();
+
     }
 }
