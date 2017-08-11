@@ -207,7 +207,7 @@
                 <div class="col-md-6">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Notes on "{{membership.company.companyName}}" <a onclick="confirmationDialog(event,this,'Do you really want to clear the comments history?')" class="btn btn-danger btn-flat" href="{{ path('app_membership_clearcomments', {'membership' : membership.id}) }}">
+                            <h3 class="box-title">Notes on "{{membership.company.companyName}}" <a onclick="confirmationDialog(event,this,ConfirmEnums.CLEAR_COMMENTS)" class="btn btn-danger btn-flat" href="{{ path('app_membership_clearcomments', {'membership' : membership.id}) }}">
                                     Clear history
                                 </a></h3>
                         </div>
