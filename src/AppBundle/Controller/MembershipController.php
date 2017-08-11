@@ -231,6 +231,26 @@ class MembershipController extends Controller
     }
 
     /**
+     * Clears comments history.
+     *
+     * @Route("/delete/{membership}/comments")
+     * @Method("GET")
+     * @Template
+     */
+    public function ClearCommentsAction(Request $request, Membership $membership)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        foreach($membership->getComments() as $comment) {
+            $em->remove($comment);
+        }
+
+        $em->flush();
+
+        return $this->redirect($request->headers->get('referer'));
+    }
+
+    /**
      * Deletes a membership entity.
      *
      * @Route("/delete/{membership}")
@@ -247,6 +267,7 @@ class MembershipController extends Controller
 
         return $this->redirectToRoute('app_membership_index');
     }
+
     
     public function downloadDocumentAction()
     {

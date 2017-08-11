@@ -191,6 +191,26 @@ class CompanyController extends Controller
     }
 
     /**
+     * Clears comments history.
+     *
+     * @Route("/delete/{company}/comments")
+     * @Method("GET")
+     * @Template
+     */
+    public function ClearCommentsAction(Request $request, Company $company)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        foreach($company->getComments() as $comment) {
+            $em->remove($comment);
+        }
+
+        $em->flush();
+
+        return $this->redirect($request->headers->get('referer'));
+    }
+
+    /**
      * @Route("/delete/{company}")
      * @Template
      */
