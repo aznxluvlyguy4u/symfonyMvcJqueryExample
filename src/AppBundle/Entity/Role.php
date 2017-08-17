@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="BaseEntityRepository")
  */
-class Card extends BaseEntity
+class Role extends BaseEntity
 {
     /**
      * @ORM\Id
@@ -18,33 +18,22 @@ class Card extends BaseEntity
      */
     protected $id;
 
-    /**
-     * @ORM\OneToOne(targetEntity="Membership", inversedBy="card")
-     */
-    protected $membership;
 
     /**
-     * Many Users have Many Groups.
-     * @ORM\ManyToMany(targetEntity="Role", inversedBy="cards")
-     * @@ORM\JoinTable(name="card_roles")
-     *
+     * Many Groups have Many Users.
+     * @ORM\ManyToMany(targetEntity="Card", mappedBy="roles")
      */
-    protected $roles;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    protected $status;
+    protected $cards;
 
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string")
      */
-    protected $number;
+    protected $name;
 
     public function __construct()
     {
-        $this->roles = new ArrayCollection();
+        $this->cards = new ArrayCollection();
     }
 
     /**
@@ -84,51 +73,34 @@ class Card extends BaseEntity
     /**
      * @return mixed
      */
-    public function getRoles()
+    public function getCards()
     {
-        return $this->roles;
+        return $this->cards;
     }
 
     /**
-     * @param mixed $roles
+     * @param mixed $cards
      */
-    public function setRoles($roles)
+    public function setCards($cards)
     {
-        $this->roles = $roles;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * @param mixed $status
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
+        $this->cards = $cards;
     }
 
     /**
      * @return mixed
      */
-    public function getMembership()
+    public function getName()
     {
-        return $this->membership;
+        return $this->name;
     }
 
     /**
-     * @param mixed $membership
+     * @param mixed $name
      */
-    public function setMembership($membership)
+    public function setName($name)
     {
-        $this->membership = $membership;
+        $this->name = $name;
     }
-
 
     /**
      * Set createdAt

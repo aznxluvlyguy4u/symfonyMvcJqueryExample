@@ -4,8 +4,10 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Card;
 use AppBundle\Entity\CompanySector;
+use AppBundle\Entity\Role;
 use AppBundle\Form\CardType;
 use AppBundle\Form\CompanySectorType;
+use AppBundle\Form\RoleType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -15,10 +17,10 @@ use AppBundle\Entity\Contract;
 use AppBundle\Form\FormContractType;
 
 /**
- * @Route("/card")
+ * @Route("/role")
  * @Security("is_granted('ROLE_SUPER_ADMIN')")
  */
-class CardController extends Controller
+class RoleController extends Controller
 {
     /**
      * @Route("/")
@@ -29,10 +31,10 @@ class CardController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $cards = $em->getRepository('AppBundle:Card')->findAll();
+        $roles = $em->getRepository('AppBundle:Role')->findAll();
 
         return [
-            'cards' => $cards,
+            'roles' => $roles,
         ];
     }
 
@@ -45,20 +47,20 @@ class CardController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $card = new Card();
-        $form = $this->createForm(CardType::class, $card);
+        $role = new Role();
+        $form = $this->createForm(RoleType::class, $role);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $card->setCreatedBy($this->getUser());
-            $em->persist($card);
+            $role->setCreatedBy($this->getUser());
+            $em->persist($role);
             $em->flush();
 
             if ($form->get('save')->isClicked()) {
-                return $this->redirectToRoute('app_card_edit', ['card' => $card->getId()]);
+                return $this->redirectToRoute('app_role_edit', ['role' => $role->getId()]);
             } else {
-                return $this->redirectToRoute('app_card_index');
+                return $this->redirectToRoute('app_role_index');
             }
         }
 
@@ -71,29 +73,29 @@ class CardController extends Controller
      * @Route("/edit/{card}")
      * @Template
      */
-    public function editAction(Request $request, Card $card)
+    public function editAction(Request $request, Role $role)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm(CardType::class, $card);
+        $form = $this->createForm(CardType::class, $role);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $card->setCreatedBy($this->getUser());
-            $em->persist($card);
+            $role->setCreatedBy($this->getUser());
+            $em->persist($role);
             $em->flush();
 
             if ($form->get('save')->isClicked()) {
-                return $this->redirectToRoute('app_card_edit', ['card' => $card->getId()]);
+                return $this->redirectToRoute('app_role_edit', ['role' => $role->getId()]);
             } else {
-                return $this->redirectToRoute('app_card_index');
+                return $this->redirectToRoute('app_role_index');
             }
         }
 
         return [
             'form' => $form->createView(),
-            'card' => $card,
+            'role' => $role,
         ];
     }
 
@@ -109,6 +111,6 @@ class CardController extends Controller
 
         $em->flush();
 
-        return $this->redirectToRoute('app_card_index');
+        return $this->redirectToRoute('app_role_index');
     }
 }
