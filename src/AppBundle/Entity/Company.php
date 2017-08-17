@@ -39,7 +39,7 @@ class Company extends BaseEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="CompanySector", inversedBy="companies")
-     * @ORM\JoinColumn(name="sector_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="sector_id", referencedColumnName="id", nullable=true)
      */
     protected $sector;
 
@@ -108,20 +108,25 @@ class Company extends BaseEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="CompanyStatus", inversedBy="companies")
-     * @ORM\JoinColumn(name="status_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id", nullable=true)
      */
     protected $status;
 
     /**
-     * @ORM\OneToMany(targetEntity="CompanyStatusHistory", mappedBy="company")
+     * @ORM\OneToMany(targetEntity="CompanyStatusHistory", mappedBy="company", cascade={"persist", "remove"})
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     protected $statusHistory;
 
     /**
-     * @ORM\OneToMany(targetEntity="Membership", mappedBy="company")
+     * @ORM\ManyToMany(targetEntity="Membership", mappedBy="companies")
      */
     protected $memberships;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Contract", mappedBy="company")
+     */
+    protected $contracts;
 
     public function __construct()
     {
@@ -396,6 +401,16 @@ class Company extends BaseEntity
     public function getStatusHistory()
     {
         return $this->statusHistory;
+    }
+
+    /**
+     * Get contracts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getContracts()
+    {
+        return $this->contracts;
     }
 
     /**

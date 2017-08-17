@@ -47,7 +47,10 @@
 
             {# Memberships #}
             {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_membership_' %} active{% endif %}">
+                <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_membership_' or
+                app.request.attributes.get('_route') starts with 'app_card' or
+                app.request.attributes.get('_route') starts with 'app_role'
+                %} active{% endif %}">
                     <a href="#">
                         <i class="fa fa-user-circle-o"></i>
                         <span>Memberships</span>
@@ -62,6 +65,43 @@
                             <a href="{{ path('app_membership_create') }}">
                                 <i class="fa fa-plus"></i>
                                 Add membership</a>
+                        </li>
+                        {# Cards #}
+                        <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_card' or app.request.attributes.get('_route') starts with 'app_role'%} active{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-address-card-o"></i>
+                                <span>Cards</span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="{% if app.request.attributes.get('_route') == 'app_card_index' %}active{% endif %}">
+                                    <a href="{{ path('app_card_index') }}">
+                                        <i class="fa fa-list"></i>
+                                        List cards</a>
+                                </li>
+                                <li class="{% if app.request.attributes.get('_route') == 'app_card_create' %}active{% endif %}">
+                                    <a href="{{ path('app_card_create') }}">
+                                        <i class="fa fa-plus"></i>
+                                        Add card</a>
+                                </li>
+                                <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_role' %} active{% endif %}">
+                                    <a href="#">
+                                        <i class="fa fa-address-card-o"></i>
+                                        <span>Roles</span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li class="{% if app.request.attributes.get('_route') == 'app_role_index' %}active{% endif %}">
+                                            <a href="{{ path('app_role_index') }}">
+                                                <i class="fa fa-list"></i>
+                                                List roles</a>
+                                        </li>
+                                        <li class="{% if app.request.attributes.get('_route') == 'app_role_create' %}active{% endif %}">
+                                            <a href="{{ path('app_role_create') }}">
+                                                <i class="fa fa-plus"></i>
+                                                Add role</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </li>
@@ -128,28 +168,6 @@
                             <a href="{{ path('app_emailtemplate_create') }}">
                                 <i class="fa fa-plus"></i>
                                 Add email template</a>
-                        </li>
-                    </ul>
-                </li>
-            {% endif %}
-
-            {# Cards #}
-            {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <li class="treeview{% if app.request.attributes.get('_route') starts with 'app_card' %} active{% endif %}">
-                    <a href="#">
-                        <i class="fa fa-address-card-o"></i>
-                        <span>Cards</span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li class="{% if app.request.attributes.get('_route') == 'app_card_index' %}active{% endif %}">
-                            <a href="{{ path('app_card_index') }}">
-                                <i class="fa fa-list"></i>
-                                List cards</a>
-                        </li>
-                        <li class="{% if app.request.attributes.get('_route') == 'app_card_create' %}active{% endif %}">
-                            <a href="{{ path('app_card_create') }}">
-                                <i class="fa fa-plus"></i>
-                                Add card</a>
                         </li>
                     </ul>
                 </li>

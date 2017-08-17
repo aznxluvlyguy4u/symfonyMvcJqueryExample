@@ -11,8 +11,10 @@
                     <table id="people" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Last Modified</th>
+                                <th>Number</th>
+                                <th>Status</th>
+                                <th>Bound to</th>
+                                <th>Roles</th>
                                 <th>Options</th>
                             </tr>
                         </thead>
@@ -20,7 +22,16 @@
                             {% for card in cards %}
                                 <tr>
                                     <td>{{ card.number }}</td>
-                                    <td>{{ card.modifiedAt|date('Y-m-d H:i') }}</td>
+                                    <td>{{ card.status ? 'Actief' : 'Inactief'}}</td>
+                                    <td><a href="{{ path('app_membership_edit', {'membership' : card.membership.id}) }}">
+                                            {{ card.membership.firstName ?? null }} {{ card.membership.lastName ?? null }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {% for role in card.roles %}
+                                            <a href="{{ path('app_role_edit', {'role': role.id}) }}" class="btn btn-primary btn-flat btn-sm">{{role.name}}</a>
+                                        {% endfor %}
+                                    </td>
                                     <td>
                                         <a class="btn btn-default btn-flat" href="{{ path('app_card_edit', {'card' : card.id}) }}">
                                             <i class="fa fa-fw fa-pencil"></i>

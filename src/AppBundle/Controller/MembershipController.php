@@ -63,12 +63,8 @@ class MembershipController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $membership->setCreatedBy($this->getUser());
-            $company = $membership->getCompany()->setStatus(
-                $em->getRepository(CompanyStatus::class)
-                    ->findOneBy(['label' => 'Contract signed'])
-            );
+
             $em->persist($membership);
-            $em->persist($company);
             $em->flush();
 
             if ($form->get('save')->isClicked()) {

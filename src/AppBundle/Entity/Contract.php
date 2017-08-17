@@ -34,11 +34,27 @@ class Contract extends BaseEntity
     protected $startDate;
 
     /**
-     * @Assert\NotBlank()
      * @Assert\Date()
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $endDate;
+
+    /**
+     * @Assert\NotBlank()
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $name;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $description;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $value;
+
 
     /**
      * Get id
@@ -97,6 +113,55 @@ class Contract extends BaseEntity
     {
         return $this->endDate;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+    }
+
 
     /**
      * Set createdAt

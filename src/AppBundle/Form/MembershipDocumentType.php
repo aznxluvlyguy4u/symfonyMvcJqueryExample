@@ -36,7 +36,6 @@ class MembershipDocumentType extends AbstractType
             ->add('startDate', DateType::class, ['label' =>false, 'data' => $membership->getStartDate(), 'attr' => array('style' => 'display:none')])
             ->add('endDate', DateType::class, ['label' =>false, 'data' => $membership->getEndDate(), 'attr' => array('style' => 'display:none')])
             ->add('company', EntityType::class, ['label' =>false, 'class' => Company::class, 'data' => $membership->getCompany(), 'choice_label' => 'companyName', 'attr' => array('style' => 'display:none')])
-            ->add('user', EntityType::class, ['label' =>false, 'class' => User::class, 'data' => $membership->getUser(), 'choice_label' => 'usernameCanonical', 'attr' => array('style' => 'display:none')])
             ->add('card', EntityType::class, ['label' =>false, 'class' => Card::class, 'data' => $membership->getCard(), 'choice_label' => 'id', 'attr' => array('style' => 'display:none')])
             ->add('status', EntityType::class, ['label' =>false, 'class' => MembershipStatus::class, 'data' => $membership->getStatus(), 'choice_label' => 'label', 'attr' => array('style' => 'display:none')])
             ->add('contractDocs', CollectionType::class, [

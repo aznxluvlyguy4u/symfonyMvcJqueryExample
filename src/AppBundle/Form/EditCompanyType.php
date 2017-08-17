@@ -20,7 +20,8 @@ class EditCompanyType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => Company::class,
-            'redirect' => 'app_company_index'
+            'redirect' => 'app_company_index',
+
         ));
     }
 

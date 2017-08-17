@@ -10,7 +10,7 @@
                         {% if comment.className == 'CompanyComment' %}
                             <a class="product-title" href="{{path('app_company_edit', {'company' : comment.company.id})}}">Lead {{comment.company.companyName}}</a>
                         {% elseif comment.className == 'MembershipComment' %}
-                            <a class="product-title" href="{{path('app_membership_edit', {'membership' : comment.membership.id})}}">Member {{comment.membership.company.companyName}}</a>
+                            <a class="product-title" href="{{path('app_membership_edit', {'membership' : comment.membership.id})}}">Member {{comment.membership.firstName}}</a>
                         {% endif %}
                         {{comment.text|raw}}
                         <small>

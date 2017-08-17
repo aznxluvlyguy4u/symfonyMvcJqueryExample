@@ -12,6 +12,7 @@
                         <thead>
                             <tr>
                                 <th>Company</th>
+                                <th>Name</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Options</th>
@@ -21,6 +22,7 @@
                             {% for contract in contracts %}
                                 <tr>
                                     <td>{{contract.company.companyName}}</td>
+                                    <td>{{contract.name}}</td>
                                     <td>{{contract.startDate|date('Y-m-d')}}</td>
                                     <td>
                                         {% if contract.endDate is not null%}

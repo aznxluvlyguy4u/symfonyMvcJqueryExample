@@ -11,10 +11,18 @@
                         </div>
                         {{ form_start(form) }}
                         <div class="box-body">
+                            {{ form_row(form.firstName) }}
+                            {{ form_row(form.lastName) }}
+                            {{ form_row(form.email) }}
+                            {{ form_row(form.phone) }}
+                            {{ form_row(form.newsletter) }}
+
+                            <div class="form-group">
+                                {{form_label(form.company)}}
+                                {{form_widget(form.company, {'attr': {'class': 'select2'}})}}
+                            </div>
                             {{ form_row(form.startDate, {'attr': {'class': 'datepicker'}}) }}
                             {{ form_row(form.endDate, {'attr': {'class': 'datepicker'}}) }}
-                            {{ form_row(form.company) }}
-                            {{ form_row(form.user) }}
                             {{ form_row(form.card) }}
                             {{ form_row(form.status) }}
                             <div class="form-group pull-right">

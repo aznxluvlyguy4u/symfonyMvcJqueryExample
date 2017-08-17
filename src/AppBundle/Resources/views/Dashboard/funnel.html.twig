@@ -83,12 +83,12 @@
                                 <div class="box box-solid bg-aqua row-condense draggable membership-box" id="membership-{{ membership.id }}" draggable="true" ondragstart="drag(event)" ondragend="dragend(event)">
                                     <div class="box-header with-border">
                                         <a href="{{ path('app_membership_edit', {'membership' : membership.id, 'redirect' : app.request.attributes.get('_route')}) }}">
-                                            {{membership.company.companyName}}
+                                            {{membership.firstName}} {{ membership.lastName }}
                                         </a>
                                     </div>
                                     <div class="box-body">
                                         {# Email icon #}
-                                        <a href="#" class="email-icon" data-toggle="modal" data-target="#emailModal" data-id="{{ membership.id }}" data-companyname="{{ membership.company.companyName }}" data-email="{{ membership.company.email }}" data-class="{{ membership.className}}">
+                                        <a href="#" class="email-icon" data-toggle="modal" data-target="#emailModal" data-id="{{ membership.id }}" data-companyname="{{ membership.firstName }}" data-email="{{ membership.email }}" data-class="{{ membership.className}}">
                                             <i class="fa fa-envelope"></i>
                                         </a>
                                         
