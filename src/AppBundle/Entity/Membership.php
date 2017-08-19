@@ -35,13 +35,13 @@ class Membership extends BaseEntity
      * @Assert\Email()
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $email;
+    protected $emailAddress;
 
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $phone;
+    protected $phoneNumber;
 
     /**
      * @Assert\NotBlank()
@@ -159,33 +159,33 @@ class Membership extends BaseEntity
     /**
      * @return mixed
      */
-    public function getEmail()
+    public function getEmailAddress()
     {
-        return $this->email;
+        return $this->emailAddress;
     }
 
     /**
-     * @param mixed $email
+     * @param mixed $emailAddress
      */
-    public function setEmail($email)
+    public function setEmailAddress($emailAddress)
     {
-        $this->email = $email;
+        $this->emailAddress = $emailAddress;
     }
 
     /**
      * @return mixed
      */
-    public function getPhone()
+    public function getPhoneNumber()
     {
-        return $this->phone;
+        return $this->phoneNumber;
     }
 
     /**
-     * @param mixed $phone
+     * @param mixed $phoneNumber
      */
-    public function setPhone($phone)
+    public function setPhoneNumber($phoneNumber)
     {
-        $this->phone = $phone;
+        $this->phoneNumber = $phoneNumber;
     }
 
     /**

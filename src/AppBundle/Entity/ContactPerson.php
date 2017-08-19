@@ -51,7 +51,7 @@ class ContactPerson
      * @Assert\Email()
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $email;
+    protected $emailAddress;
 
     /**
      * @return mixed
@@ -88,17 +88,17 @@ class ContactPerson
     /**
      * @return mixed
      */
-    public function getEmail()
+    public function getEmailAddress()
     {
-        return $this->email;
+        return $this->emailAddress;
     }
 
     /**
-     * @param mixed $email
+     * @param mixed $emailAddress
      */
-    public function setEmail($email)
+    public function setEmailAddress($emailAddress)
     {
-        $this->email = $email;
+        $this->emailAddress = $emailAddress;
     }
 
     /**

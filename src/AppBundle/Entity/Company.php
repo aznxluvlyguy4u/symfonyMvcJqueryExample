@@ -58,12 +58,12 @@ class Company extends BaseEntity
      * @Assert\Email()
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $email;
+    protected $emailAddress;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $phone;
+    protected $phoneNumber;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -192,6 +192,38 @@ class Company extends BaseEntity
     }
 
     /**
+     * @return mixed
+     */
+    public function getEmailAddress()
+    {
+        return $this->emailAddress;
+    }
+
+    /**
+     * @param mixed $emailAddress
+     */
+    public function setEmailAddress($emailAddress)
+    {
+        $this->emailAddress = $emailAddress;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhoneNumber()
+    {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * @param mixed $phoneNumber
+     */
+    public function setPhoneNumber($phoneNumber)
+    {
+        $this->phoneNumber = $phoneNumber;
+    }
+
+    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -287,53 +319,7 @@ class Company extends BaseEntity
         return $this->isDeleted;
     }
 
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return Company
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
 
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set phone
-     *
-     * @param string $phone
-     *
-     * @return Company
-     */
-    public function setPhone($phone)
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
-    /**
-     * Get phone
-     *
-     * @return string
-     */
-    public function getPhone()
-    {
-        return $this->phone;
-    }
 
     /**
      * Add comment

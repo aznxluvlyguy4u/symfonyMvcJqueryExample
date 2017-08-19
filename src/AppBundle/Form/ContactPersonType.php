@@ -22,7 +22,7 @@ class ContactPersonType extends AbstractType
         $builder
             ->add('firstName')
             ->add('lastName')
-            ->add('email', EmailType::class);
+            ->add('emailAddress', EmailType::class);
         ;
     }
     
