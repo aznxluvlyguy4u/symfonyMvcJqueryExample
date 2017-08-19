@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Company;
+use AppBundle\Entity\CompanyStatus;
 use AppBundle\Entity\ContactPerson;
 use AppBundle\Form\ContactPersonType;
 use AppBundle\Form\EditCompanyType;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Route("/api")
@@ -18,17 +20,28 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class ApiController extends Controller
 {
 
-    const CALL_NOT_AUTHORIZED = 'You are not authorized.';
+    const REQUEST_NOT_AUTHORIZED = 'You are not authorized.';
+    const SERVER_ERROR = "An error occurred, please try again later";
     const CALL_SUCCESS = "Success";
+
+    private $apikey;
+
+    public function __construct()
+    {
+        $this->apikey = $this->getParameter('apikey');
+    }
+
     /**
      * Resorts an item using it's doctrine sortable property
-     * @Route("/contactpersons/create")
+     * @param Request $request
+     * @return Response
+     * @Route("/contactpersons")
      * @Method("POST")
      */
     public function createContactPerson(Request $request)
     {
 
-        if($request->get('apiKey') === $this->getParameter('apikey')) {
+        if($this->checkAuthorization($request->get('apiKey'))) {
 
             try {
 
@@ -44,33 +57,36 @@ class ApiController extends Controller
                     $em->persist($contactPerson);
                     $em->flush();
 
-                    return new JsonResponse(ApiController::CALL_SUCCESS, 200);
+                    return new JsonResponse(ApiController::CALL_SUCCESS, Response::HTTP_OK);
                 }
             } catch (\Exception $e) {
-                return new JsonResponse($e->getMessage(), 417);
+                return new JsonResponse(ApiController::SERVER_ERROR, Response::HTTP_INTERNAL_SERVER_ERROR);
             }
         }
 
-        return new JsonResponse(ApiController::CALL_NOT_AUTHORIZED, 500);
+        return new JsonResponse(ApiController::REQUEST_NOT_AUTHORIZED, Response::HTTP_UNAUTHORIZED);
     }
 
     /**
      * Resorts an item using it's doctrine sortable property
-     * @Route("/companies/create")
+     * @param Request $request
+     * @return Response
+     * @Route("/companies")
      * @Method("POST")
      */
     public function createCompanyAction(Request $request)
     {
 
-        if($request->get('apiKey') === $this->getParameter('apikey')) {
+        if($this->checkAuthorization($request->get('apiKey'))) {
 
             try {
                 $data = json_decode($request->getContent(), true);
 
                 $em = $this->getDoctrine()->getManager();
-                $status = $em->getRepository('AppBundle:CompanyStatus')->findBy(['isDeleted' => false], ['position' => 'ASC'], 1);
+                $companyStatusRepository = $em->getRepository(CompanyStatus::class);
+                $companyStatus = $companyStatusRepository->findBy(['isDeleted' => false], ['position' => 'ASC'], 1);
 
-                $data['status'] = $status[0]->getId();
+                $data['status'] = $companyStatus[0]->getId();
 
                 $company = new Company();
                 $form = $this->createForm(EditCompanyType::class, $company, array('csrf_protection' => false));
@@ -81,15 +97,24 @@ class ApiController extends Controller
                     $em->persist($company);
                     $em->flush();
 
-                    return new JsonResponse(ApiController::CALL_SUCCESS, 200);
+                    return new JsonResponse(ApiController::CALL_SUCCESS, Response::HTTP_OK);
                 }
             } catch (\Exception $e) {
 
-                return new JsonResponse($e->getMessage(), 417);
+                return new JsonResponse(ApiController::SERVER_ERROR, Response::HTTP_INTERNAL_SERVER_ERROR);
             }
         }
 
-        return new JsonResponse(ApiController::CALL_NOT_AUTHORIZED, 401);
+        return new JsonResponse(ApiController::REQUEST_NOT_AUTHORIZED, Response::HTTP_UNAUTHORIZED);
+    }
+
+    private function checkAuthorization($apiKey)
+    {
+
+        if($this->apikey === $apiKey)
+            return true;
+
+        return false;
     }
 
 }
