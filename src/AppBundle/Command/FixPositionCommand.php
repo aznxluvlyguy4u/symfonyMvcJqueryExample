@@ -67,14 +67,15 @@ class FixPositionCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getManager();
 
         $searchedListener = null;
-        foreach ($em->getEventManager()->getListeners() as $event => $listeners) {
-            foreach ($listeners as $key => $listener) {
-                if ($listener instanceof SortableListener) {
-                    $searchedListener = $listener;
-                    break 2;
-                }
+        $listeners = $em->getEventManager()->getListeners();
+
+        foreach ($listeners as $key => $listener) {
+            if ($listener instanceof SortableListener) {
+                $searchedListener = $listener;
+                break;
             }
         }
+
 
         if ($searchedListener) {
             $evm = $em->getEventManager();
