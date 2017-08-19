@@ -25,7 +25,7 @@ class CommentController extends Controller
      * Deletes a comment entity.
      *
      * @Template
-     * @Route("/delete/{id}")
+     * @Route("/comment/{id}")
      */
     public function deleteAction(Request $request, Comment $comment)
     {
