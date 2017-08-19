@@ -17,7 +17,7 @@ use AppBundle\Entity\Contract;
 use AppBundle\Form\FormContractType;
 
 /**
- * @Route("/role")
+ * @Route("role")
  * @Security("is_granted('ROLE_SUPER_ADMIN')")
  */
 class RoleController extends Controller
