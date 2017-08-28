@@ -20,7 +20,8 @@ class EditCompanyType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => Company::class,
-            'redirect' => 'app_company_index'
+            'redirect' => 'app_company_index',
+
         ));
     }
 
@@ -32,8 +33,8 @@ class EditCompanyType extends AbstractType
             ->add('companyName')
             ->add('numberOfEmployees')
             ->add('squareMetersWanted')
-            ->add('email', EmailType::class)
-            ->add('phone')
+            ->add('emailAddress', EmailType::class)
+            ->add('phoneNumber')
             ->add('address')
             ->add('zipcode')
             ->add('city')

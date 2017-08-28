@@ -39,7 +39,7 @@ class Company extends BaseEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="CompanySector", inversedBy="companies")
-     * @ORM\JoinColumn(name="sector_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="sector_id", referencedColumnName="id", nullable=true)
      */
     protected $sector;
 
@@ -58,12 +58,12 @@ class Company extends BaseEntity
      * @Assert\Email()
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $email;
+    protected $emailAddress;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $phone;
+    protected $phoneNumber;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -108,20 +108,25 @@ class Company extends BaseEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="CompanyStatus", inversedBy="companies")
-     * @ORM\JoinColumn(name="status_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id", nullable=true)
      */
     protected $status;
 
     /**
-     * @ORM\OneToMany(targetEntity="CompanyStatusHistory", mappedBy="company")
+     * @ORM\OneToMany(targetEntity="CompanyStatusHistory", mappedBy="company", cascade={"persist", "remove"})
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     protected $statusHistory;
 
     /**
-     * @ORM\OneToMany(targetEntity="Membership", mappedBy="company")
+     * @ORM\ManyToMany(targetEntity="Membership", mappedBy="companies")
      */
     protected $memberships;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Contract", mappedBy="company")
+     */
+    protected $contracts;
 
     public function __construct()
     {
@@ -184,6 +189,38 @@ class Company extends BaseEntity
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmailAddress()
+    {
+        return $this->emailAddress;
+    }
+
+    /**
+     * @param mixed $emailAddress
+     */
+    public function setEmailAddress($emailAddress)
+    {
+        $this->emailAddress = $emailAddress;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhoneNumber()
+    {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * @param mixed $phoneNumber
+     */
+    public function setPhoneNumber($phoneNumber)
+    {
+        $this->phoneNumber = $phoneNumber;
     }
 
     /**
@@ -282,53 +319,7 @@ class Company extends BaseEntity
         return $this->isDeleted;
     }
 
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return Company
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
 
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set phone
-     *
-     * @param string $phone
-     *
-     * @return Company
-     */
-    public function setPhone($phone)
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
-    /**
-     * Get phone
-     *
-     * @return string
-     */
-    public function getPhone()
-    {
-        return $this->phone;
-    }
 
     /**
      * Add comment
@@ -396,6 +387,16 @@ class Company extends BaseEntity
     public function getStatusHistory()
     {
         return $this->statusHistory;
+    }
+
+    /**
+     * Get contracts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getContracts()
+    {
+        return $this->contracts;
     }
 
     /**

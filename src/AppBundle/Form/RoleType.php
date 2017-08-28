@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
-class CardType extends AbstractType
+class RoleType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -19,17 +19,7 @@ class CardType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('number')
-            ->add('status', CheckboxType::class, array('label' => 'Active', 'required' => false))
-            ->add('roles', EntityType::class, [
-                'class' => 'AppBundle:Role',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->queryAll();
-                },
-                'choice_label' => 'name',
-                'required' => false,
-                'multiple' => true
-            ])
+            ->add('name')
             ->add('save', SubmitType::class);
         ;
     }
@@ -40,7 +30,7 @@ class CardType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Card'
+            'data_class' => 'AppBundle\Entity\Role'
         ));
     }
 
@@ -49,7 +39,7 @@ class CardType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_card';
+        return 'appbundle_role';
     }
 
 

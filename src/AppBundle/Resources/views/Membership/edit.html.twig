@@ -19,10 +19,22 @@
                             <div class="tab-pane active" id="edit">
                                 {{ form_start(form) }}
                                 <div class="box-body">
+                                    {{ form_row(form.firstName) }}
+                                    {{ form_row(form.lastName) }}
+                                    {{ form_row(form.email) }}
+                                    {{ form_row(form.phone) }}
+                                    {{ form_row(form.newsletter) }}
                                     {{ form_row(form.startDate, {'attr': {'class': 'datepicker'}}) }}
                                     {{ form_row(form.endDate, {'attr': {'class': 'datepicker'}}) }}
-                                    {{ form_row(form.company) }}
-                                    {{ form_row(form.user) }}
+                                    <div class="form-group">
+                                        {{form_label(form.company)}}
+                                        {{form_widget(form.company, {'attr': {'class': 'select2'}})}}
+                                    </div>
+                                    <br>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">Current Card Number: <b>{{ membership.card ? membership.card.number : 'None' }}</b>
+                                        </div>
+                                    </div>
                                     {{ form_row(form.card) }}
                                     {{ form_row(form.status) }}
                                     <div class="form-group pull-right">
@@ -207,7 +219,7 @@
                 <div class="col-md-6">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Notes on "{{membership.company.companyName}}" <a onclick="confirmationDialog(event,this,ConfirmEnums.CLEAR_COMMENTS)" class="btn btn-danger btn-flat" href="{{ path('app_membership_clearcomments', {'membership' : membership.id}) }}">
+                            <h3 class="box-title">Notes <a onclick="confirmationDialog(event,this,ConfirmEnums.CLEAR_COMMENTS)" class="btn btn-danger btn-flat" href="{{ path('app_membership_clearcomments', {'membership' : membership.id}) }}">
                                     Clear history
                                 </a></h3>
                         </div>
@@ -247,4 +259,25 @@
     <script type="text/javascript" src="/js/Membership/edit.js"></script>
     <script type="text/javascript" src="/js/confirmations/confirm.js"></script>
 
+    <script src="/js/select2/select2.full.min.js"></script>
+    <script>
+        $(".select2").select2({
+            sorter: function(data) {
+                return data.sort(function(a, b) {
+                    if (a.text > b.text) {
+                        return 1;
+                    }
+                    if (a.text < b.text) {
+                        return -1;
+                    }
+                    return 0;
+                });
+            }
+        });
+    </script>
 {% endblock javascripts %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/css/select2/select2.min.css">
+    {{ parent() }}
+{% endblock %}

@@ -20,33 +20,48 @@ class Membership extends BaseEntity
 
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string", nullable=true)
      */
-    protected $startDate;
+    protected $firstName;
+
+    /**
+     * @Assert\NotBlank()
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $lastName;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Email()
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $emailAddress;
+
+    /**
+     * @Assert\NotBlank()
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $phoneNumber;
 
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="datetime", nullable=true)
      */
+    protected $startDate;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
     protected $endDate;
 
     /**
-     * @Assert\NotBlank()
-     * @ORM\ManyToOne(targetEntity="Company", inversedBy="memberships")
-     * @ORM\JoinColumn(name="company_id", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="Company", inversedBy="memberships")
+     * @@ORM\JoinTable(name="membership_companies")
      */
-    protected $company;
+    protected $companies;
 
     /**
-     * @Assert\NotBlank()
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="memberships")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
-    protected $user;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Card", inversedBy="memberships")
-     * @ORM\JoinColumn(name="card_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="Card", mappedBy="membership")
      */
     protected $card;
 
@@ -57,11 +72,15 @@ class Membership extends BaseEntity
     protected $comments;
     
     /**
-     * @Assert\NotBlank()
      * @ORM\ManyToOne(targetEntity="MembershipStatus", inversedBy="memberships")
      * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
      */
     protected $status;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    protected $newsletter;
 
     /**
      * @ORM\OneToMany(targetEntity="MembershipStatusHistory", mappedBy="membership")
@@ -103,6 +122,86 @@ class Membership extends BaseEntity
         $this->keysForms = new ArrayCollection();
         $this->kvkExtracts = new ArrayCollection();
         $this->depositReceipts = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param mixed $firstName
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param mixed $lastName
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmailAddress()
+    {
+        return $this->emailAddress;
+    }
+
+    /**
+     * @param mixed $emailAddress
+     */
+    public function setEmailAddress($emailAddress)
+    {
+        $this->emailAddress = $emailAddress;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhoneNumber()
+    {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * @param mixed $phoneNumber
+     */
+    public function setPhoneNumber($phoneNumber)
+    {
+        $this->phoneNumber = $phoneNumber;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNewsletter()
+    {
+        return $this->newsletter;
+    }
+
+    /**
+     * @param mixed $newsletter
+     */
+    public function setNewsletter($newsletter)
+    {
+        $this->newsletter = $newsletter;
     }
 
     /**
@@ -260,51 +359,19 @@ class Membership extends BaseEntity
     }
 
     /**
-     * Set company
-     *
-     * @param \AppBundle\Entity\Company $company
-     *
-     * @return Membership
-     */
-    public function setCompany(\AppBundle\Entity\Company $company = null)
-    {
-        $this->company = $company;
-
-        return $this;
-    }
-
-    /**
-     * Get company
-     *
-     * @return \AppBundle\Entity\Company
+     * @return mixed
      */
     public function getCompany()
     {
-        return $this->company;
+        return $this->companies;
     }
 
     /**
-     * Set user
-     *
-     * @param \AppBundle\Entity\User $user
-     *
-     * @return Membership
+     * @param mixed $companies
      */
-    public function setUser(\AppBundle\Entity\User $user = null)
+    public function setCompany($companies)
     {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \AppBundle\Entity\User
-     */
-    public function getUser()
-    {
-        return $this->user;
+        $this->companies = $companies;
     }
 
     /**
@@ -317,6 +384,7 @@ class Membership extends BaseEntity
     public function setCard(\AppBundle\Entity\Card $card = null)
     {
         $this->card = $card;
+        $card->setMembership($this);
 
         return $this;
     }
@@ -329,6 +397,22 @@ class Membership extends BaseEntity
     public function getCard()
     {
         return $this->card;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompanies()
+    {
+        return $this->companies;
+    }
+
+    /**
+     * @param mixed $companies
+     */
+    public function setCompanies($companies)
+    {
+        $this->companies = $companies;
     }
 
     /**

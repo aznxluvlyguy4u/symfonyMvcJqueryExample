@@ -28,7 +28,10 @@ class MembershipRepository extends \Doctrine\ORM\EntityRepository
         }
 
         foreach ($results as $result) {
-            $memberships[$result[0]->getStatus()->getLabel()][] = $result[0];
+
+            if($result[0]->getStatus()) {
+                $memberships[$result[0]->getStatus()->getLabel()][] = $result[0];
+            }
         }
         return $memberships;
     }

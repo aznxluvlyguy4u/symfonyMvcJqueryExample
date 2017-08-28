@@ -11,8 +11,8 @@
                     <table id="memberships" class="table table-bordered table-striped">
                         <thead>
                         <tr>
-                            <th>Company</th>
-                            <th>Status</th>
+                            <th>Name</th>
+                            <th>Companies</th>
                             <th>Last Modified</th>
                             <th>Options</th>
                         </tr>
@@ -21,8 +21,12 @@
                         {# @var membership \AppBundle\Entity\Membership #}
                         {% for membership in memberships %}
                             <tr>
-                                <td>{{membership.company.companyName}}</td>
-                                <td>{{membership.status.label}}</td>
+                                <td>{{membership.firstName}} {{ membership.lastName }}</td>
+                                <td>
+                                    {% for company in membership.companies %}
+                                        <a href="{{ path('app_company_edit', {'company': company.id}) }}" class="btn btn-primary btn-flat btn-sm">{{company.companyName}}</a>
+                                    {% endfor %}
+                                </td>
                                 <td>{{membership.modifiedAt|date('Y-m-d H:i')}}</td>
                                 <td>
                                     <a class="btn btn-default btn-flat" href="{{ path('app_membership_edit', {'membership' : membership.id}) }}">
@@ -47,7 +51,7 @@
     <script type="text/javascript" src="/js/datatables/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="/js/datatables/dataTables.bootstrap.min.js"></script>
     <script type="text/javascript">
-        $('#companies').DataTable({
+        $('#memberships').DataTable({
             "paging": true,
             "pageLength" : 25,
             "lengthChange": false,

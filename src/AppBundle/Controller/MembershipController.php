@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\CompanyStatus;
 use AppBundle\Entity\MembershipStatus;
@@ -63,12 +64,8 @@ class MembershipController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $membership->setCreatedBy($this->getUser());
-            $company = $membership->getCompany()->setStatus(
-                $em->getRepository(CompanyStatus::class)
-                    ->findOneBy(['label' => 'Contract signed'])
-            );
+
             $em->persist($membership);
-            $em->persist($company);
             $em->flush();
 
             if ($form->get('save')->isClicked()) {
@@ -232,7 +229,9 @@ class MembershipController extends Controller
 
     /**
      * Clears comments history.
-     *
+     * @param Request $request
+     * @param Membership $membership
+     * @return RedirectResponse
      * @Route("/delete/{membership}/comments")
      * @Method("GET")
      * @Template
@@ -240,8 +239,9 @@ class MembershipController extends Controller
     public function ClearCommentsAction(Request $request, Membership $membership)
     {
         $em = $this->getDoctrine()->getManager();
+        $comments = $membership->getComments();
 
-        foreach($membership->getComments() as $comment) {
+        foreach($comments as $comment) {
             $em->remove($comment);
         }
 
@@ -252,7 +252,9 @@ class MembershipController extends Controller
 
     /**
      * Deletes a membership entity.
-     *
+     * @param Request $request
+     * @param Membership $membership
+     * @return RedirectResponse
      * @Route("/delete/{membership}")
      * @Method("GET")
      * @Template

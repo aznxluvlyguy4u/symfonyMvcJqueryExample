@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -23,9 +24,11 @@ class CommentController extends Controller
 
     /**
      * Deletes a comment entity.
-     *
+     * @param Request $request
+     * @param Comment $comment
+     * @return RedirectResponse
      * @Template
-     * @Route("/delete/{id}")
+     * @Route("/comment/{id}")
      */
     public function deleteAction(Request $request, Comment $comment)
     {

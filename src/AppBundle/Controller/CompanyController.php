@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -193,6 +194,9 @@ class CompanyController extends Controller
     /**
      * Clears comments history.
      *
+     * @param Request $request
+     * @param Company $company
+     * @return RedirectResponse
      * @Route("/delete/{company}/comments")
      * @Method("GET")
      * @Template
@@ -200,8 +204,9 @@ class CompanyController extends Controller
     public function ClearCommentsAction(Request $request, Company $company)
     {
         $em = $this->getDoctrine()->getManager();
+        $comments = $company->getComments();
 
-        foreach($company->getComments() as $comment) {
+        foreach($comments as $comment) {
             $em->remove($comment);
         }
 
@@ -211,6 +216,9 @@ class CompanyController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @param Company $company
+     * @return RedirectResponse
      * @Route("/delete/{company}")
      * @Template
      */

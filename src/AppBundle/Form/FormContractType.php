@@ -20,7 +20,10 @@ class FormContractType extends AbstractType
                     return $er->queryAll();
                 },
                 'choice_label' => 'companyName',
-            ])
+            ], ['readonly' => true])
+            ->add('name')
+            ->add('description')
+            ->add('value')
             ->add('startDate', DateType::class, [
                 'widget' => 'single_text',
                 'html5' => 'false',

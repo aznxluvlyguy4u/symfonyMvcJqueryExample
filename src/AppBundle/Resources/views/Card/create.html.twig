@@ -26,28 +26,17 @@
 
                         {{form_start(form)}}
                         <div class="box-body">
-                            {{ form_widget(form)}}
-                            <div class="form-group row row-condense">
-                                <div class="col-md-6">
-                                </div>
-                                <div class="col-md-6">
-                                </div>
+                            <div class="form-group">
+                                {{form_row(form.number)}}
                             </div>
-                            <div class="form-group row row-condense">
-                                <div class="col-md-6">
-                                </div>
-                                <div class="col-md-6">
-                                </div>
-                            </div>
-                            <div class="form-group row row-condense">
-                                <div class="col-md-6">
-
-                                </div>
-                                <div class="col-md-6">
-
-                                </div>
+                            <div class="form-group">
+                                {{form_row(form.status)}}
                             </div>
 
+                            <div class="form-group">
+                                {{form_label(form.roles)}}
+                                {{form_widget(form.roles, {'attr': {'class': 'select2'}})}}
+                            </div>
                             <div class="form-group pull-right">
                                 {{form_widget(form.save)}}
                             </div>
@@ -60,4 +49,29 @@
             </div>
         {% endblock %}
     {% endembed %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="/js/select2/select2.full.min.js"></script>
+    <script>
+        $(".select2").select2({
+            sorter: function(data) {
+                return data.sort(function(a, b) {
+                    if (a.text > b.text) {
+                        return 1;
+                    }
+                    if (a.text < b.text) {
+                        return -1;
+                    }
+                    return 0;
+                });
+            }
+        });
+    </script>
+{% endblock javascripts %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/css/select2/select2.min.css">
+    {{ parent() }}
 {% endblock %}

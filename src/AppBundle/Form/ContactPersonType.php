@@ -6,12 +6,13 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
-class CardType extends AbstractType
+class ContactPersonType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -19,18 +20,9 @@ class CardType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('number')
-            ->add('status', CheckboxType::class, array('label' => 'Active', 'required' => false))
-            ->add('roles', EntityType::class, [
-                'class' => 'AppBundle:Role',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->queryAll();
-                },
-                'choice_label' => 'name',
-                'required' => false,
-                'multiple' => true
-            ])
-            ->add('save', SubmitType::class);
+            ->add('firstName')
+            ->add('lastName')
+            ->add('emailAddress', EmailType::class);
         ;
     }
     
@@ -40,7 +32,7 @@ class CardType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Card'
+            'data_class' => 'AppBundle\Entity\ContactPerson',
         ));
     }
 
@@ -49,7 +41,7 @@ class CardType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_card';
+        return 'appbundle_contactperson';
     }
 
 

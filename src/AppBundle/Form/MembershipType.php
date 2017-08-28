@@ -3,6 +3,8 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -34,6 +36,11 @@ class MembershipType extends AbstractType
         $defaultEndDate = $options['data']->getEndDate() == null ? new DateTime() : $options['data']->getEndDate();
 
         $builder
+            ->add('firstName')
+            ->add('lastName')
+            ->add('emailAddress', EmailType::class)
+            ->add('phoneNumber')
+            ->add('newsletter', CheckboxType::class, array('label' => 'Newsletter', 'required' => false))
             ->add('startDate', DateType::class, [
                 'widget' => 'single_text',
                 'html5' => 'false',
@@ -41,22 +48,39 @@ class MembershipType extends AbstractType
             ->add('endDate', DateType::class, [
                 'widget' => 'single_text',
                 'html5' => 'false',
+                'required' => false,
             ])
             ->add('company', EntityType::class, [
-                'class' => Company::class, 
-                'choice_label' => 'companyName', 
+                'class' => Company::class,
+                'choice_label' => 'companyName',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                         ->leftJoin('c.status', 'status')
                         ->where('c.isDeleted = false')
-                        ->andWhere('status.label = :label')
+                       // ->andWhere('status.label = :label or status.label = :label2')
                         ->orderBy('c.companyName', 'ASC')
-                        ->setParameter('label', 'Contract signed');
-                }
+                        //->setParameter('label', 'Contract signed')
+                        //->setParameter('label2', 'member')
+                    ;
+
+                },
+                'required' => true,
+                'multiple' => true
             ])
-            ->add('user', EntityType::class, ['class' => User::class, 'choice_label' => 'usernameCanonical'])
-            ->add('card', EntityType::class, ['class' => Card::class, 'choice_label' => 'number'])
-            ->add('status', EntityType::class, ['class' => MembershipStatus::class, 'choice_label' => 'label'])
+            ->add('card',
+                EntityType::class,
+                [
+                    'class' => Card::class, 'choice_label' => function ($card) {
+
+                    return $card->getNumber() . ' (' . (count($card->getMembership()) ? 'In Use' : 'Available') . ')';
+                },
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('c')
+                            ->where('c.isDeleted = false')
+                            ->andWhere('c.status = true');
+                },
+                    'required' => false,])
+            ->add('status', EntityType::class, ['class' => MembershipStatus::class, 'choice_label' => 'label', 'required' => false])
 //            ->add('contractDoc', DocumentTypeorg::class, [ 'data_class' => Document::class, 'label' => 'Signed contract', 'required' => false])
 //            ->add('sepaForm', DocumentTypeorg::class, [ 'data_class' => DocumentTypeorg::class, 'label' => 'SEPA form', 'required' => false])
 //            ->add('keysForm', DocumentTypeorg::class, [ 'data_class' => DocumentTypeorg::class, 'label' => 'Keys form', 'required' => false])
